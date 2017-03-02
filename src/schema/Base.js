@@ -4,12 +4,12 @@ import isFunction from "lodash.isfunction"
 class Base {
   constructor(cb = null) {
     if (isFunction(cb)) {
-      this.__callback = cb
+      this._callback = cb
     }
   }
 
   end(data) {
-    return isFunction(this.__callback) ? this.__callback(data) : this
+    return this._callback ? this._callback(data) : this
   }
 }
 

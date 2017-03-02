@@ -4,7 +4,7 @@ import {GraphQLObjectType} from "graphql"
 import isFunction from "lodash.isfunction"
 
 import Base from "schema/Base"
-import Type from "schema/type"
+import Type from "schema/Type"
 
 test("Should be a class that extends Base", t => {
   t.plan(2)

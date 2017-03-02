@@ -4,6 +4,8 @@ import {
   GraphQLNonNull
 } from "graphql"
 
+// import isEmpty from "lodash.isempty"
+
 import proxy from "helper/decorator/proxy"
 import apply from "helper/proxy/selfInvokingClass"
 
@@ -29,11 +31,13 @@ class Type extends Base {
   interface() {}
 
   end() {
-    return new GraphQLObjectType({
+    const TObjectType = new GraphQLObjectType({
       name: this.__name,
       description: this.__description,
       fields: this.__fields
     })
+
+    return this._callback ? super.end(TObjectType) : TObjectType
   }
 }
 

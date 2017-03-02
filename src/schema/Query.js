@@ -15,11 +15,11 @@ const isArray = Array.isArray
 @proxy({apply})
 class Query extends Type {
   constructor(name, description, cb = null) {
-    super(cb)
+    super(name, description, cb)
 
-    this.__name = name || "Query"
-    this.__description = description
-    this.__fields = {}
+    // this.__name = name || "Query"
+    // this.__description = description
+    // this.__fields = {}
   }
 
   /**
@@ -38,8 +38,7 @@ class Query extends Type {
 
     const setResolver = resolver => {
       this.__fields[name] = {
-        type,
-        ...resolver
+        type, ...resolver
       }
 
       return this
@@ -48,18 +47,6 @@ class Query extends Type {
     const resolver = new Resolver(setResolver)
 
     return resolver
-  }
-
-  /**
-   * Make "query" object from GraphQLObjectType
-   */
-  end() {
-    const query = new GraphQLObjectType({
-      name: this.__name,
-      fields: this.__fields
-    })
-
-    return super.end(query)
   }
 }
 
