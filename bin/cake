@@ -1,0 +1,331 @@
+#!/usr/bin/env node
+
+/**
+ * Build your Babel project with a cake!
+ *
+ * @license MIT
+ * @author Nick K. <https://github.com/octet-stream>
+ */
+const {dirname, resolve, isAbsolute} = require("path")
+const fs = require("fs")
+
+const ROOT = resolve(__dirname, "..")
+
+const commander = require("commander")
+const {cross, tick, pointer} = require("figures")
+const vfs = require("vinyl-fs")
+const glob = require("glob")
+const junk = require("junk")
+const rimraf = require("rimraf")
+const through = require("through2")
+const ora = require("ora")({stream: process.stdout})
+const applySourceMap = require("vinyl-sourcemaps-apply")
+const sourcemaps = require("gulp-sourcemaps")
+const {red, green, cyan} = require("chalk")
+const {transform} = require("babel-core")
+const {noop} = require("gulp-util")
+const chokidar = require("chokidar")
+
+const BABERC = JSON.parse(fs.readFileSync(resolve(ROOT, ".babelrc")))
+
+const DEFAULT_SRC = `${ROOT}/src`
+
+const assign = Object.assign
+
+let isDev = false
+
+const resolveFullSrcPath = (path = DEFAULT_SRC) => (
+  isAbsolute(path) ? path : resolve(ROOT, path)
+)
+
+const resolveFullDestPath = (path = ROOT) => (
+  isAbsolute(path) ? path : resolve(ROOT, path)
+)
+
+const getDestFilename = (filename, src, dest) => (
+  filename.replace(src, dest)
+)
+
+/**
+ * Check if given file is JS
+ *
+ * @param string filename – a path to file
+ */
+const isJS = filename => /.jsx?$/.test(filename)
+
+const onContinueWatching = () => (
+  console.log(cyan(pointer), "Watching for changes...")
+)
+
+/**
+ * Just a callback to end the cake process
+ */
+function onEnd() {
+  if (isDev) {
+    console.log(`\n${green(tick)}`, "Done.")
+  } else {
+    ora.text = "Done."
+    ora.succeed()
+  }
+
+  process.exit(0)
+}
+
+/**
+ * Error hanlder for all in-process errors
+ *
+ * @param Error err
+ */
+function onError(err) {
+  if (isDev) {
+    console.log(err)
+    return console.log(red(cross), "Watching for changes...")
+  }
+
+  ora.stop()
+  console.log(red(cross), err)
+  process.exit(1)
+}
+
+/**
+ * Add event handlers to Chocidar watcher
+ *
+ * @param chokidar.FSWatcher watcher
+ * @param object handlers
+ */
+function mapHandlers(watcher, handlers) {
+  const keys = Object.keys(handlers)
+
+  for (let name of keys) {
+    const handler = handlers[name]
+
+    // Cut and decapitalize handler name
+    if (name.startsWith("on")) {
+      name = name.slice(2)
+      name = name.charAt(0).toLowerCase() + name.slice(1)
+    }
+
+    watcher.on(name, handler)
+  }
+
+  return watcher
+}
+
+/**
+ * Compile given file via Babel
+ *
+ * @param File file – a file in Vinyl virtual file format
+ * @param env – file encoding
+ * @param function cb
+ */
+function compileFile(file, enc, cb) {
+  if (!isJS(file.path)) {
+    if (isDev) {
+      console.log(cyan(pointer), `Copy ${file.path}`)
+    } else {
+      ora.color = "cyan"
+      ora.text = `Copy ${file.path}`
+    }
+
+    return cb(null, file)
+  }
+
+  if (isDev) {
+    console.log(cyan(pointer), `Compile ${file.path}`)
+  } else {
+    ora.color = "cyan"
+    ora.text = `Compile ${file.path}`
+  }
+
+  try {
+    const contents = transform(String(file.contents),
+      assign({}, BABERC, {
+        babelrc: false,
+        filename: file.path,
+        filenameRelative: file.relative,
+        sourceMap: isDev ? "inline" : true,
+        sourceFileName: file.relative,
+        sourceMapTarget: file.relative
+      })
+    )
+
+    if (file.sourceMap && contents.map && !isDev) {
+      applySourceMap(file, contents.map)
+    }
+
+    file.contents = new Buffer(contents.code)
+    file.babel = contents.metadata
+  } catch (err) {
+    return cb(err)
+  }
+
+  return cb(null, file)
+}
+
+/**
+ * Process given files via vinyl-fs, through2 and babel
+ *
+ * @param array files
+ * @param string src
+ * @param string dest
+ */
+function processFiles(files, src, dest) {
+  files = files.filter(file => junk.not(file) && file !== DEFAULT_SRC)
+
+  // Get destination path for each given file
+  const fulfill = ({path}) => dirname(getDestFilename(path, src, dest))
+
+  vfs.src(files)
+    .on("error", onError)
+    .pipe(isDev ? noop() : sourcemaps.init())
+    .on("error", onError)
+    .pipe(through.obj(compileFile))
+    .on("error", onError)
+    .pipe(isDev ? noop() : sourcemaps.write("."))
+    .on("error", onError)
+    .pipe(vfs.dest(fulfill))
+    .on("error", onError)
+    .on("end", isDev ? onContinueWatching : onEnd)
+}
+
+/**
+ * Build all files from "src" dir
+ *
+ * @param string src
+ * @param string dest
+ */
+function make(src, dest) {
+  ora.start()
+
+  const fulfill = (err, files) => (
+    err == null ? processFiles(files, src, dest) : onError(err)
+  )
+
+  glob(`${src}/**`, fulfill)
+}
+
+/**
+ * Run cake in "watch" mode for development
+ *
+ * @param string src
+ * @param string dest
+ */
+function watch(src, dest) {
+  isDev = true // Turning on development mode
+
+  console.log(cyan(pointer), "Starting watcher...")
+  console.log(cyan(pointer), "You can press Control+C to exit.")
+
+  /**
+   * Create a directory on "addDir" event and compile included files (if exists)
+   *
+   * @param string filename
+   */
+  function onAddDir(filename) {
+    const fulfill = (err, files) => (
+      err ? onError(err) : processFiles(files, src, dest)
+    )
+
+    const created = err => (
+      err ? onError(err) : glob(`${filename}/**`, fulfill)
+    )
+
+    const destFilename = getDestFilename(filename, src, dest)
+
+    fs.mkdir(destFilename, created)
+  }
+
+  /**
+   * Rebuild given file on "add" event
+   *
+   * @param string filename
+   */
+  const onAdd = filename => processFiles([filename], src, dest)
+
+  /**
+   * Remore given file on "unlink" event
+   *
+   * @param string filename
+   */
+  const onUnlink = filename => rimraf(
+    getDestFilename(filename, src, dest), err => err && onError(err)
+  )
+
+  /**
+   * Remore given directory on "unlinkDir" event
+   *
+   * @param string filename
+   */
+  const onUnlinkDir = filename => rimraf(
+    getDestFilename(filename, src, dest), err => err && onError(err)
+  )
+
+  /**
+   * Rebuild file/directory on change event
+   *
+   * @param string filename
+   * @param fs.Stat stat
+   */
+  function onChange(filename, stat) {
+    const fulfill = stat => (
+      stat.isDirectory() ? onAddDir(filename) : onAdd(filename)
+    )
+
+    const onStat = (err, stat) => err ? onError(err) : fulfill(stat)
+
+    // TODO: I think it's actually triggering only for files events.
+    //   I need a tiny research of chokidar docs and maybe fix that thing.
+    stat && isFunction(stat.isDirectory)
+      ? fulfill(stat)
+      : fs.stat(filename, onStat)
+  }
+
+  // Create chokidar.FSWatcher instance that watches for "src" path
+  const watcher = chokidar.watch(src, {
+    ignoreInitial: true
+  })
+
+  // Add handlers to watcher
+  mapHandlers(watcher, {
+    onError,
+    onAdd,
+    onAddDir,
+    onChange,
+    onUnlink,
+    onUnlinkDir
+  })
+}
+
+// Run "make" command
+const actionMake = ({parent: {S, D}}) => make(
+  resolveFullSrcPath(S),
+  resolveFullDestPath(D)
+)
+
+// Run "watch" command
+const actionWatch = ({parent: {S, D}}) => watch(
+  resolveFullSrcPath(S),
+  resolveFullDestPath(D)
+)
+
+commander
+  .command("make")
+  .alias("m")
+  .description("Make project")
+  .action(actionMake)
+
+commander
+  .command("watch")
+  .alias("w")
+  .description("Run watcher for development")
+  .action(actionWatch)
+
+commander
+  .option("--src, -s <directory>", "Set custom source directory")
+  .option("--dest, -d <directory>", "Set custom destination directory")
+  .version("The cake is a lie!\nCurrent cake version is 2.1.2")
+  .parse(process.argv)
+
+process
+  .on("SIGINT", onEnd)
+  .on("error", onError)

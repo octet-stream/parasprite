@@ -1,0 +1,11 @@
+coverage
+node_modules
+src
+test
+yaml.lock
+.github
+.nyc_output
+.babelrc
+.editorconfig
+.eslintrc.json
+.DS_Store
