@@ -2,11 +2,11 @@ import {
   GraphQLSchema
 } from "graphql"
 
-import proxy from "../helper/decorator/proxy"
-import apply from "../helper/proxy/selfInvokingClass"
+import proxy from "helper/decorator/proxy"
+import apply from "helper/proxy/selfInvokingClass"
 
-import Base from "./Base"
-import Query from "./Query"
+import Base from "schema/Base"
+import Query from "schema/Query"
 
 @proxy({apply})
 class Schema extends Base {

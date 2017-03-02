@@ -2,8 +2,10 @@ import isFunction from "lodash.isfunction"
 
 // Builtin class, do not use it directly
 class Base {
-  constructor(cb) {
-    this.__callback = cb
+  constructor(cb = null) {
+    if (isFunction(cb)) {
+      this.__callback = cb
+    }
   }
 
   end(data) {

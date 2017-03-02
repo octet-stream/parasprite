@@ -4,3 +4,5 @@ lib
 .github
 .nyc_output
 .DS_Store
+
+test.js

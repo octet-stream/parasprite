@@ -20,6 +20,7 @@ const rimraf = require("rimraf")
 const through = require("through2")
 const ora = require("ora")({stream: process.stdout})
 const applySourceMap = require("vinyl-sourcemaps-apply")
+const isFunction = require("lodash.isfunction")
 const sourcemaps = require("gulp-sourcemaps")
 const {red, green, cyan} = require("chalk")
 const {transform} = require("babel-core")
@@ -143,7 +144,7 @@ function compileFile(file, enc, cb) {
         babelrc: false,
         filename: file.path,
         filenameRelative: file.relative,
-        sourceMap: isDev ? "inline" : true,
+        sourceMap: true,
         sourceFileName: file.relative,
         sourceMapTarget: file.relative
       })

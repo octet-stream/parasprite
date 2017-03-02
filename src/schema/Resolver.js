@@ -2,10 +2,10 @@ import {
   GraphQLNonNull
 } from "graphql"
 
-import proxy from "../helper/decorator/proxy"
-import apply from "../helper/proxy/selfInvokingClass"
+import proxy from "helper/decorator/proxy"
+import apply from "helper/proxy/selfInvokingClass"
 
-import Base from "./Base"
+import Base from "schema/Base"
 
 @proxy({apply})
 class Resolver extends Base {

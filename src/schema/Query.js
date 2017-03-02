@@ -4,16 +4,16 @@ import {
   GraphQLNonNull
 } from "graphql"
 
-import proxy from "../helper/decorator/proxy"
-import apply from "../helper/proxy/selfInvokingClass"
+import proxy from "helper/decorator/proxy"
+import apply from "helper/proxy/selfInvokingClass"
 
-import Base from "./Base"
-import Resolver from "./Resolver"
+import Type from "schema/Type"
+import Resolver from "schema/Resolver"
 
 const isArray = Array.isArray
 
 @proxy({apply})
-class Query extends Base {
+class Query extends Type {
   constructor(name, description, cb = null) {
     super(cb)
 
@@ -50,6 +50,9 @@ class Query extends Base {
     return resolver
   }
 
+  /**
+   * Make "query" object from GraphQLObjectType
+   */
   end() {
     const query = new GraphQLObjectType({
       name: this.__name,

@@ -1,3 +1,4 @@
+bin
 coverage
 node_modules
 src
@@ -9,3 +10,5 @@ yaml.lock
 .editorconfig
 .eslintrc.json
 .DS_Store
+
+test.js

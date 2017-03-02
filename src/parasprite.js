@@ -5,4 +5,4 @@
 //   But don't do that in any other places! NO WAY! NEVER!
 //     EVEN IF YOU WANT IT SUPER HARD!
 
-export default from "./schema/Schema" // eslint-disable-line
+export default from "schema/Schema" // eslint-disable-line
