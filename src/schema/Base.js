@@ -1,4 +1,4 @@
-import isFunction from "lodash/isFunction"
+import isFunction from "lodash.isfunction"
 
 // Builtin class, do not use it directly
 class Base {
