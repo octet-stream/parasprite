@@ -1,9 +1,8 @@
-import {
-  GraphQLNonNull
-} from "graphql"
+import {GraphQLNonNull} from "graphql"
 
 import proxy from "helper/decorator/proxy"
 import apply from "helper/proxy/selfInvokingClass"
+import toListTypeIfNeeded from "helper/util/toListTypeIfNeeded"
 
 import Base from "schema/Base"
 
@@ -22,9 +21,15 @@ class Resolver extends Base {
     return this
   }
 
-  arg(name, type, required = false) {
+  arg(name, type, required) {
+    type = toListTypeIfNeeded(type)
+
+    if (required === true) {
+      type = GraphQLNonNull(type)
+    }
+
     this.__arguments[name] = {
-      type: required ? GraphQLNonNull(type) : type
+      type
     }
 
     return this

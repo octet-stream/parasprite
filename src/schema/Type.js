@@ -1,6 +1,5 @@
 import {
   GraphQLObjectType,
-  GraphQLList,
   GraphQLNonNull
 } from "graphql"
 
@@ -8,10 +7,9 @@ import {
 
 import proxy from "helper/decorator/proxy"
 import apply from "helper/proxy/selfInvokingClass"
+import toListTypeIfNeeded from "helper/util/toListTypeIfNeeded"
 
 import Base from "schema/Base"
-
-const isArray = Array.isArray
 
 @proxy({apply})
 class Type extends Base {
@@ -40,9 +38,8 @@ class Type extends Base {
       [required, description] = [description, null]
     }
 
-    if (isArray(type)) {
-      type = new GraphQLList(type[0])
-    }
+    // Convert given type to GraphQLList if it is an array
+    type = toListTypeIfNeeded(type)
 
     // Mark type as non-null if "required" parameter is true
     if (required === true) {
