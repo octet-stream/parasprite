@@ -68,7 +68,7 @@
     "graphql": "0.9.x"
   },
   "dependencies": {
-    "lodash.isempty": "^4.4.0",
+    "lodash.isempty": "4.4.0",
     "lodash.isfunction": "3.0.8"
   }
 }
