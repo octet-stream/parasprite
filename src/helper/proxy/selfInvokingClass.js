@@ -5,7 +5,7 @@
  * @param any ctx
  * @param any[] args
  *
- * @return Function
+ * @return object – an instance of Target class
  */
 const selfInvokingClass = (Target, ctx, args) => new Target(...args)
 

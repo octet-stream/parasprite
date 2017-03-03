@@ -11,6 +11,18 @@ class Base {
   end(data) {
     return this._callback ? this._callback(data) : this
   }
+
+  inspect() {
+    return `Parasprite${this.constructor.name}`
+  }
+
+  toString() {
+    return this.inspect()
+  }
+
+  valueOf() {
+    return this.inspect()
+  }
 }
 
 export default Base
