@@ -1,6 +1,9 @@
 import test from "ava"
 
-import {GraphQLObjectType} from "graphql"
+import {
+  GraphQLObjectType,
+  GraphQLString
+} from "graphql"
 import isFunction from "lodash.isfunction"
 
 import Base from "schema/Base"

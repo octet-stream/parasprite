@@ -16,7 +16,10 @@
     "test:watch": "node_modules/.bin/ava --watch",
     "t:w": "npm run test",
     "coverage": "npm run make && node_modules/.bin/nyc npm run test",
-    "report": "npm run coverage && node_modules/.bin/nyc report --reporter=html npm run test"
+    "report": "npm run coverage && node_modules/.bin/nyc report --reporter=html npm run test",
+    "report:codecov": "node_modules/.bin/nyc report --reporter=lcov npm run test",
+    "codecov": "node_modules/.bin/codecov",
+    "ci": "npm run coverage && npm run report:codecov && npm run codecov"
   },
   "ava": {
     "require": "babel-register",
@@ -51,15 +54,18 @@
     "figures": "2.0.0",
     "glob": "7.1.1",
     "graphql": "0.9.x",
+    "graphql-server-koa": "^0.6.0",
     "gulp-sourcemaps": "2.4.1",
     "gulp-util": "3.0.8",
     "junk": "2.0.0",
     "koa": "^2.0.1",
+    "koa-bodyparser": "3.2.0",
     "nyc": "^10.1.2",
     "ora": "1.1.0",
     "rimraf": "2.6.1",
     "sinon": "^1.17.7",
     "supertest": "^3.0.0",
+    "then-busboy": "^1.4.0",
     "through2": "2.0.3",
     "vinyl-fs": "2.4.4",
     "vinyl-sourcemaps-apply": "0.2.1"
