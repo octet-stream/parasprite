@@ -4,6 +4,12 @@ import isFunction from "lodash.isfunction"
 
 import Base from "schema/Base"
 
+test("Should be a function", t => {
+  t.plan(1)
+
+  t.true(isFunction(Base))
+})
+
 test(
   "Should have overwritten \"inspect\", \"toString\" and \"valueOf\" methods",
   t => {

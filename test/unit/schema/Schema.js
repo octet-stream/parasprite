@@ -24,7 +24,7 @@ test("Should be an instance of Base class", t => {
 })
 
 test("Should return an instance of GraphQLSchema", t => {
-  t.plan(1)
+  t.plan(2)
 
   const greeter = (_, {name}) => `Hello, ${name}!`
 
@@ -38,4 +38,7 @@ test("Should return an instance of GraphQLSchema", t => {
       .end()
 
   t.true(schema instanceof GraphQLSchema)
+  t.is(
+    schema.getQueryType().name, "SomeQuery", "Should have a valid query type."
+  )
 })
