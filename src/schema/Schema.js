@@ -33,6 +33,10 @@ class Schema extends Base {
     return query
   }
 
+  // mutation() {}
+
+  // subscription() {}
+
   /**
    * Generate schema
    */

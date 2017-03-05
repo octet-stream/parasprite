@@ -1,7 +1,7 @@
-import {
-  GraphQLList,
-  GraphQLNonNull
-} from "graphql"
+// import {
+//   GraphQLList,
+//   GraphQLNonNull
+// } from "graphql"
 
 import proxy from "helper/decorator/proxy"
 import apply from "helper/proxy/selfInvokingClass"
