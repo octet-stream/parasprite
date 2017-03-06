@@ -4,6 +4,8 @@ node_modules
 src
 test
 yaml.lock
+npm-debug.log
+yarn-error.log
 .github
 .nyc_output
 .babelrc

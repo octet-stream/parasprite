@@ -29,9 +29,8 @@ test("Should return an instance of GraphQLSchema with valid fields", t => {
 
   const schema = Schema()
     .query("SomeQuery")
-      .field("Foo", GraphQLString)
-        .resolve(greeter)
-          .arg("name", GraphQLString)
+      .resolve("greeter", GraphQLString, greeter)
+        .arg("name", GraphQLString)
         .end()
       .end()
     .end()

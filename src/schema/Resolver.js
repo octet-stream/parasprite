@@ -1,3 +1,5 @@
+import isFunction from "lodash.isfunction"
+
 import proxy from "helper/decorator/proxy"
 import apply from "helper/proxy/selfInvokingClass"
 import toListTypeIfNeeded from "helper/util/toListTypeIfNeeded"
@@ -22,6 +24,14 @@ class Resolver extends Base {
    * @return Resolver
    */
   resolve(callee) {
+    if (isFunction(this.__callee)) {
+      throw new Error(
+        "Resolve handler already declared." +
+        "Add this resolver to current object type " +
+        "before describe the new one."
+      )
+    }
+
     this.__callee = callee
 
     return this

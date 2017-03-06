@@ -1,15 +1,15 @@
-import {
-  GraphQLObjectType,
-  GraphQLNonNull
-} from "graphql"
+import {GraphQLObjectType} from "graphql"
 
 // import isEmpty from "lodash.isempty"
+import isFunction from "lodash.isfunction"
 
 import proxy from "helper/decorator/proxy"
 import apply from "helper/proxy/selfInvokingClass"
 import toListTypeIfNeeded from "helper/util/toListTypeIfNeeded"
+import toRequiredTypeIfNeeded from "helper/util/toRequiredTypeIfNeeded"
 
 import Base from "schema/Base"
+import Resolver from "schema/Resolver"
 
 @proxy({apply})
 class Type extends Base {
@@ -33,26 +33,55 @@ class Type extends Base {
    *
    * @return Type
    */
-  field(name, type, description, required, deprecationReason) {
-    if (typeof description === "boolean") {
-      [required, description] = [description, null]
+  field(name, type, required, description, deprecationReason) {
+    if (typeof required === "string") {
+      [description, required] = [required, false]
     }
 
     // Convert given type to GraphQLList if it is an array
-    type = toListTypeIfNeeded(type)
+    //   Also, mark returned type as non-null if needed
+    type = toRequiredTypeIfNeeded(toListTypeIfNeeded(type), required)
 
-    // Mark type as non-null if "required" parameter is true
-    if (required === true) {
-      type = new GraphQLNonNull(type)
+    this._fields[name] = {
+      type, description, deprecationReason
     }
 
-    if (!this._callback) {
-      this._fields[name] = {
-        type, description, deprecationReason
+    return this
+  }
+
+  /**
+   * Add resolver field to current type
+   *
+   * @param string name
+   * @param object type
+   * @param function callee
+   * @param string description
+   * @param boolean required – should field be non-null?
+   * @param string deprecationReason – the message that will be displayed as
+   *   field deprecation note.
+   *
+   * @return Resolver
+   */
+  resolve(name, type, callee, ...other) {
+    this.field(name, type, ...other)
+
+    if (!isFunction(callee)) {
+      throw new TypeError("Resolve handler should be a function.")
+    }
+
+    const setResolver = resolver => {
+      const field = {
+        ...this._fields[name], ...resolver
       }
+
+      this._fields[name] = field
 
       return this
     }
+
+    const resolver = new Resolver(setResolver)
+
+    return resolver.resolve(callee)
   }
 
   // interface() {}

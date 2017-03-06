@@ -45,7 +45,7 @@ test("Should create a field with given params", t => {
     someField: {
       name: "someField",
       type: GraphQLString,
-      description: null,
+      description: undefined,
       deprecationReason: undefined,
       isDeprecated: false,
       args: []

@@ -1,12 +1,10 @@
-import {
-  GraphQLSchema
-} from "graphql"
+import {GraphQLSchema} from "graphql"
 
 import proxy from "helper/decorator/proxy"
 import apply from "helper/proxy/selfInvokingClass"
 
 import Base from "schema/Base"
-import Query from "schema/Query"
+import Type from "schema/Type"
 
 @proxy({apply})
 class Schema extends Base {
@@ -24,16 +22,25 @@ class Schema extends Base {
    * @param string name – query name
    * @param string description – query description
    *
-   * @return Query
+   * @return Type
    */
   query(name, description) {
+    /**
+     * Add query field to current schema
+     *
+     * @param object query – query object type
+     *
+     * @return Schema
+     */
     const setQuery = query => {
+      // console.log(query)
+
       this.__query = query
 
       return this
     }
 
-    const query = new Query(name, description, setQuery)
+    const query = new Type(name, description, setQuery)
 
     return query
   }
