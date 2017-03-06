@@ -19,7 +19,12 @@ class Schema extends Base {
   }
 
   /**
-   * Define query
+   * Define query document
+   *
+   * @param string name – query name
+   * @param string description – query description
+   *
+   * @return Query
    */
   query(name, description) {
     const setQuery = query => {
@@ -38,7 +43,9 @@ class Schema extends Base {
   // subscription() {}
 
   /**
-   * Generate schema
+   * Make your GraphQL schema
+   *
+   * @return GraphQLSchema
    */
   end() {
     return new GraphQLSchema({

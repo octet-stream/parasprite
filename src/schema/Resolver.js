@@ -14,12 +14,28 @@ class Resolver extends Base {
     this.__arguments = {}
   }
 
+  /**
+   * Define resolver handler
+   *
+   * @param function callee
+   *
+   * @return Resolver
+   */
   resolve(callee) {
     this.__callee = callee
 
     return this
   }
 
+  /**
+   * Define arguments for resolver handler
+   *
+   * @param string name – argument name
+   * @param object type – argument *input* type
+   * @param boolean required
+   *
+   * @return Resolver
+   */
   arg(name, type, required) {
     type = toRequiredTypeIfNeeded(toListTypeIfNeeded(type), required)
 
@@ -30,13 +46,14 @@ class Resolver extends Base {
     return this
   }
 
+  /**
+   * Add resolver object
+   */
   end() {
-    const resolver = {
+    return super.end({
       resolve: this.__callee,
       args: this.__arguments
-    }
-
-    return super.end(resolver)
+    })
   }
 }
 

@@ -2,8 +2,8 @@
 
 Define your GraphQL schema using chainable interface
 
-TODO:
+## TODO:
 
-  * Implement mutations and types;
+  * Implement mutations, subscriptions ~~and types~~;
   * Add docs and examples (as external repo?);
-  * Add tests.
+  * ~~Add tests~~.

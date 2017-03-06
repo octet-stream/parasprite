@@ -3,8 +3,7 @@ import test from "ava"
 import {
   GraphQLSchema,
   GraphQLObjectType,
-  GraphQLString,
-  GraphQLNonNull
+  GraphQLString
 } from "graphql"
 import isFunction from "lodash.isfunction"
 
@@ -23,22 +22,27 @@ test("Should be an instance of Base class", t => {
   t.true(Schema() instanceof Base)
 })
 
-test("Should return an instance of GraphQLSchema", t => {
-  t.plan(2)
+test("Should return an instance of GraphQLSchema with valid fields", t => {
+  t.plan(3)
 
   const greeter = (_, {name}) => `Hello, ${name}!`
 
   const schema = Schema()
-      .query("SomeQuery")
-        .field("Foo", GraphQLString)
-          .resolve(greeter)
-            .arg("name", GraphQLString)
-          .end()
+    .query("SomeQuery")
+      .field("Foo", GraphQLString)
+        .resolve(greeter)
+          .arg("name", GraphQLString)
         .end()
       .end()
+    .end()
 
   t.true(schema instanceof GraphQLSchema)
-  t.is(
-    schema.getQueryType().name, "SomeQuery", "Should have a valid query type."
+
+  const query = schema.getQueryType()
+
+  t.is(query.name, "SomeQuery", "Should have a valid query type.")
+  t.true(
+    query instanceof GraphQLObjectType,
+    "Query should be an instance of GraphQLObjectType"
   )
 })
