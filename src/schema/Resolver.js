@@ -26,7 +26,7 @@ class Resolver extends Base {
   resolve(callee) {
     if (isFunction(this.__callee)) {
       throw new Error(
-        "Resolve handler already declared. " +
+        "Resolve handler already exists. " +
         "Add this resolver to current object type " +
         "before describe the new one."
       )

@@ -1,7 +1,6 @@
 import {GraphQLObjectType} from "graphql"
 
 // import isEmpty from "lodash.isempty"
-import isFunction from "lodash.isfunction"
 
 import proxy from "helper/decorator/proxy"
 import apply from "helper/proxy/selfInvokingClass"
@@ -88,13 +87,13 @@ class Type extends Base {
    * @return object
    */
   end() {
-    const TObjectType = new GraphQLObjectType({
+    const objectType = new GraphQLObjectType({
       name: this._name,
       description: this._description,
       fields: this._fields
     })
 
-    return this._callback ? super.end(TObjectType) : TObjectType
+    return this._callback ? super.end(objectType) : objectType
   }
 }
 

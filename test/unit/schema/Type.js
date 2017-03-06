@@ -45,7 +45,7 @@ test("Should create a field with given params", t => {
     someField: {
       name: "someField",
       type: GraphQLString,
-      description: undefined,
+      description: "Some description",
       deprecationReason: undefined,
       isDeprecated: false,
       args: []
@@ -53,7 +53,7 @@ test("Should create a field with given params", t => {
   }
 
   const TSomeType = Type("TMyObjectType")
-      .field("someField", GraphQLString, false)
+      .field("someField", GraphQLString, "Some description")
     .end()
 
   const fields = TSomeType.getFields()

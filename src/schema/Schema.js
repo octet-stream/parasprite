@@ -17,37 +17,46 @@ class Schema extends Base {
   }
 
   /**
-   * Define query document
+   * Define field on schema
    *
-   * @param string name – query name
-   * @param string description – query description
+   * @param string name – field name
+   * @param string description – field description
    *
    * @return Type
    */
-  query(name, description) {
-    /**
-     * Add query field to current schema
-     *
-     * @param object query – query object type
-     *
-     * @return Schema
-     */
-    const setQuery = query => {
-      // console.log(query)
-
-      this.__query = query
+  __setField(fieldType, name, description) {
+    const setField = field => {
+      this[`__${fieldType}`] = field
 
       return this
     }
 
-    const query = new Type(name, description, setQuery)
+    const objectType = new Type(name, description, setField)
 
-    return query
+    return objectType
   }
 
-  // mutation() {}
+  /**
+   * Define query document
+   *
+   * @see Schema#__setField
+   */
+  query(...args) {
+    return this.__setField("query", ...args)
+  }
 
-  // subscription() {}
+  /**
+   * Define mutation document
+   *
+   * @see Schema#__setField
+   */
+  mutation(...args) {
+    return this.__setField("mutation", ...args)
+  }
+
+  // subscription(...args) {
+  //   return this.__setField("subscription", ...args)
+  // }
 
   /**
    * Make your GraphQL schema
