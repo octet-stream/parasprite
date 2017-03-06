@@ -65,10 +65,6 @@ class Type extends Base {
   resolve(name, type, callee, ...other) {
     this.field(name, type, ...other)
 
-    if (!isFunction(callee)) {
-      throw new TypeError("Resolve handler should be a function.")
-    }
-
     const setResolver = resolver => {
       const field = {
         ...this._fields[name], ...resolver
