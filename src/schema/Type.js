@@ -1,6 +1,7 @@
 import {GraphQLObjectType} from "graphql"
 
 // import isEmpty from "lodash.isempty"
+import isFunction from "lodash.isfunction"
 
 import proxy from "helper/decorator/proxy"
 import apply from "helper/proxy/selfInvokingClass"
@@ -32,7 +33,11 @@ class Type extends Base {
    *
    * @return Type
    */
-  field(name, type, required, description, deprecationReason) {
+  field(name, type, required, description, deprecationReason/* , callee */) {
+    // if (isFunction(required)) {
+    //   [callee, required] = [required, false]
+    // }
+
     if (typeof required === "string") {
       [description, required] = [required, false]
     }
