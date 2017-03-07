@@ -12,5 +12,6 @@ yarn-error.log
 .editorconfig
 .eslintrc.json
 .DS_Store
+*.map
 
 test.js

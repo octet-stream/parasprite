@@ -25,8 +25,6 @@ test("Should be an instance of Base class", t => {
 test("Should return an instance of GraphQLSchema with valid fields", t => {
   t.plan(5)
 
-  // const greeter = (_, {name}) => `Hello, ${name}!`
-
   const TInFile = Input("TInFile")
     .field("originalName", GraphQLString, true)
     .field("path", GraphQLString, true)
@@ -38,14 +36,14 @@ test("Should return an instance of GraphQLSchema with valid fields", t => {
     .query("SomeQuery")
       .resolve("greeter", GraphQLString, () => {})
         .arg("name", GraphQLString)
-        .end()
       .end()
+    .end()
     .mutation("SomeMutation")
       .resolve("uploadImage", GraphQLString, () => {})
         .arg("image", TInFile)
-        .end()
       .end()
     .end()
+  .end()
 
   t.true(schema instanceof GraphQLSchema)
 

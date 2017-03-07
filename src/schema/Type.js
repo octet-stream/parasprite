@@ -61,6 +61,7 @@ class Type extends Base {
    *
    * @return Resolver
    */
+  // TODO: Merge this method again with Type#field method.
   resolve(name, type, callee, ...other) {
     this.field(name, type, ...other)
 

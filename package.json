@@ -1,7 +1,7 @@
 {
   "name": "parasprite",
   "version": "0.1.0",
-  "description": "Define your GraphQL schema using chainable interface",
+  "description": "Describe your GraphQL schema using chainable interface",
   "main": "./lib/parasprite.js",
   "author": "Nick K.",
   "license": "MIT",
