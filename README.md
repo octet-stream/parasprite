@@ -63,7 +63,7 @@ schema {
 }
 ```
 
-More complex ecample with using `Type` class:
+More complex example with using `Type` class:
 
 ```js
 import {GraphQLString as TString} from "graphql" // You also need graphql package
