@@ -7,18 +7,24 @@ Describe your GraphQL schema using chainable interface
 [![Build Status](https://travis-ci.org/octet-stream/parasprite.svg?branch=master)](https://travis-ci.org/octet-stream/parasprite)
 [![Code Coverage](https://codecov.io/github/octet-stream/parasprite/coverage.svg?branch=master)](https://codecov.io/github/octet-stream/parasprite?branch=master)
 
+## Requirements
+
+* Node.js >= 6
+
+* GraphQL.js 0.9.x (see installation section)
+
 ## Installation
 
 You can install parasprite from NPM:
 
 ```sh
-npm install --save parasprite
+npm install --save parasprite graphql@0.9.x
 ```
 
 or YARN:
 
 ```
-yarn add parasprite
+yarn add parasprite graphql@0.9.x
 ```
 
 ## Usage
@@ -48,13 +54,13 @@ const schema = Schema()
 This schema equivalent to the following code on GraphQL schema language:
 
 ```graphql
-  type Query {
-    greeter(name: String!): String!
-  }
+type Query {
+  greeter(name: String!): String!
+}
 
-  schema {
-    query: Query
-  }
+schema {
+  query: Query
+}
 ```
 
 More complex ecample with using `Type` class:
@@ -78,6 +84,24 @@ const schema = Schema()
     .end()
   .end()
 .end()
+```
+
+Equivalent to:
+
+```graphql
+type TProject {
+  # Project name
+  name: String
+  tagline: String
+}
+
+type Query {
+  project(name: String): TProject
+}
+
+schema {
+  query: Query
+}
 ```
 
 ## API
