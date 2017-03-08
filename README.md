@@ -148,8 +148,11 @@ Define resolver on current GraphQLObjectType
 
 Make GraphQLObjectType.
 
-## TODO:
+## Roadmap:
 
-  * ~~Implement mutations~~, subscriptions ~~and types~~;
-  * Add docs and examples (as external repo?);
-  * ~~Add tests~~.
+  - [x] ~~Basic API with queries, mutations and object type~~;
+  - [x] ~~Input types~~;
+  - [x] ~~Test~~;
+  - [ ] Subscriptions
+  - [ ] Documentation (still in progress);
+  - [ ] Complex working examples (es external repo)
