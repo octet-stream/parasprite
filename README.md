@@ -96,6 +96,7 @@ type TProject {
 }
 
 type Query {
+  # Get the project by his name
   project(name: String): TProject
 }
 
@@ -153,6 +154,8 @@ Make GraphQLObjectType.
   - [x] ~~Basic API with queries, mutations and object type~~;
   - [x] ~~Input types~~;
   - [x] ~~Test~~;
-  - [ ] Subscriptions
+  - [ ] Subscriptions;
+  - [ ] Fragments;
+  - [ ] Interfaces;
   - [ ] Documentation (still in progress);
   - [ ] Complex working examples (es external repo)
