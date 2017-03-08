@@ -23,10 +23,41 @@ yarn add parasprite
 
 ## Usage
 
-Basically, all that you need to describe GraphQLSchema
-is a Schema and Type classes:
-
 **Note: All examples where written with ES modules syntax.**
+
+Basically, all that you need to describe GraphQLSchema
+is a Schema class and GraphQL internal types:
+
+Take a look at simple example with resolver that just greet user:
+
+```js
+import {GraphQLString as TString} from "graphql" // You also need graphql package
+import Schema from "parasprite"
+
+const greeter = (_, {name}) => `Hello, ${name}!`
+
+const schema = Schema()
+  .query("Query")
+    .reolve("greeter", TString, greeter, true)
+      .arg("name", TString, true)
+    .end()
+  .end()
+.end()
+```
+
+This schema equivalent to the following code on GraphQL schema language:
+
+```graphql
+  type Query {
+    greeter(name: String!): String!
+  }
+
+  schema {
+    query: Query
+  }
+```
+
+More complex ecample with using `Type` class:
 
 ```js
 import {GraphQLString as TString} from "graphql" // You also need graphql package
@@ -37,7 +68,7 @@ const TProject = Type("TProject")
   .field("name", TString, "Project name")
   .field("tagline", TString)
 
-const mySchema = Schema()
+const schema = Schema()
   .query("Query")
     .resolve(
       "project", TProject, Project.getProjectByName,
