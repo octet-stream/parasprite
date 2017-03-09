@@ -1,10 +1,26 @@
 {
   "name": "parasprite",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Describe your GraphQL schema using chainable interface",
   "main": "./lib/parasprite.js",
   "author": "Nick K.",
   "license": "MIT",
+  "engines": {
+    "node": ">=6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/octet-stream/parasprite.git"
+  },
+  "bugs": {
+    "url": "https://github.com/octet-stream/parasprite/issues"
+  },
+  "keywords": [
+    "graphql",
+    "wrapper",
+    "chains",
+    "schema"
+  ],
   "scripts": {
     "lint": "node_modules/.bin/eslint bin && node_modules/.bin/eslint src && node_modules/.bin/eslint test",
     "make": "bin/cake make --dest lib",
