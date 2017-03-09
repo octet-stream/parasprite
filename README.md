@@ -44,7 +44,7 @@ const greeter = (_, {name}) => `Hello, ${name}!`
 
 const schema = Schema()
   .query("Query")
-    .reolve("greeter", TString, greeter, true)
+    .resolve("greeter", TString, greeter, true)
       .arg("name", TString, true)
     .end()
   .end()
