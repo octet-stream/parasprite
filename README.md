@@ -29,7 +29,7 @@ yarn add parasprite graphql@0.9.x
 
 ## Usage
 
-**Note: All examples where written with ES modules syntax.**
+**Note: All examples were written with ES modules syntax.**
 
 Basically, all that you need to describe GraphQLSchema
 is a Schema class and GraphQL internal types:
