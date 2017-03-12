@@ -20,7 +20,6 @@ const rimraf = require("rimraf")
 const through = require("through2")
 const ora = require("ora")({stream: process.stdout})
 const applySourceMap = require("vinyl-sourcemaps-apply")
-const isFunction = require("lodash.isfunction")
 const sourcemaps = require("gulp-sourcemaps")
 const {red, green, cyan} = require("chalk")
 const {transform} = require("babel-core")
@@ -30,6 +29,8 @@ const chokidar = require("chokidar")
 const BABERC = JSON.parse(fs.readFileSync(resolve(ROOT, ".babelrc")))
 
 const DEFAULT_SRC = `${ROOT}/src`
+
+const isFunction = val => typeof val === "function"
 
 const assign = Object.assign
 
