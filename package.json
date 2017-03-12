@@ -1,6 +1,6 @@
 {
   "name": "parasprite",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Describe your GraphQL schema using chainable interface",
   "main": "./lib/parasprite.js",
   "author": "Nick K.",
@@ -86,7 +86,6 @@
     "graphql": "0.9.x"
   },
   "dependencies": {
-    "lodash.isempty": "4.4.0",
-    "lodash.isfunction": "3.0.8"
+    "lodash.isempty": "4.4.0"
   }
 }

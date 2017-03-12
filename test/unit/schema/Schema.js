@@ -5,7 +5,7 @@ import {
   GraphQLObjectType,
   GraphQLString
 } from "graphql"
-import isFunction from "lodash.isfunction"
+import isFunction from "helper/util/isFunction"
 
 import Base from "schema/Base"
 import Schema, {Input} from "parasprite"

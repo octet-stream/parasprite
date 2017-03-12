@@ -1,7 +1,7 @@
 import test from "ava"
 
 import {GraphQLString, GraphQLList, GraphQLScalarType} from "graphql"
-import isFunction from "lodash.isfunction"
+import isFunction from "helper/util/isFunction"
 
 import toListTypeIfNeeded from "helper/util/toListTypeIfNeeded"
 

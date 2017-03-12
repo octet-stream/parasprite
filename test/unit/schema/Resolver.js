@@ -1,6 +1,6 @@
 import test from "ava"
 
-import isFunction from "lodash.isfunction"
+import isFunction from "helper/util/isFunction"
 
 import Resolver from "schema/Resolver"
 
