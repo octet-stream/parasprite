@@ -1,7 +1,7 @@
 import {GraphQLObjectType} from "graphql"
 
 // import isEmpty from "lodash.isempty"
-import isFunction from "lodash.isfunction"
+// import isFunction from "lodash.isfunction"
 
 import proxy from "helper/decorator/proxy"
 import apply from "helper/proxy/selfInvokingClass"

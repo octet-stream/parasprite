@@ -5,7 +5,7 @@ import {
   GraphQLString,
   GraphQLNonNull
 } from "graphql"
-import isFunction from "lodash.isfunction"
+import isFunction from "helper/util/isFunction"
 
 import Base from "schema/Base"
 import Type from "schema/Type"

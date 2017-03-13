@@ -1,7 +1,7 @@
 import test from "ava"
 
 import {GraphQLInputObjectType, GraphQLString, GraphQLNonNull} from "graphql"
-import isFunction from "lodash.isfunction"
+import isFunction from "helper/util/isFunction"
 
 import Base from "schema/Base"
 import Input from "schema/Input"
