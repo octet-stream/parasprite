@@ -11,7 +11,7 @@ Describe your GraphQL schema using chainable interface
 
 * Node.js >= 6
 
-* GraphQL.js 0.9.x (see installation section)
+* GraphQL.js 0.9.x (see [installation section](https://github.com/octet-stream/parasprite#installation))
 
 ## Installation
 
@@ -34,7 +34,7 @@ yarn add parasprite graphql@0.9.x
 Basically, all that you need to describe GraphQLSchema
 is a Schema class and GraphQL internal types:
 
-Take a look at simple example with resolver that just greet user:
+Take a look at simple example with a resolver that just greets a user:
 
 ```js
 import {GraphQLString as TString} from "graphql" // You also need graphql package
@@ -51,7 +51,7 @@ const schema = Schema()
 .end()
 ```
 
-This schema equivalent to the following code on GraphQL schema language:
+This schema is equivalent to the following code on GraphQL schema language:
 
 ```graphql
 type Query {
@@ -63,7 +63,7 @@ schema {
 }
 ```
 
-More complex example with using `Type` class:
+More complex example with `Type` class usage:
 
 ```js
 import {GraphQLString as TString} from "graphql" // You also need graphql package
@@ -107,13 +107,12 @@ schema {
 
 ## API
 
-Parasprite have classes that help you to describe GraphQL schema with chains.
-
+Parasprite has classes that help you describe GraphQL schema with chains.
 **Note: You can invoke these classes without "new" keyword, just like a function**
 
 ### constructor Schema()
 
-The main class that defines GraphQL schema.
+Main class that defines GraphQL schema.
 
 Available methods:
 
@@ -131,24 +130,24 @@ Make GraphQLSchema.
 
 ### constructor Type(name[, description])
 
-This class helps you to describe GraphQLObjectType.
+This class helps you describe GraphQLObjectType.
 
 Available methods:
 
 #### field(name, type[, required, description, deprecationReason]) -> Type
 
 Define one field on GraphQLObjectType.
-Use this method when you want to describe custom GraphQLObjectType.
+Use this method when you want to describe custom `GraphQLObjectType`.
 
-Returns a current instance of Type class.
+Returns current instance of Type class.
 
 #### resolve(name, type, callee[, required, description, deprecationReason]) -> Type
 
-Define resolver on current GraphQLObjectType
+Define resolver on current `GraphQLObjectType`
 
 #### end() -> GraphQLObjectType
 
-Make GraphQLObjectType.
+Make `GraphQLObjectType`.
 
 ## Roadmap:
 
