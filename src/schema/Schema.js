@@ -1,4 +1,4 @@
-import {GraphQLSchema} from "graphql"
+import {GraphQLSchema, GraphQLObjectType} from "graphql"
 
 import proxy from "helper/decorator/proxy"
 import apply from "helper/proxy/selfInvokingClass"
@@ -17,21 +17,27 @@ class Schema extends Base {
   }
 
   /**
-   * Define field on schema
+   * Define root type on schema
    *
-   * @param string name – field name
-   * @param string description – field description
+   * @param string name – type name
+   * @param string description – type description
    *
    * @return Type
    */
-  __setField(fieldType, name, description) {
+  __setRootType(rootType, name, description) {
     const setField = field => {
-      this[`__${fieldType}`] = field
+      this[`__${rootType}`] = field
 
       return this
     }
 
-    const objectType = new Type(name, description, setField)
+    if (name instanceof GraphQLObjectType) {
+      return setField(name)
+    }
+
+    const objectType = new Type(
+      name, description, undefined, undefined, setField
+    )
 
     return objectType
   }
@@ -39,24 +45,20 @@ class Schema extends Base {
   /**
    * Define query document
    *
-   * @see Schema#__setField
+   * @see Schema#__setRootType
    */
   query(...args) {
-    return this.__setField("query", ...args)
+    return this.__setRootType("query", ...args)
   }
 
   /**
    * Define mutation document
    *
-   * @see Schema#__setField
+   * @see Schema#__setRootType
    */
   mutation(...args) {
-    return this.__setField("mutation", ...args)
+    return this.__setRootType("mutation", ...args)
   }
-
-  // subscription(...args) {
-  //   return this.__setField("subscription", ...args)
-  // }
 
   /**
    * Make your GraphQL schema

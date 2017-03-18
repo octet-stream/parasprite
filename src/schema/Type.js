@@ -1,24 +1,56 @@
 import {GraphQLObjectType} from "graphql"
 
-// import isEmpty from "lodash.isempty"
-// import isFunction from "lodash.isfunction"
-
+import isFunction from "helper/util/isFunction"
 import proxy from "helper/decorator/proxy"
 import apply from "helper/proxy/selfInvokingClass"
 import toListTypeIfNeeded from "helper/util/toListTypeIfNeeded"
 import toRequiredTypeIfNeeded from "helper/util/toRequiredTypeIfNeeded"
+import isGraphQLInterfaceType from "helper/util/isGraphQLInterfaceType"
+import checkTypedList from "helper/util/checkTypedList"
 
 import Base from "schema/Base"
 import Resolver from "schema/Resolver"
 
+const isArray = Array.isArray
+
 @proxy({apply})
 class Type extends Base {
-  constructor(name, description, cb) {
+  /**
+   * Create custiom GraphQLObjectType using Parasprite chainable API
+   *
+   * @param string name
+   * @param string description
+   * @param function|function[] interfaces
+   * @param function cb
+   */
+  constructor(name, description, interfaces, isTypeOf, cb) {
+    // if (isFunction(interfaces)) {
+    //   [isTypeof, interfaces, isTypeOf] = [interfaces, undefined, undefined]
+    // }
+
+    if (interfaces) {
+      if (!isArray(interfaces)) {
+        interfaces = [interfaces]
+      }
+
+      if (!checkTypedList(interfaces, isGraphQLInterfaceType)) {
+        throw new TypeError(
+          "Interface should be an instance of " +
+          "GraphQLInterfaceType or a list of them."
+        )
+      }
+    }
+
     super(cb)
 
+    // protected members
     this._name = name
     this._description = description
     this._fields = {}
+
+    // private members
+    this.__interfaces = interfaces
+    this.__isTypeOf = isTypeOf
   }
 
   /**
@@ -33,11 +65,7 @@ class Type extends Base {
    *
    * @return Type
    */
-  field(name, type, required, description, deprecationReason/* , callee */) {
-    // if (isFunction(required)) {
-    //   [callee, required] = [required, false]
-    // }
-
+  field(name, type, required, description, deprecationReason) {
     if (typeof required === "string") {
       [description, required] = [required, false]
     }
@@ -58,7 +86,7 @@ class Type extends Base {
    *
    * @param string name
    * @param object type
-   * @param function callee
+   * @param function handler
    * @param string description
    * @param boolean required – should field be non-null?
    * @param string deprecationReason – the message that will be displayed as
@@ -66,8 +94,7 @@ class Type extends Base {
    *
    * @return Resolver
    */
-  // TODO: Merge this method again with Type#field method.
-  resolve(name, type, callee, ...other) {
+  resolve(name, type, handler, ...other) {
     this.field(name, type, ...other)
 
     const setResolver = resolver => {
@@ -82,13 +109,11 @@ class Type extends Base {
 
     const resolver = new Resolver(setResolver)
 
-    return resolver.resolve(callee)
+    return resolver.resolve(handler)
   }
 
-  // interface() {}
-
   /**
-   * Make your type
+   * Build and return GraphQLObjectType
    *
    * @return object
    */
@@ -96,7 +121,8 @@ class Type extends Base {
     const objectType = new GraphQLObjectType({
       name: this._name,
       description: this._description,
-      fields: this._fields
+      fields: this._fields,
+      interfaces: this.__interfaces
     })
 
     return this._callback ? super.end(objectType) : objectType

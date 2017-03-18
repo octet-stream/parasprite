@@ -8,7 +8,8 @@ import {
 import isFunction from "helper/util/isFunction"
 
 import Base from "schema/Base"
-import Type from "schema/Type"
+import Interface from "Interface"
+import Type from "Type"
 
 test("Should be a class that extends Base", t => {
   t.plan(2)
@@ -72,3 +73,33 @@ test("Should mark type as non-null when \"required\" parameter is true", t => {
 
   t.true(someField.type instanceof GraphQLNonNull)
 })
+
+test("Should throw an error when interfaces passed in wrong type", t => {
+  t.plan(2)
+
+  const asJustAWrongType = () => Type("TFoo", "Some description", 451)
+  t.throws(
+    asJustAWrongType,
+    "Interface should be an instance of " +
+    "GraphQLInterfaceType or a list of them."
+  )
+
+  const asList = () => Type("TFoo", "Some description", [42])
+  t.throws(
+    asList,
+    "Interface should be an instance of " +
+    "GraphQLInterfaceType or a list of them."
+  )
+})
+
+// test("Should create a type with a given interface", t => {
+//   const IFoo = Interface("IFoo")
+//     .field("foo", GraphQLString)
+//   .end()
+
+//   const TFoo = Type("TFoo", "Some description", IFoo)
+//     .field("foo", GraphQLString)
+//   .end()
+
+//   // console.log(TFoo.getInterfaces())
+// })

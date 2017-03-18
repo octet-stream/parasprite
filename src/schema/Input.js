@@ -12,6 +12,7 @@ class Input extends Base {
   constructor(name, description, cb) {
     super(cb)
 
+    // protected members
     this._name = name
     this._description = description
     this._fields = {}

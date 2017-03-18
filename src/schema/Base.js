@@ -1,6 +1,11 @@
 import isFunction from "helper/util/isFunction"
 
-// Builtin class, do not use it directly
+/**
+ * Builtin class, do not use it directly
+ * This class just implement default methods for child classes
+ *
+ * @api private
+ */
 class Base {
   constructor(cb = null) {
     if (isFunction(cb)) {

@@ -8,7 +8,10 @@ import {
 import isFunction from "helper/util/isFunction"
 
 import Base from "schema/Base"
-import Schema, {Input} from "parasprite"
+
+import Schema from "parasprite"
+import Type from "Type"
+import Input from "Input"
 
 test("Should be a function", t => {
   t.plan(1)
@@ -63,4 +66,23 @@ test("Should return an instance of GraphQLSchema with valid fields", t => {
     mutation instanceof GraphQLObjectType,
     "Query should be an instance of GraphQLObjectType"
   )
+})
+
+test("Should also make schema with a predifined query", t => {
+  t.plan(3)
+
+  const Query = Type("Query")
+    .resolve("greeter", GraphQLString, () => {})
+      .arg("name", GraphQLString)
+    .end()
+  .end()
+
+  const schema = Schema().query(Query).end()
+
+  t.true(schema instanceof GraphQLSchema)
+
+  const query = schema.getQueryType()
+
+  t.true(query instanceof GraphQLObjectType)
+  t.is(query.name, "Query", "Should have a valid name")
 })

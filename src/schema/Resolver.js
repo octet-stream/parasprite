@@ -7,6 +7,11 @@ import toRequiredTypeIfNeeded from "helper/util/toRequiredTypeIfNeeded"
 
 import Base from "schema/Base"
 
+/**
+ * Implements resolver field on GraphQLObjectType
+ *
+ * @api private
+ */
 @proxy({apply})
 class Resolver extends Base {
   constructor(cb) {

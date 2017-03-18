@@ -1,0 +1,1 @@
+export default from "schema/Interface" // eslint-disable-line

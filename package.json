@@ -30,7 +30,7 @@
     "test": "node_modules/.bin/ava",
     "t": "npm run test",
     "test:watch": "node_modules/.bin/ava --watch",
-    "t:w": "npm run test",
+    "t:w": "npm run test:watch",
     "coverage": "npm run make && node_modules/.bin/nyc npm run test",
     "report": "npm run coverage && node_modules/.bin/nyc report --reporter=html npm run test",
     "report:codecov": "node_modules/.bin/nyc report --reporter=lcov npm run test",
@@ -84,8 +84,5 @@
   },
   "peerDependencies": {
     "graphql": "0.9.x"
-  },
-  "dependencies": {
-    "lodash.isempty": "4.4.0"
   }
 }
