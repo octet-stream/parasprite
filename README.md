@@ -108,6 +108,7 @@ schema {
 ## API
 
 Parasprite has classes that help you describe GraphQL schema with chains.
+
 **Note: You can invoke these classes without "new" keyword, just like a function**
 
 ### constructor Schema()
@@ -154,8 +155,7 @@ Make `GraphQLObjectType`.
   - [x] ~~Basic API with queries, mutations and object type~~;
   - [x] ~~Input types~~;
   - [x] ~~Test~~;
-  - [ ] Subscriptions;
   - [ ] Fragments;
-  - [ ] Interfaces;
+  - [ ] Interfaces (in progress);
   - [ ] Documentation (still in progress);
-  - [ ] Complex working examples (es external repo)
+  - [ ] Complex working examples (as external repo)
