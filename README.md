@@ -137,12 +137,11 @@ Available methods:
 
 #### field(name, type[, description, deprecationReason, required]) -> Type
 
-Define one field on GraphQLObjectType.
-Use this method when you want to describe custom `GraphQLObjectType`.
+Define one field on `GraphQLObjectType`.
 
 Returns current instance of Type class.
 
-#### resolve(name, type[, description, deprecationReason, required], handler) -> Type
+#### resolve(name, type[, description, deprecationReason, required], handler) -> Resolve
 
 Define resolver on current `GraphQLObjectType`
 
@@ -150,12 +149,16 @@ Define resolver on current `GraphQLObjectType`
 
 Make `GraphQLObjectType`.
 
+### constructor Input(name[, description])
+
+#### field(name, type[, description, required, defaultValue]) -> Input
+
 ## Roadmap:
 
   - [x] ~~Basic API with queries, mutations and object type~~;
   - [x] ~~Input types~~;
   - [x] ~~Test~~;
-  - [ ] Fragments;
   - [ ] Interfaces (in progress);
+  - [ ] Fragments;
   - [ ] Documentation (still in progress);
   - [ ] Complex working examples (as external repo)
