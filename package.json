@@ -84,5 +84,8 @@
   },
   "peerDependencies": {
     "graphql": "0.9.x"
+  },
+  "dependencies": {
+    "lodash.isplainobject": "^4.0.6"
   }
 }

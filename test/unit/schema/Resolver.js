@@ -13,10 +13,10 @@ test("Should be a function", t => {
 test("Should throw an Error if resolver already exists", t => {
   t.plan(1)
 
-  const callee = () => Resolver().resolve(() => {}).resolve(() => {})
+  const trap = () => Resolver().resolve(() => {}).resolve(() => {})
 
   t.throws(
-    callee,
+    trap,
     "Resolve handler already exists. " +
     "Add this resolver to current object type " +
     "before describe the new one."
@@ -26,7 +26,7 @@ test("Should throw an Error if resolver already exists", t => {
 test("Should throw a TypeError when given handler is not a function", t => {
   t.plan(1)
 
-  const callee = () => Resolver().resolve("You shall not pass!")
+  const trap = () => Resolver().resolve("You shall not pass!")
 
-  t.throws(callee, "Resolve handler should be a function.")
+  t.throws(trap, "Resolve handler should be a function.")
 })

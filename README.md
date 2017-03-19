@@ -134,14 +134,14 @@ This class helps you describe GraphQLObjectType.
 
 Available methods:
 
-#### field(name, type[, required, description, deprecationReason]) -> Type
+#### field(name, type[, description, deprecationReason, required]) -> Type
 
 Define one field on GraphQLObjectType.
 Use this method when you want to describe custom `GraphQLObjectType`.
 
 Returns current instance of Type class.
 
-#### resolve(name, type, callee[, required, description, deprecationReason]) -> Type
+#### resolve(name, type[, description, deprecationReason, required], handler) -> Type
 
 Define resolver on current `GraphQLObjectType`
 

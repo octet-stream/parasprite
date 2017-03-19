@@ -54,7 +54,7 @@ test("Should create a field with given params", t => {
   }
 
   const TSomeType = Type("TMyObjectType")
-      .field("someField", GraphQLString, "Some description")
+      .field("someField", GraphQLString, "Some description", false)
     .end()
 
   const fields = TSomeType.getFields()
@@ -73,6 +73,86 @@ test("Should mark type as non-null when \"required\" parameter is true", t => {
 
   t.true(someField.type instanceof GraphQLNonNull)
 })
+
+test("Should also create a field from given object", t => {
+  t.plan(2)
+
+  const expectedFileds = {
+    name: {
+      name: "name",
+      description: "Represends a character name",
+      type: GraphQLString,
+      isDeprecated: false,
+      args: []
+    }
+  }
+
+  const TCharacter = Type("TCharacter")
+    .field({
+      name: "name",
+      description: "Represends a character name",
+      type: GraphQLString
+    })
+    .end()
+
+  t.true(TCharacter instanceof GraphQLObjectType)
+
+  const actualFields = TCharacter.getFields()
+
+  t.deepEqual(expectedFileds, actualFields)
+})
+
+test("Should create resolver from config", t => {
+  t.plan(2)
+
+  const greeter = (_, {name}) => `Hello, ${name}!`
+
+  const THello = Type("THello")
+    .resolve({
+      name: "greet",
+      type: GraphQLString,
+      handler: greeter
+    })
+      .arg("name", GraphQLString)
+    .end()
+  .end()
+
+  t.true(THello instanceof GraphQLObjectType)
+
+  const expectedFileds = {
+    greet: {
+      name: "greet",
+      type: GraphQLString,
+      resolve: greeter,
+      isDeprecated: false,
+      args: [{
+        name: "name",
+        description: null,
+        type: GraphQLString,
+        defaultValue: undefined
+      }]
+    }
+  }
+
+  const actualFields = THello.getFields()
+
+  t.deepEqual(expectedFileds, actualFields)
+})
+
+test(
+  "Should throw an error when field config passed withot \"name\" property",
+  t => {
+    t.plan(1)
+
+    const trap = () => Type("TSomeType").field({
+      // Doesn't have "name" property :)
+      description: "Represends a character name",
+      type: GraphQLString
+    })
+
+    t.throws(trap, "Field config should have \"name\" property.")
+  }
+)
 
 test("Should throw an error when interfaces passed in wrong type", t => {
   t.plan(2)

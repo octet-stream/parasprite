@@ -1,6 +1,6 @@
 import {GraphQLObjectType} from "graphql"
+import isPlainObject from "lodash.isplainobject"
 
-import isFunction from "helper/util/isFunction"
 import proxy from "helper/decorator/proxy"
 import apply from "helper/proxy/selfInvokingClass"
 import toListTypeIfNeeded from "helper/util/toListTypeIfNeeded"
@@ -24,10 +24,6 @@ class Type extends Base {
    * @param function cb
    */
   constructor(name, description, interfaces, isTypeOf, cb) {
-    // if (isFunction(interfaces)) {
-    //   [isTypeof, interfaces, isTypeOf] = [interfaces, undefined, undefined]
-    // }
-
     if (interfaces) {
       if (!isArray(interfaces)) {
         interfaces = [interfaces]
@@ -53,21 +49,45 @@ class Type extends Base {
     this.__isTypeOf = isTypeOf
   }
 
+  __setField(field) {
+    const name = field.name
+
+    if (!name) {
+      throw new TypeError("Field config should have \"name\" property.")
+    }
+
+    delete field.name
+
+    this._fields[name] = {
+      ...field
+    }
+  }
+
   /**
    * Add a field to Type
    *
    * @param string name
    * @param object type
    * @param string description
-   * @param boolean required – should field be non-null?
    * @param string deprecationReason – the message that will be displayed as
    *   field deprecation note.
+   * @param boolean required – should field be non-null?
    *
    * @return Type
    */
-  field(name, type, required, description, deprecationReason) {
-    if (typeof required === "string") {
-      [description, required] = [required, false]
+  field(name, type, description, deprecationReason, required) {
+    if (isPlainObject(name)) {
+      this.__setField(name)
+
+      return this
+    }
+
+    if (typeof description === "boolean") {
+      [required, description, deprecationReason] = [
+        description, undefined, undefined
+      ]
+    } else if (typeof deprecationReason === "boolean") {
+      [required, deprecationReason] = [deprecationReason, undefined]
     }
 
     // Convert given type to GraphQLList if it is an array
@@ -86,16 +106,30 @@ class Type extends Base {
    *
    * @param string name
    * @param object type
-   * @param function handler
    * @param string description
-   * @param boolean required – should field be non-null?
    * @param string deprecationReason – the message that will be displayed as
    *   field deprecation note.
+   * @param boolean required – should field be non-null?
+   * @param function handler
    *
    * @return Resolver
    */
-  resolve(name, type, handler, ...other) {
-    this.field(name, type, ...other)
+  resolve(...args) {
+    const [config] = args
+
+    let name
+    let handler
+    if (isPlainObject(config)) {
+      name = config.name
+      handler = config.handler
+
+      delete config.handler
+    } else {
+      name = config
+      handler = args.pop()
+    }
+
+    this.field(...args)
 
     const setResolver = resolver => {
       const field = {
