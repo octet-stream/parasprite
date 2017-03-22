@@ -24,7 +24,7 @@ class Schema extends Base {
    *
    * @return Type
    */
-  __setRootType(rootType, name, description) {
+  __setRootType(rootType, name, description, interfaces, isTypeOf) {
     const setField = field => {
       this[`__${rootType}`] = field
 
@@ -35,7 +35,7 @@ class Schema extends Base {
       return setField(name)
     }
 
-    return new Type(name, description, undefined, undefined, setField)
+    return new Type(name, description, interfaces, isTypeOf, setField)
   }
 
   /**
