@@ -9,6 +9,8 @@ Describe your GraphQL schema using chainable interface
 
 **Important note: Next version (0.2.0) will introduce significant changes for Schema, Type and Resolver classes API.**
 
+**For more information, see [API section](https://github.com/octet-stream/parasprite#api).**
+
 ## Requirements
 
 * Node.js >= 6
@@ -121,9 +123,15 @@ Available methods:
 
 #### query(name[, description]) -> Type
 
+  - string **name** – Name for root Query type
+  - string **description** – Description for root Query type
+
 Define Query with given name and description.
 
 #### mutation(name[, description]) -> Type
+
+  - string **name** – Name for root Mutation type
+  - string **description** – Description for root Mutation type
 
 Define Mutation with given name and description.
 
@@ -131,7 +139,12 @@ Define Mutation with given name and description.
 
 Make GraphQLSchema.
 
-### constructor Type(name[, description])
+### constructor Type(name[, description, interfaces, isTypeOf])
+
+  - string **name** – Name for object type
+  - string **description** – Description for object type
+  – GrphQLInterfaceType | GrphQLInterfaceType[] **interfaces**
+  - function **isTypeOf**
 
 This class helps you describe GraphQLObjectType.
 
@@ -139,11 +152,24 @@ Available methods:
 
 #### field(name, type[, description, deprecationReason, required]) -> Type
 
+  - string | object **name**
+  - string | any[] **type**
+  - string **description**
+  - string **deprecationReason**
+  - boolean **required** – If set to `true`, the field type will be marked as non-null.
+
 Define one field on `GraphQLObjectType`.
 
 Returns current instance of Type class.
 
 #### resolve(name, type[, description, deprecationReason, required], handler) -> Resolve
+
+  - string | object **name**
+  - string | any[] **type**
+  - string **description**
+  - string **deprecationReason**
+  - boolean **required** – If set to `true`, the field type will be marked as non-null.
+  - function **handler** – a function that will be used as resover for this field
 
 Define resolver on current `GraphQLObjectType`
 
@@ -153,7 +179,16 @@ Make `GraphQLObjectType`.
 
 ### constructor Input(name[, description])
 
+  - string **name** – Name for object type
+  - string **description** – Description for object type
+
 #### field(name, type[, description, required, defaultValue]) -> Input
+
+  - string | object **name**
+  - string | any[] **type**
+  - string **description**
+  - boolean **required** – If set to `true`, the field type will be marked as non-null.
+  - any **defaultValue** – default value for this field
 
 ## Roadmap:
 
