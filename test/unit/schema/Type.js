@@ -2,6 +2,7 @@ import test from "ava"
 
 import {
   GraphQLObjectType,
+  GraphQLInterfaceType,
   GraphQLString,
   GraphQLNonNull
 } from "graphql"
@@ -172,14 +173,34 @@ test("Should throw an error when interfaces passed in wrong type", t => {
   )
 })
 
-// test("Should create a type with a given interface", t => {
-//   const IFoo = Interface("IFoo")
-//     .field("foo", GraphQLString)
-//   .end()
+test("Should create a type with a given interface", t => {
+  t.plan(3)
 
-//   const TFoo = Type("TFoo", "Some description", IFoo)
-//     .field("foo", GraphQLString)
-//   .end()
+  class Cat {
+    constructor(name, meows) {
+      this.name = name
+      this.meows = meows
+    }
+  }
 
-//   // console.log(TFoo.getInterfaces())
-// })
+  const IAnimal = Interface("IAnimal")
+    .field("name", GraphQLString)
+  .end()
+
+  t.true(IAnimal instanceof GraphQLInterfaceType)
+
+  const isTypeOf = val => val instanceof Cat
+
+  const TCat = Type("TCat", "Represends a Cat type", IAnimal, isTypeOf)
+    .field("name", GraphQLString)
+    .field("meows", GraphQLString)
+  .end()
+
+  t.true(TCat instanceof GraphQLObjectType)
+
+  const expectedInterfaces = [IAnimal]
+
+  const actualInterfaces = TCat.getInterfaces()
+
+  t.deepEqual(expectedInterfaces, actualInterfaces)
+})

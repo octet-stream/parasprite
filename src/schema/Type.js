@@ -156,7 +156,8 @@ class Type extends Base {
       name: this._name,
       description: this._description,
       fields: this._fields,
-      interfaces: this.__interfaces
+      interfaces: this.__interfaces,
+      isTypeOf: this.__isTypeOf
     })
 
     return this._callback ? super.end(objectType) : objectType

@@ -35,11 +35,7 @@ class Schema extends Base {
       return setField(name)
     }
 
-    const objectType = new Type(
-      name, description, undefined, undefined, setField
-    )
-
-    return objectType
+    return new Type(name, description, undefined, undefined, setField)
   }
 
   /**
