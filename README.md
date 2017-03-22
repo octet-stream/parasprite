@@ -143,7 +143,7 @@ Make GraphQLSchema.
 
   - string **name** – Name for object type
   - string **description** – Description for object type
-  – GrphQLInterfaceType | GrphQLInterfaceType[] **interfaces**
+  - GrphQLInterfaceType | GrphQLInterfaceType[] **interfaces**
   - function **isTypeOf**
 
 This class helps you describe GraphQLObjectType.
