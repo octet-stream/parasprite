@@ -33,6 +33,15 @@ test(
   }
 )
 
+test("Should also create Type with name and isTypeOf function", t => {
+  t.plan(2)
+
+  const TFoo = Type("TFoo", () => {}).end()
+
+  t.true(TFoo instanceof GraphQLObjectType)
+  t.true(isFunction(TFoo.isTypeOf))
+})
+
 test("Should be return a type with specified name and description", t => {
   t.plan(2)
 
@@ -140,39 +149,6 @@ test("Should create resolver from config", t => {
   t.deepEqual(expectedFileds, actualFields)
 })
 
-test(
-  "Should throw an error when field config passed withot \"name\" property",
-  t => {
-    t.plan(1)
-
-    const trap = () => Type("TSomeType").field({
-      // Doesn't have "name" property :)
-      description: "Represends a character name",
-      type: GraphQLString
-    })
-
-    t.throws(trap, "Field config should have \"name\" property.")
-  }
-)
-
-test("Should throw an error when interfaces passed in wrong type", t => {
-  t.plan(2)
-
-  const asJustAWrongType = () => Type("TFoo", "Some description", 451)
-  t.throws(
-    asJustAWrongType,
-    "Interface should be an instance of " +
-    "GraphQLInterfaceType or a list of them."
-  )
-
-  const asList = () => Type("TFoo", "Some description", [42])
-  t.throws(
-    asList,
-    "Interface should be an instance of " +
-    "GraphQLInterfaceType or a list of them."
-  )
-})
-
 test("Should create a type with a given interface", t => {
   t.plan(3)
 
@@ -203,4 +179,53 @@ test("Should create a type with a given interface", t => {
   const actualInterfaces = TCat.getInterfaces()
 
   t.deepEqual(expectedInterfaces, actualInterfaces)
+})
+
+test(
+  "Should throw an error when field config passed withot \"name\" property",
+  t => {
+    t.plan(1)
+
+    const trap = () => Type("TSomeType").field({
+      // Doesn't have "name" property :)
+      description: "Represends a character name",
+      type: GraphQLString
+    })
+
+    t.throws(trap, "Field config should have \"name\" property.")
+  }
+)
+
+test("Should throw an error when interfaces passed in wrong type", t => {
+  t.plan(2)
+
+  const asJustAWrongType = () => Type("TFoo", "Some description", 451)
+  t.throws(
+    asJustAWrongType,
+    "Interface should be an instance of " +
+    "GraphQLInterfaceType or a list of them."
+  )
+
+  const asList = () => Type("TFoo", [42])
+  t.throws(
+    asList,
+    "Interface should be an instance of " +
+    "GraphQLInterfaceType or a list of them."
+  )
+})
+
+test("Should throw a TypeError when Type class invoked without name", t => {
+  t.plan(1)
+
+  const trap = () => Type()
+
+  t.throws(trap, "Type cannot be anonymous.")
+})
+
+test("Should throw a TypeError when passed Type name is not a string", t => {
+  t.plan(1)
+
+  const trap = () => Type(0b101) // High five!
+
+  t.throws(trap, "Name should be a string.")
 })

@@ -7,6 +7,7 @@ import toListTypeIfNeeded from "helper/util/toListTypeIfNeeded"
 import toRequiredTypeIfNeeded from "helper/util/toRequiredTypeIfNeeded"
 import isGraphQLInterfaceType from "helper/util/isGraphQLInterfaceType"
 import checkTypedList from "helper/util/checkTypedList"
+import isFunction from "helper/util/isFunction"
 
 import Base from "schema/Base"
 import Resolver from "schema/Resolver"
@@ -24,6 +25,24 @@ class Type extends Base {
    * @param function cb
    */
   constructor(name, description, interfaces, isTypeOf, cb) {
+    if (!name) {
+      throw new TypeError("Type cannot be anonymous.")
+    }
+
+    if (typeof name !== "string") {
+      throw new TypeError("Name should be a string.")
+    }
+
+    if (isGraphQLInterfaceType(description) || isArray(description)) {
+      [interfaces, isTypeOf, cb, description] = [
+        description, interfaces, isTypeOf, undefined
+      ]
+    }
+
+    if (isFunction(description)) {
+      [isTypeOf, cb] = [description, interfaces]
+    }
+
     if (interfaces) {
       if (!isArray(interfaces)) {
         interfaces = [interfaces]
@@ -45,11 +64,11 @@ class Type extends Base {
     this._fields = {}
 
     // private members
-    this.__interfaces = interfaces
-    this.__isTypeOf = isTypeOf
+    if (interfaces) this.__interfaces = interfaces
+    if (isTypeOf) this.__isTypeOf = isTypeOf
   }
 
-  __setField(field) {
+  __setFieldFromConfig(field) {
     const name = field.name
 
     if (!name) {
@@ -77,7 +96,7 @@ class Type extends Base {
    */
   field(name, type, description, deprecationReason, required) {
     if (isPlainObject(name)) {
-      this.__setField(name)
+      this.__setFieldFromConfig(name)
 
       return this
     }

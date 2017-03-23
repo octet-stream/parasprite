@@ -2,18 +2,30 @@ import {GraphQLInterfaceType} from "graphql"
 
 import proxy from "helper/decorator/proxy"
 import apply from "helper/proxy/selfInvokingClass"
+import isFunction from "helper/util/isFunction"
 
 import Type from "schema/Type"
 
 @proxy({apply})
 class Interface extends Type {
+  /**
+   * Create custiom GraphQLInterfaceType using Parasprite chainable API
+   *
+   * @param string name
+   * @param string description
+   * @param function resolveType
+   */
   constructor(name, description, resolveType) {
-    super()
+    if (isFunction(description)) {
+      [resolveType, description] = [description, undefined]
+    }
 
-    this._name = name
-    this._description = description
+    super(name, description)
+
+    // Protexted
     this._fields = {}
 
+    // Private
     this.__resolveType = resolveType
   }
 

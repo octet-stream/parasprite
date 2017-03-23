@@ -7,7 +7,7 @@ Describe your GraphQL schema using chainable interface
 [![Build Status](https://travis-ci.org/octet-stream/parasprite.svg?branch=master)](https://travis-ci.org/octet-stream/parasprite)
 [![Code Coverage](https://codecov.io/github/octet-stream/parasprite/coverage.svg?branch=master)](https://codecov.io/github/octet-stream/parasprite?branch=master)
 
-**Important note: Next version (0.2.0) will introduce significant changes for Schema, Type and Resolver classes API.**
+**Important note: The current version (0.2.0) has been introduced significant changes for Schema, Type and Resolver classes API.**
 
 **For more information, see [API section](https://github.com/octet-stream/parasprite#api).**
 
@@ -48,7 +48,7 @@ const greeter = (_, {name}) => `Hello, ${name}!`
 
 const schema = Schema()
   .query("Query")
-    .resolve("greeter", TString, greeter, true)
+    .resolve("greeter", TString, true, greeter)
       .arg("name", TString, true)
     .end()
   .end()
@@ -81,8 +81,8 @@ const TProject = Type("TProject")
 const schema = Schema()
   .query("Query")
     .resolve(
-      "project", TProject, Project.getProjectByName,
-      "Get the project by his name"
+      "project", TProject, "Get the project by his name",
+      Project.getProjectByName
     )
       .arg("name", TString)
     .end()
@@ -195,7 +195,7 @@ Make `GraphQLObjectType`.
   - [x] ~~Basic API with queries, mutations and object type~~;
   - [x] ~~Input types~~;
   - [x] ~~Test~~;
-  - [ ] Interfaces (in progress);
+  - [x] ~~Interfaces~~ (documentation in progress);
   - [ ] Fragments;
   - [ ] Documentation (still in progress);
   - [ ] Complex working examples (as external repo)
