@@ -21,10 +21,12 @@ test("Should return given type without any changes", t => {
   t.deepEqual(res, GraphQLString)
 })
 
-test("Should return GraphQLNonNull type when array with type given", t => {
-  t.plan(1)
+test("Should return GraphQLNonNull type when the second argument is true",
+  t => {
+    t.plan(1)
 
-  t.true(
-    toRequiredTypeIfNeeded(GraphQLString, true) instanceof GraphQLNonNull
-  )
-})
+    t.true(
+      toRequiredTypeIfNeeded(GraphQLString, true) instanceof GraphQLNonNull
+    )
+  }
+)

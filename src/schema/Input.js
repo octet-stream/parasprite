@@ -9,6 +9,14 @@ import Base from "schema/Base"
 
 @proxy({apply})
 class Input extends Base {
+  /**
+   * Describe GraphQL input type
+   *
+   * @param string name
+   * @param string description
+   *
+   * @api public
+   */
   constructor(name, description, cb) {
     super(cb)
 

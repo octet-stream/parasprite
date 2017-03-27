@@ -8,9 +8,10 @@
 /* eslint-disable */
 
 // Helpers
-export toRequired from "helper/util/toRequiredTypeIfNeeded"
 export isInterfaceType from "helper/util/isGraphQLInterfaceType"
 export checkTypedList from "helper/util/checkTypedList"
+export toListType from "helper/util/toListTypeIfNeeded"
+export toRequired from "helper/util/toRequired"
 
 // Main Parasprite classes
 export Interface from "schema/Interface"

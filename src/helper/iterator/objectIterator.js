@@ -1,3 +1,6 @@
+/**
+ * @api private
+ */
 function* objectIterator(iterable) {
   const keys = Object.keys(iterable)
 

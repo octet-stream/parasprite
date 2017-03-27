@@ -14,6 +14,8 @@ class Interface extends Type {
    * @param string name
    * @param string description
    * @param function resolveType
+   *
+   * @api public
    */
   constructor(name, description, resolveType) {
     if (isFunction(description)) {

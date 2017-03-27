@@ -1,6 +1,8 @@
 import test from "ava"
 
-import {GraphQLString, GraphQLList, GraphQLScalarType} from "graphql"
+import {
+  GraphQLString, GraphQLList, GraphQLScalarType, GraphQLNonNull
+} from "graphql"
 import isFunction from "helper/util/isFunction"
 
 import toListTypeIfNeeded from "helper/util/toListTypeIfNeeded"
@@ -26,3 +28,17 @@ test("Should return GraphQLList type when array with type given", t => {
 
   t.true(toListTypeIfNeeded([GraphQLString]) instanceof GraphQLList)
 })
+
+test(
+  "Should mark type in list as non-null if the second element of array is true",
+  t => {
+    t.plan(4)
+
+    const TListOfString = toListTypeIfNeeded([GraphQLString, true])
+
+    t.true(TListOfString.ofType instanceof GraphQLNonNull)
+    t.true(TListOfString.ofType.ofType instanceof GraphQLScalarType)
+    t.is(TListOfString.ofType.ofType.name, GraphQLString.name)
+    t.deepEqual(TListOfString.ofType.ofType, GraphQLString)
+  }
+)

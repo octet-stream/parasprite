@@ -12,6 +12,8 @@ const isArray = Array.isArray
  * @param any ctx
  *
  * @return boolean
+ *
+ * @api public
  */
 function checkTypedList(list, predicate, ctx) {
   if (!isArray(list)) {

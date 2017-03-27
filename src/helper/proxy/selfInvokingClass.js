@@ -6,6 +6,8 @@
  * @param any[] args
  *
  * @return object – an instance of Target class
+ *
+ * @api private
  */
 const selfInvokingClass = (Target, ctx, args) => new Target(...args)
 

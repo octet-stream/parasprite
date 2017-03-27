@@ -8,6 +8,11 @@ import Type from "schema/Type"
 
 @proxy({apply})
 class Schema extends Base {
+  /**
+   * Describe GraphQL schema using chainable interface
+   *
+   * @api public
+   */
   constructor() {
     super()
 

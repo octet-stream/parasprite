@@ -22,7 +22,9 @@ class Type extends Base {
    * @param string name
    * @param string description
    * @param function|function[] interfaces
-   * @param function cb
+   * @param function cb (this is the private param)
+   *
+   * @api public
    */
   constructor(name, description, interfaces, isTypeOf, cb) {
     if (!name) {
@@ -68,6 +70,11 @@ class Type extends Base {
     if (isTypeOf) this.__isTypeOf = isTypeOf
   }
 
+  /**
+   * Set a field from given configuration object
+   *
+   * @access private
+   */
   __setFieldFromConfig(field) {
     const name = field.name
 
@@ -93,6 +100,8 @@ class Type extends Base {
    * @param boolean required – should field be non-null?
    *
    * @return Type
+   *
+   * @access public
    */
   field(name, type, description, deprecationReason, required) {
     if (isPlainObject(name)) {
@@ -132,6 +141,8 @@ class Type extends Base {
    * @param function handler
    *
    * @return Resolver
+   *
+   * @access public
    */
   resolve(...args) {
     const [config] = args
@@ -169,6 +180,8 @@ class Type extends Base {
    * Build and return GraphQLObjectType
    *
    * @return object
+   *
+   * @access public
    */
   end() {
     const objectType = new GraphQLObjectType({
