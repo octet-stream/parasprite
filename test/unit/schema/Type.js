@@ -85,13 +85,13 @@ test("Should mark type as non-null when \"required\" parameter is true", t => {
 })
 
 test("Should also create a field from given object", t => {
-  t.plan(2)
+  t.plan(3)
 
   const expectedFileds = {
     name: {
       name: "name",
       description: "Represends a character name",
-      type: GraphQLString,
+      type: new GraphQLNonNull(GraphQLString),
       isDeprecated: false,
       args: []
     }
@@ -101,7 +101,8 @@ test("Should also create a field from given object", t => {
     .field({
       name: "name",
       description: "Represends a character name",
-      type: GraphQLString
+      type: GraphQLString,
+      required: true
     })
     .end()
 
@@ -110,6 +111,8 @@ test("Should also create a field from given object", t => {
   const actualFields = TCharacter.getFields()
 
   t.deepEqual(expectedFileds, actualFields)
+
+  t.true(actualFields.name.type instanceof GraphQLNonNull)
 })
 
 test("Should create resolver from config", t => {

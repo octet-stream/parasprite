@@ -82,7 +82,15 @@ class Type extends Base {
       throw new TypeError("Field config should have \"name\" property.")
     }
 
+    field.type = toListTypeIfNeeded(field.type)
+
     delete field.name
+
+    if (field.required) {
+      field.type = toRequiredTypeIfNeeded(field.type, field.required)
+
+      delete field.required
+    }
 
     this._fields[name] = {
       ...field
