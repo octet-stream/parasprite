@@ -2,7 +2,7 @@ import test from "ava"
 
 import isFunction from "helper/util/isFunction"
 
-import Base from "schema/Base"
+import Base from "lib/Base"
 
 test("Should be a function", t => {
   t.plan(1)

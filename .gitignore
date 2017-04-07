@@ -1,10 +1,31 @@
 coverage
 node_modules
 lib
+helper
 npm-debug.log
 yarn-error.log
-.github
 .nyc_output
 .DS_Store
 
+parasprite.js
+Input.js
+Interface.js
+Type.js
+
+*.map
+
+!src
+!src/helper
+!src/lib
+
+!src/parasprite.js
+!src/Input.js
+!src/Interface.js
+!src/Type.js
+
+!src/lib/Input.js
+!src/lib/Interface.js
+!src/lib/Type.js
+
+# Junk
 test.js

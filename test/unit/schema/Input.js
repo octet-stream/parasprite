@@ -3,8 +3,8 @@ import test from "ava"
 import {GraphQLInputObjectType, GraphQLString, GraphQLNonNull} from "graphql"
 import isFunction from "helper/util/isFunction"
 
-import Base from "schema/Base"
-import Input from "schema/Input"
+import Base from "lib/Base"
+import Input from "lib/Input"
 
 test("Should be a function", t => {
   t.plan(1)

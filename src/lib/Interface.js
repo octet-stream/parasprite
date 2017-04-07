@@ -4,7 +4,7 @@ import proxy from "helper/decorator/proxy"
 import apply from "helper/proxy/selfInvokingClass"
 import isFunction from "helper/util/isFunction"
 
-import Type from "schema/Type"
+import Type from "lib/Type"
 
 @proxy({apply})
 class Interface extends Type {

@@ -23,9 +23,9 @@
   ],
   "scripts": {
     "lint": "node_modules/.bin/eslint bin && node_modules/.bin/eslint src && node_modules/.bin/eslint test",
-    "make": "bin/cake make --dest lib",
+    "make": "bin/cake make",
     "m": "npm run make",
-    "watch": "bin/cake watch --dest lib",
+    "watch": "bin/cake watch",
     "w": "npm run watch",
     "test": "node_modules/.bin/ava",
     "t": "npm run test",

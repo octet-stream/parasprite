@@ -1,1 +1,1 @@
-export default from "schema/Type" // eslint-disable-line
+export default from "lib/Type" // eslint-disable-line

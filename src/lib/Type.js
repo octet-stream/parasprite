@@ -9,8 +9,8 @@ import isGraphQLInterfaceType from "helper/util/isGraphQLInterfaceType"
 import checkTypedList from "helper/util/checkTypedList"
 import isFunction from "helper/util/isFunction"
 
-import Base from "schema/Base"
-import Resolver from "schema/Resolver"
+import Base from "lib/Base"
+import Resolver from "lib/Resolver"
 
 const isArray = Array.isArray
 

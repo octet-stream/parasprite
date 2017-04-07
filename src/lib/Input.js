@@ -5,7 +5,7 @@ import apply from "helper/proxy/selfInvokingClass"
 import toListTypeIfNeeded from "helper/util/toListTypeIfNeeded"
 import toRequiredTypeIfNeeded from "helper/util/toRequiredTypeIfNeeded"
 
-import Base from "schema/Base"
+import Base from "lib/Base"
 
 @proxy({apply})
 class Input extends Base {

@@ -8,11 +8,11 @@ import {
 
 import isFunction from "helper/util/isFunction"
 
-import Base from "schema/Base"
+import Base from "lib/Base"
 
 import Schema from "parasprite"
-import Type from "Type"
-import Input from "Input"
+import Type from "lib/Type"
+import Input from "lib/Input"
 
 test("Should be a function", t => {
   t.plan(1)

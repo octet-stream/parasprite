@@ -14,9 +14,9 @@ export toListType from "helper/util/toListTypeIfNeeded"
 export toRequired from "helper/util/toRequired"
 
 // Main Parasprite classes
-export Interface from "schema/Interface"
-export Type from "schema/Type"
-export Input from "schema/Input"
-export default from "schema/Schema"
+export Interface from "lib/Interface"
+export Type from "lib/Type"
+export Input from "lib/Input"
+export default from "lib/Schema"
 
 /* eslint-enable */

@@ -8,9 +8,9 @@ import {
 } from "graphql"
 import isFunction from "helper/util/isFunction"
 
-import Base from "schema/Base"
-import Interface from "Interface"
-import Type from "Type"
+import Base from "lib/Base"
+import Interface from "lib/Interface"
+import Type from "lib/Type"
 
 test("Should be a class that extends Base", t => {
   t.plan(2)

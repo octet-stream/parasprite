@@ -3,8 +3,8 @@ import {GraphQLSchema, GraphQLObjectType} from "graphql"
 import proxy from "helper/decorator/proxy"
 import apply from "helper/proxy/selfInvokingClass"
 
-import Base from "schema/Base"
-import Type from "schema/Type"
+import Base from "lib/Base"
+import Type from "lib/Type"
 
 @proxy({apply})
 class Schema extends Base {

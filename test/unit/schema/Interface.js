@@ -2,7 +2,7 @@ import test from "ava"
 
 import {GraphQLInterfaceType, GraphQLString} from "graphql"
 
-import Interface from "schema/Interface"
+import Interface from "lib/Interface"
 
 test("Should be a function", t => {
   t.plan(1)
