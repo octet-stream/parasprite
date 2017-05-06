@@ -17,6 +17,7 @@ Type.js
 !src
 !src/helper
 !src/lib
+!test/helper
 
 !src/parasprite.js
 !src/Input.js
@@ -26,6 +27,10 @@ Type.js
 !src/lib/Input.js
 !src/lib/Interface.js
 !src/lib/Type.js
+
+!test/schema/Input.js
+!test/schema/Interface.js
+!test/schema/Type.js
 
 # Junk
 test.js

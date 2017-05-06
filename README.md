@@ -7,10 +7,6 @@ Describe your GraphQL schema using chainable interface
 [![Build Status](https://travis-ci.org/octet-stream/parasprite.svg?branch=master)](https://travis-ci.org/octet-stream/parasprite)
 [![Code Coverage](https://codecov.io/github/octet-stream/parasprite/coverage.svg?branch=master)](https://codecov.io/github/octet-stream/parasprite?branch=master)
 
-**Important note: Significant changes for Schema, Type and Resolver classes API where introduced in current version (0.2.0).**
-
-**For more information, please see [API section](https://github.com/octet-stream/parasprite#api).**
-
 ## Requirements
 
 * Node.js >= 6

@@ -46,8 +46,8 @@ test(
 )
 
 test(
-  "Should return false whe one (or more than one) element in given list " +
-  "have an invalid type",
+  "Should return false when one (or more than one) element in given list " +
+  "have an unexpected type",
   t => {
     t.plan(1)
 

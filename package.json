@@ -22,7 +22,6 @@
     "schema"
   ],
   "scripts": {
-    "lint": "node_modules/.bin/eslint bin && node_modules/.bin/eslint src && node_modules/.bin/eslint test",
     "make": "bin/cake make",
     "m": "npm run make",
     "watch": "bin/cake watch",
@@ -31,18 +30,20 @@
     "t": "npm run test",
     "test:watch": "node_modules/.bin/ava --watch",
     "t:w": "npm run test:watch",
-    "coverage": "npm run make && node_modules/.bin/nyc npm run test",
-    "report": "npm run coverage && node_modules/.bin/nyc report --reporter=html npm run test",
+    "coverage": "node_modules/.bin/nyc npm run test",
+    "lint": "node_modules/.bin/eslint bin && node_modules/.bin/eslint bin src test",
+    "report": "npm run make && npm run coverage && node_modules/.bin/nyc report --reporter=html npm run test",
     "report:codecov": "node_modules/.bin/nyc report --reporter=lcov npm run test",
     "codecov": "node_modules/.bin/codecov",
-    "ci": "npm run coverage && npm run report:codecov && npm run codecov"
+    "ci": "npm run make && npm run coverage && npm run report:codecov && npm run codecov",
+    "precommit": "yarn lint",
+    "prepush": "yarn report"
   },
   "ava": {
     "require": "babel-register",
     "babel": "inherit",
     "files": [
-      "./test/unit/**/*.js",
-      "!./test/helper/**/*.js"
+      "./test/**/*.js"
     ]
   },
   "devDependencies": {
@@ -72,6 +73,7 @@
     "graphql": "0.9.x",
     "gulp-sourcemaps": "2.4.1",
     "gulp-util": "3.0.8",
+    "husky": "^0.13.3",
     "junk": "2.0.0",
     "nyc": "10.1.2",
     "ora": "1.1.0",
