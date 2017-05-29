@@ -23,19 +23,19 @@
   ],
   "scripts": {
     "make": "bin/cake make",
-    "m": "npm run make",
+    "m": "yarn make",
     "watch": "bin/cake watch",
-    "w": "npm run watch",
+    "w": "yarn watch",
     "test": "node_modules/.bin/ava",
-    "t": "npm run test",
+    "t": "yarn test",
     "test:watch": "node_modules/.bin/ava --watch",
-    "t:w": "npm run test:watch",
-    "coverage": "node_modules/.bin/nyc npm run test",
+    "t:w": "yarn test:watch",
+    "coverage": "node_modules/.bin/nyc yarn test",
     "lint": "node_modules/.bin/eslint bin && node_modules/.bin/eslint bin src test",
-    "report": "npm run make && npm run coverage && node_modules/.bin/nyc report --reporter=html npm run test",
-    "report:codecov": "node_modules/.bin/nyc report --reporter=lcov npm run test",
+    "report": "yarn make && yarn coverage && node_modules/.bin/nyc report --reporter=html yarn test",
+    "report:codecov": "node_modules/.bin/nyc report --reporter=lcov yarn test",
     "codecov": "node_modules/.bin/codecov",
-    "ci": "npm run make && npm run coverage && npm run report:codecov && npm run codecov",
+    "ci": "yarn make && yarn coverage && yarn report:codecov && yarn codecov",
     "precommit": "yarn lint",
     "prepush": "yarn report"
   },
@@ -47,7 +47,7 @@
     ]
   },
   "devDependencies": {
-    "ava": "0.18.2",
+    "ava": "0.19.1",
     "babel-core": "6.23.1",
     "babel-eslint": "7.1.1",
     "babel-plugin-module-resolver": "2.5.0",
@@ -62,7 +62,7 @@
     "chokidar": "1.6.1",
     "codecov": "1.0.1",
     "commander": "2.9.0",
-    "eslint": "3.15.0",
+    "eslint": "3.19.0",
     "eslint-config-airbnb": "14.1.0",
     "eslint-config-standard-react": "4.2.0",
     "eslint-plugin-import": "2.2.0",
@@ -70,12 +70,12 @@
     "eslint-plugin-react": "6.9.0",
     "figures": "2.0.0",
     "glob": "7.1.1",
-    "graphql": "0.9.x",
+    "graphql": "0.10.x",
     "gulp-sourcemaps": "2.4.1",
     "gulp-util": "3.0.8",
     "husky": "^0.13.3",
     "junk": "2.0.0",
-    "nyc": "10.1.2",
+    "nyc": "^10.3.2",
     "ora": "1.1.0",
     "rimraf": "2.6.1",
     "sinon": "1.17.7",
@@ -84,7 +84,7 @@
     "vinyl-sourcemaps-apply": "0.2.1"
   },
   "peerDependencies": {
-    "graphql": "0.9.x"
+    "graphql": "0.10.x"
   },
   "dependencies": {
     "lodash.isplainobject": "4.0.6"

@@ -175,6 +175,8 @@ function compileFile(file, enc, cb) {
 function processFiles(files, src, dest) {
   files = files.filter(file => junk.not(file) && file !== DEFAULT_SRC)
 
+  if (files.length === 0 || String(files) === false) return
+
   // Get destination path for each given file
   const fulfill = ({path}) => dirname(getDestFilename(path, src, dest))
 
@@ -328,7 +330,7 @@ commander
 commander
   .option("--src, -s <directory>", "Set custom source directory")
   .option("--dest, -d <directory>", "Set custom destination directory")
-  .version("The cake is a lie!\nCurrent cake version is 2.1.3")
+  .version("The cake is a lie!\nCurrent cake version is 2.1.4")
   .parse(process.argv)
 
 process
