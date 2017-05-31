@@ -35,7 +35,7 @@ const isFunction = val => typeof val === "function"
 
 const assign = Object.assign
 
-let isDev = false
+let dev = false
 
 const resolveFullSrcPath = (path = DEFAULT_SRC) => (
   isAbsolute(path) ? path : resolve(ROOT, path)
@@ -64,7 +64,7 @@ const onContinueWatching = () => (
  * Just a callback to end the cake process
  */
 function onEnd() {
-  if (isDev) {
+  if (dev) {
     console.log(`\n${green(tick)}`, "Done.")
   } else {
     ora.text = "Done."
@@ -80,7 +80,7 @@ function onEnd() {
  * @param Error err
  */
 function onError(err) {
-  if (isDev) {
+  if (dev) {
     console.log(err)
     return console.log(red(cross), "Watching for changes...")
   }
@@ -123,7 +123,7 @@ function mapHandlers(watcher, handlers) {
  */
 function compileFile(file, enc, cb) {
   if (!isJS(file.path)) {
-    if (isDev) {
+    if (dev) {
       console.log(cyan(pointer), `Copy ${file.path}`)
     } else {
       ora.color = "cyan"
@@ -133,7 +133,7 @@ function compileFile(file, enc, cb) {
     return cb(null, file)
   }
 
-  if (isDev) {
+  if (dev) {
     console.log(cyan(pointer), `Compile ${file.path}`)
   } else {
     ora.color = "cyan"
@@ -146,13 +146,13 @@ function compileFile(file, enc, cb) {
         babelrc: false,
         filename: file.path,
         filenameRelative: file.relative,
-        sourceMap: true,
+        sourceMap: dev,
         sourceFileName: file.relative,
         sourceMapTarget: file.relative
       })
     )
 
-    if (file.sourceMap && contents.map && !isDev) {
+    if (file.sourceMap && contents.map && !dev) {
       applySourceMap(file, contents.map)
     }
 
@@ -182,15 +182,15 @@ function processFiles(files, src, dest) {
 
   vfs.src(files)
     .on("error", onError)
-    .pipe(isDev ? noop() : sourcemaps.init())
+    .pipe(dev ? sourcemaps.init() : noop())
     .on("error", onError)
     .pipe(through.obj(compileFile))
     .on("error", onError)
-    .pipe(isDev ? noop() : sourcemaps.write("."))
+    .pipe(dev ? sourcemaps.write(".") : noop())
     .on("error", onError)
     .pipe(vfs.dest(fulfill))
     .on("error", onError)
-    .on("end", isDev ? onContinueWatching : onEnd)
+    .on("end", dev ? onContinueWatching : onEnd)
 }
 
 /**
@@ -216,7 +216,7 @@ function make(src, dest) {
  * @param string dest
  */
 function watch(src, dest) {
-  isDev = true // Turning on development mode
+  dev = true // Turning on development mode
 
   console.log(cyan(pointer), "Starting watcher...")
   console.log(cyan(pointer), "You can press Control+C to exit.")
