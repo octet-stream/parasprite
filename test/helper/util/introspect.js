@@ -1,5 +1,3 @@
-import {resolve} from "path"
-
 import test from "ava"
 import pq from "proxyquire"
 import {GraphQLString as TString} from "graphql"
@@ -9,7 +7,7 @@ import Schema from "parasprite"
 import introspect from "helper/util/introspect"
 
 const mockIntrospectHelperDeps = (deps = {}) => pq(
-  resolve(__dirname, "..", "..", "..", "helper/util/introspect"), {
+  "../../../helper/util/introspect", {
     ...deps
   }
 )

@@ -62,6 +62,15 @@ class Schema extends Base {
   }
 
   /**
+   * Define subscription on document
+   *
+   * @see Schema#__setRootType
+   */
+  subscription(...args) {
+    return this.__setRootType("subscription", ...args)
+  }
+
+  /**
    * Make your GraphQL schema
    *
    * @return GraphQLSchema
