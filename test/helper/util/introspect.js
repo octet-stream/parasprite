@@ -6,6 +6,8 @@ import {GraphQLString as TString} from "graphql"
 
 import Schema from "parasprite"
 
+import introspect from "helper/util/introspect"
+
 const mockIntrospectHelperDeps = (deps = {}) => pq(
   resolve(__dirname, "..", "..", "..", "helper/util/introspect"), {
     ...deps
@@ -22,10 +24,8 @@ const schema = Schema()
 test("Should have additional methods on default export", t => {
   t.plan(2)
 
-  const introspect = mockIntrospectHelperDeps()
-
-  t.is(typeof introspect.default.asObject, "function")
-  t.is(typeof introspect.default.asJSON, "function")
+  t.is(typeof introspect.asObject, "function")
+  t.is(typeof introspect.asJSON, "function")
 })
 
 test("Should return a promise", t => {
