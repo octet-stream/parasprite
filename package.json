@@ -46,6 +46,11 @@
       "./test/**/*.js"
     ]
   },
+  "nyc": {
+    "include": [
+      "src"
+    ]
+  },
   "devDependencies": {
     "ava": "0.19.1",
     "babel-core": "6.24.1",
@@ -77,6 +82,7 @@
     "junk": "2.0.0",
     "nyc": "10.3.2",
     "ora": "1.2.0",
+    "proxyquire": "^1.8.0",
     "rimraf": "2.6.1",
     "sinon": "2.3.2",
     "through2": "2.0.3",
