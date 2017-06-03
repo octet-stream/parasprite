@@ -22,37 +22,32 @@
     "schema"
   ],
   "scripts": {
-    "make": "bin/cake make",
+    "make": "node_modules/.bin/babel src -d .",
     "m": "yarn make",
-    "watch": "bin/cake watch",
+    "watch": "node_modules/.bin/babel src -w -d .",
     "w": "yarn watch",
+    "make:spec": "node_modules/.bin/babel src -s -d .",
     "test": "node_modules/.bin/ava",
     "t": "yarn test",
     "test:watch": "node_modules/.bin/ava --watch",
     "t:w": "yarn test:watch",
     "coverage": "node_modules/.bin/nyc yarn test",
-    "lint": "node_modules/.bin/eslint bin && node_modules/.bin/eslint bin src test",
-    "report": "yarn make && yarn coverage && node_modules/.bin/nyc report --reporter=html yarn test",
+    "lint": "node_modules/.bin/eslint src",
+    "report": "yarn make:spec && yarn coverage && node_modules/.bin/nyc report --reporter=html yarn test",
     "report:codecov": "node_modules/.bin/nyc report --reporter=lcov yarn test",
     "codecov": "node_modules/.bin/codecov",
-    "ci": "yarn make && yarn coverage && yarn report:codecov && yarn codecov",
+    "ci": "yarn make:spec && yarn coverage && yarn report:codecov && yarn codecov",
     "precommit": "yarn lint",
     "prepush": "yarn report"
   },
   "ava": {
-    "require": "babel-register",
-    "babel": "inherit",
     "files": [
       "./test/**/*.js"
     ]
   },
-  "nyc": {
-    "include": [
-      "src"
-    ]
-  },
   "devDependencies": {
     "ava": "0.19.1",
+    "babel-cli": "6.24.1",
     "babel-core": "6.24.1",
     "babel-eslint": "7.2.3",
     "babel-plugin-module-resolver": "2.7.1",
@@ -80,10 +75,10 @@
     "gulp-util": "3.0.8",
     "husky": "0.13.3",
     "junk": "2.0.0",
-    "nyc": "10.3.2",
+    "nyc": "11.0.1",
     "ora": "1.2.0",
-    "proxyquire": "^1.8.0",
-    "rimraf": "2.6.1",
+    "proxyquire": "1.8.0",
+    "rimraf": "^2.6.1",
     "sinon": "2.3.2",
     "through2": "2.0.3",
     "vinyl-fs": "2.4.4",

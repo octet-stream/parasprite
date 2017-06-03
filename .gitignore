@@ -1,12 +1,13 @@
 coverage
 node_modules
-lib
-helper
 npm-debug.log
 yarn-error.log
 .nyc_output
 .DS_Store
 
+lib
+helper
+test
 parasprite.js
 Input.js
 Interface.js
@@ -14,7 +15,6 @@ Type.js
 
 *.map
 
-!src
 !src/helper
 !src/lib
 !test/helper
