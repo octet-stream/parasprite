@@ -17,7 +17,8 @@ Type.js
 
 !src/helper
 !src/lib
-!test/helper
+!src/test
+!src/test/helper
 
 !src/parasprite.js
 !src/Input.js
