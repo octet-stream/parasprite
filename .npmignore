@@ -3,7 +3,7 @@ coverage
 node_modules
 src
 test
-yaml.lock
+yarn.lock
 npm-debug.log
 yarn-error.log
 .github
@@ -13,5 +13,6 @@ yarn-error.log
 .eslintrc.json
 .DS_Store
 *.map
+.tavis.yml
 
 test.js
