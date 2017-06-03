@@ -11,20 +11,20 @@ Describe your GraphQL schema using chainable interface
 
 * Node.js >= 6
 
-* GraphQL.js 0.9.x (see [installation section](https://github.com/octet-stream/parasprite#installation))
+* GraphQL.js 0.10.x (see [installation section](https://github.com/octet-stream/parasprite#installation))
 
 ## Installation
 
 You can install parasprite from NPM:
 
 ```sh
-npm install --save parasprite graphql@0.9.x
+npm install --save parasprite graphql@0.10.x
 ```
 
 or YARN:
 
 ```
-yarn add parasprite graphql@0.9.x
+yarn add parasprite graphql@0.10.x
 ```
 
 ## Usage
@@ -131,6 +131,13 @@ Define Query with given name and description.
 
 Define Mutation with given name and description.
 
+<!-- ### subscription(name[, description]) -> Type
+
+  - string **name** – Name for root Subscription type
+  - string **description** – Description for root Subscription type
+
+Define Subscription with given name and description. -->
+
 #### end() -> GraphQLSchema
 
 Make GraphQLSchema.
@@ -186,6 +193,30 @@ Make `GraphQLObjectType`.
   - boolean **required** – If set to `true`, the field type will be marked as non-null.
   - any **defaultValue** – default value for this field
 
+### constructor Interface(name[, description], resolveType)
+
+Create custim GraphQLInterfaceType using Parasprite chainable API
+
+See [Type](https://github.com/octet-stream/parasprite#constructor-typename-description-interfaces-istypeof) section for more info about available methods.
+
+## Utils
+
+### parasprite.checkTypedList(list, predicate) -> boolean
+
+Check if given list contains only a valid type.
+
+### parasprite.isInterfaceType(value) -> boolean
+
+Check if given type is an GraphQLList.
+
+### parasprite.toListType(value) -> GraphQLList
+
+Create GraphQLList from given array or value
+
+### parasprite.toRequired(value) -> GraphQLNonNull
+
+Mark given value as non-null.
+
 ## Roadmap:
 
   - [x] ~~Basic API with queries, mutations and object type~~;
@@ -195,3 +226,8 @@ Make `GraphQLObjectType`.
   - [ ] Fragments;
   - [ ] Documentation (still in progress);
   - [ ] Complex working examples (as external repo)
+
+## Misc
+
+Wanted to learn more about GraphQL or try another tools?
+Then visit [awesome-graphql](https://github.com/chentsulin/awesome-graphql) list! :)

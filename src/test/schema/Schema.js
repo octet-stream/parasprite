@@ -27,7 +27,7 @@ test("Should be an instance of Base class", t => {
 })
 
 test("Should return an instance of GraphQLSchema with valid fields", t => {
-  t.plan(5)
+  t.plan(7)
 
   const TInFile = Input("TInFile")
     .field("originalName", GraphQLString, true)
@@ -47,12 +47,18 @@ test("Should return an instance of GraphQLSchema with valid fields", t => {
         .arg("image", TInFile)
       .end()
     .end()
+    .subscription("SomeSubscription")
+      .resolve("someMethod", GraphQLString, () => {})
+        .arg("someArg", GraphQLString)
+      .end()
+    .end()
   .end()
 
   t.true(schema instanceof GraphQLSchema)
 
   const query = schema.getQueryType()
   const mutation = schema.getMutationType()
+  const subscription = schema.getSubscriptionType()
 
   // Check Query type
   t.is(query.name, "SomeQuery", "Should have a valid query type.")
@@ -65,7 +71,16 @@ test("Should return an instance of GraphQLSchema with valid fields", t => {
   t.is(mutation.name, "SomeMutation", "Should have a valid mutation type.")
   t.true(
     mutation instanceof GraphQLObjectType,
-    "Query should be an instance of GraphQLObjectType"
+    "Mutation should be an instance of GraphQLObjectType"
+  )
+
+  // Check Subscription type
+  t.is(
+    subscription.name, "SomeSubscription", "Should have a valid mutation type."
+  )
+  t.true(
+    subscription instanceof GraphQLObjectType,
+    "Subscription should be an instance of GraphQLObjectType"
   )
 })
 

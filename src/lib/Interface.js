@@ -9,7 +9,7 @@ import Type from "lib/Type"
 @proxy({apply})
 class Interface extends Type {
   /**
-   * Create custiom GraphQLInterfaceType using Parasprite chainable API
+   * Create custim GraphQLInterfaceType using Parasprite chainable API
    *
    * @param string name
    * @param string description
