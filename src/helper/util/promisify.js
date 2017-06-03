@@ -15,7 +15,7 @@
  *
  * const onRejected = err => console.error(err)
  *
- * readFile(require.main.filename).then(onFulfilled, onRejected)
+ * readFile(__filename).then(onFulfilled, onRejected)
  * ```
  */
 const promisify = target => function(...args) {

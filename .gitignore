@@ -12,13 +12,25 @@ lib/**/*.js
 test/**/*.js
 helper/**/*.js
 
+checkTypedList.js
+introspect.js
+isInterfaceType.js
+toListType.js
+toRequired.js
 parasprite.js
 Input.js
 Interface.js
 Type.js
+Schema.js
 
+!src/checkTypedList.js
+!src/introspect.js
+!src/isInterfaceType.js
+!src/toListType.js
+!src/toRequired.js
 !src/parasprite.js
 !src/Input.js
 !src/Interface.js
 !src/Type.js
+!src/Schema.js
 !src/**/*.js
