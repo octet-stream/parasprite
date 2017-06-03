@@ -131,12 +131,12 @@ Define Query with given name and description.
 
 Define Mutation with given name and description.
 
-<!-- ### subscription(name[, description]) -> Type
+### subscription(name[, description]) -> Type
 
   - string **name** – Name for root Subscription type
   - string **description** – Description for root Subscription type
 
-Define Subscription with given name and description. -->
+Define Subscription with given name and description.
 
 #### end() -> GraphQLSchema
 
