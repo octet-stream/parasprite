@@ -4,34 +4,21 @@ npm-debug.log
 yarn-error.log
 .nyc_output
 .DS_Store
+test.js
 
-lib
-helper
-test
+*.map
+
+lib/**/*.js
+test/**/*.js
+helper/**/*.js
+
 parasprite.js
 Input.js
 Interface.js
 Type.js
 
-*.map
-
-!src/helper
-!src/lib
-!src/test
-!src/test/helper
-
 !src/parasprite.js
 !src/Input.js
 !src/Interface.js
 !src/Type.js
-
-!src/lib/Input.js
-!src/lib/Interface.js
-!src/lib/Type.js
-
-!test/schema/Input.js
-!test/schema/Interface.js
-!test/schema/Type.js
-
-# Junk
-test.js
+!src/**/*.js
