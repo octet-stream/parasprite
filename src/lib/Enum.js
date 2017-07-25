@@ -2,8 +2,12 @@ import {isString} from "util"
 
 import {GraphQLEnumType} from "graphql"
 
+import proxy from "helper/decorator/proxy"
+import apply from "helper/proxy/selfInvokingClass"
+
 import Base from "./Base"
 
+@proxy({apply})
 class Enum extends Base {
   constructor(name, description) {
     if (!name) {

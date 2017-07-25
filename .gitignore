@@ -34,3 +34,4 @@ Schema.js
 !src/Type.js
 !src/Schema.js
 !src/**/*.js
+Enum.js
