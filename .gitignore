@@ -22,6 +22,7 @@ Input.js
 Interface.js
 Type.js
 Schema.js
+Enum.js
 
 !src/checkTypedList.js
 !src/introspect.js
@@ -33,5 +34,5 @@ Schema.js
 !src/Interface.js
 !src/Type.js
 !src/Schema.js
+!src/Enum.js
 !src/**/*.js
-Enum.js
