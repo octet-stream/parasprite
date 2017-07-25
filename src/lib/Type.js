@@ -1,3 +1,5 @@
+import {isString} from "util"
+
 import {GraphQLObjectType} from "graphql"
 import isPlainObject from "lodash.isplainobject"
 
@@ -31,7 +33,7 @@ class Type extends Base {
       throw new TypeError("Type cannot be anonymous.")
     }
 
-    if (typeof name !== "string") {
+    if (!isString(name)) {
       throw new TypeError("Name should be a string.")
     }
 
@@ -58,11 +60,9 @@ class Type extends Base {
       }
     }
 
-    super(cb)
+    super(name, description, cb)
 
     // protected members
-    this._name = name
-    this._description = description
     this._fields = {}
 
     // private members

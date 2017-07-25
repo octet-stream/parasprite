@@ -18,11 +18,9 @@ class Input extends Base {
    * @api public
    */
   constructor(name, description, cb) {
-    super(cb)
+    super(name, description, cb)
 
     // protected members
-    this._name = name
-    this._description = description
     this._fields = {}
   }
 

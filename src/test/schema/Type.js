@@ -139,6 +139,7 @@ test("Should create resolver from config", t => {
       resolve: greeter,
       isDeprecated: false,
       args: [{
+        astNode: undefined,
         name: "name",
         description: null,
         type: GraphQLString,

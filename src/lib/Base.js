@@ -7,10 +7,13 @@ import isFunction from "helper/util/isFunction"
  * @api private
  */
 class Base {
-  constructor(cb = null) {
+  constructor(name, description, cb = null) {
     if (isFunction(cb)) {
       this._callback = cb
     }
+
+    this._name = name
+    this._description = description
   }
 
   end(data) {
@@ -22,11 +25,11 @@ class Base {
   }
 
   toString() {
-    return this.inspect()
+    return `Parasprite${this.constructor.name}`
   }
 
   valueOf() {
-    return this.inspect()
+    return `Parasprite${this.constructor.name}`
   }
 }
 

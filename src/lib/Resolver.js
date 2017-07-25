@@ -15,21 +15,21 @@ import Base from "lib/Base"
 @proxy({apply})
 class Resolver extends Base {
   constructor(cb) {
-    super(cb)
+    super(null, null, cb)
 
-    this.__callee = null
+    this.__handler = null
     this.__arguments = {}
   }
 
   /**
    * Define resolver handler
    *
-   * @param function callee
+   * @param function handler
    *
    * @return Resolver
    */
-  resolve(callee) {
-    if (isFunction(this.__callee)) {
+  resolve(handler) {
+    if (isFunction(this.__handler)) {
       throw new Error(
         "Resolve handler already exists. " +
         "Add this resolver to current object type " +
@@ -37,11 +37,11 @@ class Resolver extends Base {
       )
     }
 
-    if (!isFunction(callee)) {
+    if (!isFunction(handler)) {
       throw new TypeError("Resolve handler should be a function.")
     }
 
-    this.__callee = callee
+    this.__handler = handler
 
     return this
   }
@@ -70,7 +70,7 @@ class Resolver extends Base {
    */
   end() {
     return super.end({
-      resolve: this.__callee,
+      resolve: this.__handler,
       args: this.__arguments
     })
   }
