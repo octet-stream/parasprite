@@ -44,9 +44,9 @@
   dependencies:
     arrify "^1.0.1"
 
-"@octetstream/promisify@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@octetstream/promisify/-/promisify-1.0.2.tgz#4711cad7c816015590d05aeb22960a291733ccb1"
+"@octetstream/promisify@1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@octetstream/promisify/-/promisify-1.0.3.tgz#79b885cff3b2cd20ee6f9470a1cb3ec7bd12dc84"
 
 abbrev@1:
   version "1.1.0"
