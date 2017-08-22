@@ -21,12 +21,10 @@ class Type extends Base {
   /**
    * Create custiom GraphQLObjectType using Parasprite chainable API
    *
-   * @param string name
-   * @param string description
-   * @param function|function[] interfaces
-   * @param function cb (this is the private param)
-   *
-   * @api public
+   * @param {string} name
+   * @param {string} description
+   * @param {function|function[]} interfaces
+   * @param {function} cb (this is the private param)
    */
   constructor(name, description, interfaces, isTypeOf, cb) {
     if (!name) {
@@ -73,7 +71,7 @@ class Type extends Base {
   /**
    * Set a field from given configuration object
    *
-   * @access private
+   * @private
    */
   __setFieldFromConfig(field) {
     const name = field.name
@@ -100,14 +98,14 @@ class Type extends Base {
   /**
    * Add a field to Type
    *
-   * @param string name
-   * @param object type
-   * @param string description
-   * @param string deprecationReason – the message that will be displayed as
+   * @param {string} name
+   * @param {object} type
+   * @param {string} description
+   * @param {string} deprecationReason – the message that will be displayed as
    *   field deprecation note.
    * @param boolean required – should field be non-null?
    *
-   * @return Type
+   * @return {Type}
    *
    * @access public
    */
@@ -140,17 +138,15 @@ class Type extends Base {
   /**
    * Add resolver field to current type
    *
-   * @param string name
-   * @param object type
-   * @param string description
-   * @param string deprecationReason – the message that will be displayed as
+   * @param {string} name
+   * @param {object} type
+   * @param {string} description
+   * @param {string} deprecationReason – the message that will be displayed as
    *   field deprecation note.
-   * @param boolean required – should field be non-null?
-   * @param function handler
+   * @param {boolean} required – should field be non-null?
+   * @param {function} handler
    *
-   * @return Resolver
-   *
-   * @access public
+   * @return {Resolver}
    */
   resolve(...args) {
     const [config] = args
@@ -187,9 +183,7 @@ class Type extends Base {
   /**
    * Build and return GraphQLObjectType
    *
-   * @return object
-   *
-   * @access public
+   * @return {object}
    */
   end() {
     const objectType = new GraphQLObjectType({

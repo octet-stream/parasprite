@@ -2,7 +2,7 @@ import fs from "fs"
 
 import {graphql, introspectionQuery as query} from "graphql"
 
-import promisify from "./promisify"
+import promisify from "@octetstream/promisify"
 
 const writeFile = promisify(fs.writeFile)
 
@@ -23,9 +23,9 @@ const asJSON = async (schema, indent) => toJSON(
 /**
  * Introspect and save GraphQL schema to file
  *
- * @param graphql.GraphQLSchema – schema to introspect
- * @param string path – path where schema will be saved
- * @param object options
+ * @param {graphql.GraphQLSchema} – schema to introspect
+ * @param {string} path – path where schema will be saved
+ * @param {object} options
  */
 async function introspect(schema, path, options = {}) {
   const introspectedSchema = await getIntrospectedSchema(schema)

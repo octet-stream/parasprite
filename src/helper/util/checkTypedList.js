@@ -6,12 +6,12 @@ const isArray = Array.isArray
  * Check all types in list using given predicate.
  *   Return "true" when all satisfies the predicate.
  *
- * @param any[] – Array to check
- * @param function predicate – Predicate function that will be invoked
+ * @param {any[]} – Array to check
+ * @param {function} predicate – Predicate function that will be invoked
  *   for each element of given list
- * @param any ctx
+ * @param {any} ctx
  *
- * @return boolean
+ * @return {boolean}
  *
  * @api public
  */

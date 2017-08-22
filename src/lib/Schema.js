@@ -10,8 +10,6 @@ import Type from "lib/Type"
 class Schema extends Base {
   /**
    * Describe GraphQL schema using chainable interface
-   *
-   * @api public
    */
   constructor() {
     super()
@@ -24,10 +22,10 @@ class Schema extends Base {
   /**
    * Define root type on schema
    *
-   * @param string name – type name
-   * @param string description – type description
+   * @param {string} name – type name
+   * @param {string} description – type description
    *
-   * @return Type
+   * @return {Type}
    */
   __setRootType(rootType, name, description, interfaces, isTypeOf) {
     const setField = field => {
@@ -73,7 +71,7 @@ class Schema extends Base {
   /**
    * Make your GraphQL schema
    *
-   * @return GraphQLSchema
+   * @return {GraphQLSchema}
    */
   end() {
     return new GraphQLSchema({

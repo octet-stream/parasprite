@@ -24,9 +24,9 @@ class Resolver extends Base {
   /**
    * Define resolver handler
    *
-   * @param function handler
+   * @param {function} handler
    *
-   * @return Resolver
+   * @return {Resolver}
    */
   resolve(handler) {
     if (isFunction(this.__handler)) {
@@ -49,17 +49,21 @@ class Resolver extends Base {
   /**
    * Define arguments for resolver handler
    *
-   * @param string name – argument name
-   * @param object type – argument *input* type
-   * @param boolean required
+   * @param {string} name – argument name
+   * @param {object} type – argument *input* type
+   * @param {boolean} required
    *
-   * @return Resolver
+   * @return {Resolver}
    */
-  arg(name, type, required) {
+  arg(name, type, required, defaultValue) {
     type = toRequiredTypeIfNeeded(toListTypeIfNeeded(type), required)
 
     this.__arguments[name] = {
       type
+    }
+
+    if (defaultValue !== undefined) {
+      this.__arguments[name].defaultValue = defaultValue
     }
 
     return this

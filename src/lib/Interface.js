@@ -11,11 +11,9 @@ class Interface extends Type {
   /**
    * Create custim GraphQLInterfaceType using Parasprite chainable API
    *
-   * @param string name
-   * @param string description
-   * @param function resolveType
-   *
-   * @api public
+   * @param {string} name
+   * @param {string} description
+   * @param {function} resolveType
    */
   constructor(name, description, resolveType) {
     if (isFunction(description)) {

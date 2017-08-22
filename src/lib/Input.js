@@ -12,10 +12,8 @@ class Input extends Base {
   /**
    * Describe GraphQL input type
    *
-   * @param string name
-   * @param string description
-   *
-   * @api public
+   * @param {string} name
+   * @param {string} description
    */
   constructor(name, description, cb) {
     super(name, description, cb)

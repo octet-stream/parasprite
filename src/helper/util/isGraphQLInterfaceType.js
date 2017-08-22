@@ -3,9 +3,9 @@ import {GraphQLInterfaceType} from "graphql"
 /**
  * Check if given value is an isstance of GraphQLInterfaceType
  *
- * @param any val
+ * @param {any} val
  *
- * @return boolean
+ * @return {boolean}
  *
  * @api public
  */

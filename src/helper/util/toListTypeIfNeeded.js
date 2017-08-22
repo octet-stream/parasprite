@@ -9,9 +9,9 @@ const isArray = Array.isArray
  * Also, mark GraphQL type as non-null if the second element of given array
  *   is set to true.
  *
- * @param any
+ * @param {any}
  *
- * @return any
+ * @return {any}
  *
  * @api public
  */
