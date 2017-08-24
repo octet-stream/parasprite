@@ -148,7 +148,7 @@ class Type extends Base {
    *
    * @return {Resolver}
    */
-  resolve = (...args) => {
+  __setHandler = (kind, ...args) => {
     const [config] = args
 
     let name
@@ -177,8 +177,12 @@ class Type extends Base {
 
     const resolver = new Resolver(setResolver)
 
-    return resolver.resolve(handler)
+    return resolver[kind](handler)
   }
+
+  resolve = (...args) => this.__setHandler("resolve", ...args)
+
+  subscribe = (...args) => this.__setHandler("subscribe", ...args)
 
   /**
    * Build and return GraphQLObjectType
