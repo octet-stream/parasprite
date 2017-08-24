@@ -22,7 +22,7 @@ class Input extends Base {
     this._fields = {}
   }
 
-  field(name, type, description, required, defaultValue) {
+  field = (name, type, description, required, defaultValue) => {
     // FIXME: Needs review
     if (typeof description === "boolean") {
       [required, description, defaultValue] = [

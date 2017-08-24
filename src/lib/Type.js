@@ -73,7 +73,7 @@ class Type extends Base {
    *
    * @private
    */
-  __setFieldFromConfig(field) {
+  __setFieldFromConfig = field => {
     const name = field.name
 
     if (!name) {
@@ -109,7 +109,7 @@ class Type extends Base {
    *
    * @access public
    */
-  field(name, type, description, deprecationReason, required) {
+  field = (name, type, description, deprecationReason, required) => {
     if (isPlainObject(name)) {
       this.__setFieldFromConfig(name)
 
@@ -148,7 +148,7 @@ class Type extends Base {
    *
    * @return {Resolver}
    */
-  resolve(...args) {
+  resolve = (...args) => {
     const [config] = args
 
     let name

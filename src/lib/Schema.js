@@ -27,7 +27,7 @@ class Schema extends Base {
    *
    * @return {Type}
    */
-  __setRootType(rootType, name, description, interfaces, isTypeOf) {
+  __setRootType = (rootType, name, description, interfaces, isTypeOf) => {
     const setField = field => {
       this[`__${rootType}`] = field
 
@@ -46,27 +46,21 @@ class Schema extends Base {
    *
    * @see Schema#__setRootType
    */
-  query(...args) {
-    return this.__setRootType("query", ...args)
-  }
+  query = (...args) => this.__setRootType("query", ...args)
 
   /**
    * Define mutation document
    *
    * @see Schema#__setRootType
    */
-  mutation(...args) {
-    return this.__setRootType("mutation", ...args)
-  }
+  mutation = (...args) => this.__setRootType("mutation", ...args)
 
   /**
    * Define subscription on document
    *
    * @see Schema#__setRootType
    */
-  subscription(...args) {
-    return this.__setRootType("subscription", ...args)
-  }
+  subscription = (...args) => this.__setRootType("subscription", ...args)
 
   /**
    * Make your GraphQL schema

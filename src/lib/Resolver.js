@@ -1,4 +1,6 @@
-import isFunction from "helper/util/isFunction"
+import {isFunction} from "util"
+
+import invariant from "@octetstream/invariant"
 
 import proxy from "helper/decorator/proxy"
 import apply from "helper/proxy/selfInvokingClass"
@@ -17,8 +19,27 @@ class Resolver extends Base {
   constructor(cb) {
     super(null, null, cb)
 
-    this.__handler = null
+    this.__resolve = null
     this.__arguments = {}
+  }
+
+  __setHandler = (kind, handler) => {
+    const ref = `${kind.charAt(0).toUpperCase()}${kind.slice(1)}`
+
+    invariant(
+      isFunction(this[`__${kind}`]),
+      "%s handler already exists. " +
+      "Add this resolver to current object type " +
+      "before describe the new one.", ref
+    )
+
+    invariant(
+      !isFunction(handler), TypeError, "%s handler should be a function.", ref
+    )
+
+    this[`__${kind}`] = handler
+
+    return this
   }
 
   /**
@@ -28,23 +49,9 @@ class Resolver extends Base {
    *
    * @return {Resolver}
    */
-  resolve(handler) {
-    if (isFunction(this.__handler)) {
-      throw new Error(
-        "Resolve handler already exists. " +
-        "Add this resolver to current object type " +
-        "before describe the new one."
-      )
-    }
+  resolve = handler => this.__setHandler("resolve", handler)
 
-    if (!isFunction(handler)) {
-      throw new TypeError("Resolve handler should be a function.")
-    }
-
-    this.__handler = handler
-
-    return this
-  }
+  subscribe = handler => this.__setHandler("subscribe", handler)
 
   /**
    * Define arguments for resolver handler
@@ -55,7 +62,7 @@ class Resolver extends Base {
    *
    * @return {Resolver}
    */
-  arg(name, type, required, defaultValue) {
+  arg = (name, type, required, defaultValue) => {
     type = toRequiredTypeIfNeeded(toListTypeIfNeeded(type), required)
 
     this.__arguments[name] = {
@@ -74,7 +81,7 @@ class Resolver extends Base {
    */
   end() {
     return super.end({
-      resolve: this.__handler,
+      resolve: this.__resolve,
       args: this.__arguments
     })
   }
