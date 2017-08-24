@@ -135,19 +135,6 @@ class Type extends Base {
     return this
   }
 
-  /**
-   * Add resolver field to current type
-   *
-   * @param {string} name
-   * @param {object} type
-   * @param {string} description
-   * @param {string} deprecationReason – the message that will be displayed as
-   *   field deprecation note.
-   * @param {boolean} required – should field be non-null?
-   * @param {function} handler
-   *
-   * @return {Resolver}
-   */
   __setHandler = (kind, ...args) => {
     const [config] = args
 
@@ -180,6 +167,19 @@ class Type extends Base {
     return resolver[kind](handler)
   }
 
+  /**
+   * Add resolver field to current type
+   *
+   * @param {string} name
+   * @param {object} type
+   * @param {string} description
+   * @param {string} deprecationReason – the message that will be displayed as
+   *   field deprecation note.
+   * @param {boolean} required – should field be non-null?
+   * @param {function} handler
+   *
+   * @return {Resolver}
+   */
   resolve = (...args) => this.__setHandler("resolve", ...args)
 
   subscribe = (...args) => this.__setHandler("subscribe", ...args)
