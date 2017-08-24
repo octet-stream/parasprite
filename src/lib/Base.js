@@ -14,6 +14,8 @@ class Base {
 
     this._name = name
     this._description = description
+
+    this.end = this.end.bind(this)
   }
 
   end(data) {
