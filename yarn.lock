@@ -44,9 +44,9 @@
   dependencies:
     arrify "^1.0.1"
 
-"@octetstream/invariant@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@octetstream/invariant/-/invariant-1.0.1.tgz#d5b212ae6a5e74f614a4e8047c1daa713d65235b"
+"@octetstream/invariant@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@octetstream/invariant/-/invariant-1.0.2.tgz#d45ed5f0d532cf46cee2fd10d520584678b15fe1"
   dependencies:
     lodash.isfunction "3.0.8"
     lodash.isstring "4.0.1"
