@@ -142,9 +142,9 @@ class Type extends Base {
     let handler
     if (isPlainObject(config)) {
       name = config.name
-      handler = config.handler
+      handler = config[kind]
 
-      delete config.handler
+      delete config[kind]
     } else {
       name = config
       handler = args.pop()

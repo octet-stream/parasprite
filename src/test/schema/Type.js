@@ -124,7 +124,7 @@ test("Should create resolver from config", t => {
     .resolve({
       name: "greet",
       type: GraphQLString,
-      handler: greeter
+      resolve: greeter
     })
       .arg("name", GraphQLString)
     .end()
