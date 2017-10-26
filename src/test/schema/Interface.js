@@ -25,8 +25,8 @@ test("Should create an interface with a given params", t => {
   }
 
   const ICharacter = Interface(
-      "ICharacter", "Represends a typical character interface"
-    )
+    "ICharacter", "Represends a typical character interface"
+  )
     .field("name", GraphQLString, "Represends a character name")
   .end()
 
@@ -40,12 +40,11 @@ test("Should create an interface with a given params", t => {
 test(
   "Should also create an Interface without description, but with resolveType",
   t => {
-    t.plan(3)
+    t.plan(2)
 
     const ISomeInterface = Interface("ISomeInterface", () => {}).end()
 
     t.true(ISomeInterface instanceof GraphQLInterfaceType)
-    t.falsy()
     t.is(typeof ISomeInterface.resolveType, "function")
   }
 )

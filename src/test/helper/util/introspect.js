@@ -29,7 +29,7 @@ test("Should have additional methods on default export", t => {
 test("Should return a promise", t => {
   t.plan(1)
 
-  const introspect = mockIntrospectHelperDeps({
+  const mockedIntrospect = mockIntrospectHelperDeps({
     fs: {
       writeFile() {
         // noop
@@ -37,7 +37,7 @@ test("Should return a promise", t => {
     }
   })
 
-  const res = introspect.default(schema, __dirname, {spaces: 2})
+  const res = mockedIntrospect.default(schema, __dirname, {spaces: 2})
 
   t.true(res instanceof Promise)
 })

@@ -28,5 +28,4 @@ test("Should return GraphQLNonNull type when the second argument is true",
     t.true(
       toRequiredTypeIfNeeded(GraphQLString, true) instanceof GraphQLNonNull
     )
-  }
-)
+  })

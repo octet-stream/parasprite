@@ -12,21 +12,136 @@ Describe your GraphQL schema using chainable interface
 
 * Node.js >= 6
 
-* GraphQL.js 0.10.x (see [installation section](https://github.com/octet-stream/parasprite#installation))
+* GraphQL.js >=0.10.x (see [installation section](https://github.com/octet-stream/parasprite#installation))
 
 ## Installation
 
 You can install parasprite from NPM:
 
 ```sh
-npm install --save parasprite graphql@0.10.x
+npm install --save parasprite graphql@>=0.10.x
 ```
 
 or YARN:
 
 ```
-yarn add parasprite graphql@0.10.x
+yarn add parasprite graphql@>=0.10.x
 ```
+
+## API
+
+Parasprite has classes that help you describe GraphQL schema with chains.
+
+**Note: You can invoke these classes without "new" keyword, just like a function**
+
+### constructor Schema()
+
+Main class that defines GraphQL schema.
+
+Available methods:
+
+#### `query(name[, description]) -> {Type}`
+
+  - **{string}** name – Name for root Query type
+  - **{string}** [description = undefined] – Description for root Query type
+
+Define Query with given name and description.
+
+#### `mutation(name[, description]) -> {Type}`
+
+  - **{string}** name – Name for root Mutation type
+  - **{string}** [description = undefined] – Description for root Mutation type
+
+Define Mutation with given name and description.
+
+### `subscription(name[, description]) -> {Type}`
+
+  - **{string}** name – Name for root Subscription type
+  - **{string}** [description = undefined] – Description for root Subscription type
+
+Define Subscription with given name and description.
+
+#### `end() -> {GraphQLSchema}`
+
+Make GraphQLSchema.
+
+### `constructor Type(name[, description, interfaces, isTypeOf])`
+
+  - **{string}** name – Name for object type
+  - **{string}** [description = undefined] – Description for object type
+  - **{GrphQLInterfaceType | GrphQLInterfaceType[]}** [interfaces = null]
+  - **{Function}** [isTypeOf = null]
+
+This class helps you describe GraphQLObjectType.
+
+Available methods:
+
+#### `field(name, type[, description, deprecationReason, required]) -> {Type}`
+
+  - **{string | object}** name
+  - **{string | any[]}** type
+  - **{string}** [description = undefined]
+  - **{string}** [deprecationReason = undefined]
+  - **{boolean}** [required = false] – If set to `true`, the field type will be marked as non-null.
+
+Note that you've passed an **object** as the fist argument,
+keys should be named as the parameters from above.
+
+Define one field on `GraphQLObjectType`.
+
+Returns current instance of Type class.
+
+#### `resolve(name, type[, description, deprecationReason, required], handler) -> {Resolve}`
+
+  - **{string | object}** name
+  - **{string | any[]}** type
+  - **{string}** [description = undefined]
+  - **{string}** [deprecationReason = undefined]
+  - **{boolean}** [required = false] – If set to `true`, the field type will be marked as non-null.
+  - **{Function}** handler – a function that will be used as resover for this field
+
+Define resolver on current `GraphQLObjectType`
+
+#### `end() -> {GraphQLObjectType}`
+
+Make a `GraphQLObjectType`.
+
+### `constructor Input(name[, description])`
+
+  - **{string}** name – Name for object type
+  - **{string}** description – Description for object type
+
+#### `field(name, type[, description, required, defaultValue]) -> {Input}`
+
+  - **{string | object}** name
+  - **{string | any[]}** type
+  - **{string}** [description = undefined]
+  - **{boolean}** [required = false] – If set to `true`, the field type will be marked as non-null.
+  - **{any}** [defaultValue = undefined] – default value for this field (`undefined` means there is no default value)
+
+### `constructor Interface(name[, description], resolveType)`
+
+Create a custum GraphQLInterfaceType using Parasprite chainable API
+
+See [Type](https://github.com/octet-stream/parasprite#constructor-typename-description-interfaces-istypeof) section for more info about available methods.
+
+## Utils
+
+### `parasprite.checkTypedList(list, predicate) -> {boolean}`
+
+Check if given list contains only a valid type.
+
+### `parasprite.isInterfaceType(value) -> {boolean}`
+
+Check if given type is an GraphQLList.
+
+### `parasprite.toListType(value) -> {GraphQLList}`
+
+Create GraphQLList from given array or value
+
+### `parasprite.toRequired(value) -> {GraphQLNonNull}`
+
+Mark given value as non-null.
 
 ## Usage
 
@@ -105,118 +220,6 @@ schema {
   query: Query
 }
 ```
-
-## API
-
-Parasprite has classes that help you describe GraphQL schema with chains.
-
-**Note: You can invoke these classes without "new" keyword, just like a function**
-
-### constructor Schema()
-
-Main class that defines GraphQL schema.
-
-Available methods:
-
-#### query(name[, description]) -> Type
-
-  - string **name** – Name for root Query type
-  - string **description** – Description for root Query type
-
-Define Query with given name and description.
-
-#### mutation(name[, description]) -> Type
-
-  - string **name** – Name for root Mutation type
-  - string **description** – Description for root Mutation type
-
-Define Mutation with given name and description.
-
-### subscription(name[, description]) -> Type
-
-  - string **name** – Name for root Subscription type
-  - string **description** – Description for root Subscription type
-
-Define Subscription with given name and description.
-
-#### end() -> GraphQLSchema
-
-Make GraphQLSchema.
-
-### constructor Type(name[, description, interfaces, isTypeOf])
-
-  - string **name** – Name for object type
-  - string **description** – Description for object type
-  - GrphQLInterfaceType | GrphQLInterfaceType[] **interfaces**
-  - function **isTypeOf**
-
-This class helps you describe GraphQLObjectType.
-
-Available methods:
-
-#### field(name, type[, description, deprecationReason, required]) -> Type
-
-  - string | object **name**
-  - string | any[] **type**
-  - string **description**
-  - string **deprecationReason**
-  - boolean **required** – If set to `true`, the field type will be marked as non-null.
-
-Define one field on `GraphQLObjectType`.
-
-Returns current instance of Type class.
-
-#### resolve(name, type[, description, deprecationReason, required], handler) -> Resolve
-
-  - string | object **name**
-  - string | any[] **type**
-  - string **description**
-  - string **deprecationReason**
-  - boolean **required** – If set to `true`, the field type will be marked as non-null.
-  - function **handler** – a function that will be used as resover for this field
-
-Define resolver on current `GraphQLObjectType`
-
-#### end() -> GraphQLObjectType
-
-Make `GraphQLObjectType`.
-
-### constructor Input(name[, description])
-
-  - string **name** – Name for object type
-  - string **description** – Description for object type
-
-#### field(name, type[, description, required, defaultValue]) -> Input
-
-  - string | object **name**
-  - string | any[] **type**
-  - string **description**
-  - boolean **required** – If set to `true`, the field type will be marked as non-null.
-  - any **defaultValue** – default value for this field
-
-### constructor Interface(name[, description], resolveType)
-
-Create custim GraphQLInterfaceType using Parasprite chainable API
-
-See [Type](https://github.com/octet-stream/parasprite#constructor-typename-description-interfaces-istypeof) section for more info about available methods.
-
-## Utils
-
-### parasprite.checkTypedList(list, predicate) -> boolean
-
-Check if given list contains only a valid type.
-
-### parasprite.isInterfaceType(value) -> boolean
-
-Check if given type is an GraphQLList.
-
-### parasprite.toListType(value) -> GraphQLList
-
-Create GraphQLList from given array or value
-
-### parasprite.toRequired(value) -> GraphQLNonNull
-
-Mark given value as non-null.
 
 ## Roadmap:
 
