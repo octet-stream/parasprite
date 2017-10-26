@@ -34,7 +34,7 @@ Parasprite has classes that help you describe GraphQL schema with chains.
 
 **Note: You can invoke these classes without "new" keyword, just like a function**
 
-### constructor Schema()
+### `constructor Schema()`
 
 Main class that defines GraphQL schema.
 
