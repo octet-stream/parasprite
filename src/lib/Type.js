@@ -95,6 +95,11 @@ class Type extends Base {
     }
   }
 
+  // TODO: Implement types extension
+  // __extend = parent => {
+  //   const fields = parent.getFileds()
+  // }
+
   /**
    * Add a field to Type
    *
