@@ -111,13 +111,14 @@ Make a `GraphQLObjectType`.
   - **{string}** name – Name for object type
   - **{string}** description – Description for object type
 
-#### `field(name, type[, description, required, defaultValue]) -> {Input}`
+#### `field(options) -> {Input}`
 
-  - **{string | object}** name
-  - **{string | any[]}** type
-  - **{string}** [description = undefined]
-  - **{boolean}** [required = false] – If set to `true`, the field type will be marked as non-null.
-  - **{any}** [defaultValue = undefined] – default value for this field (`undefined` means there is no default value)
+  - **{object}** options – A field declaration options with the following properties:
+    + **{string}** name
+    + **{string | any[]}** type
+    + **{string}** [description = undefined]
+    + **{boolean}** [required = false] – If set to `true`, the field type will be marked as non-null.
+    + **{any}** [defaultValue = undefined] – default value for this field (`undefined` means there is no default value)
 
 ### `constructor Interface(name[, description], resolveType)`
 
@@ -227,7 +228,7 @@ schema {
   - [x] ~~Input types~~;
   - [x] ~~Test~~;
   - [x] ~~Interfaces~~ (documentation in progress);
-  - [ ] Fragments;
+  - [ ] Extending for Type;
   - [ ] Documentation (still in progress);
   - [ ] Complex working examples (as external repo)
 

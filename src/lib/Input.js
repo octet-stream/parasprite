@@ -1,9 +1,13 @@
 import {GraphQLInputObjectType} from "graphql"
 
+import invariant from "@octetstream/invariant"
+import isPlainObject from "lodash.isplainobject"
+
 import proxy from "helper/decorator/proxy"
 import apply from "helper/proxy/selfInvokingClass"
-import toListTypeIfNeeded from "helper/util/toListTypeIfNeeded"
-import toRequiredTypeIfNeeded from "helper/util/toRequiredTypeIfNeeded"
+import getType from "helper/util/getType"
+import toListIfNeeded from "helper/util/toListTypeIfNeeded"
+import toRequiredIfNeeded from "helper/util/toRequiredTypeIfNeeded"
 
 import Base from "lib/Base"
 
@@ -15,28 +19,37 @@ class Input extends Base {
    * @param {string} name
    * @param {string} description
    */
-  constructor(name, description, cb) {
-    super(name, description, cb)
+  constructor(name, description) {
+    if (isPlainObject(name)) {
+      [name, description] = [name.name, name.description]
+    }
 
-    // protected members
+    super(name, description)
+
+    /**
+     * @protected
+     */
     this._fields = {}
   }
 
-  field = (name, type, description, required, defaultValue) => {
-    // FIXME: Needs review
-    if (typeof description === "boolean") {
-      [required, description, defaultValue] = [
-        description, undefined, required
-      ]
-    }
+  /**
+   * @param {object} options
+   */
+  field = options => {
+    invariant(
+      !isPlainObject(options), TypeError,
+      "Expected an object of the field options. Received %s", getType(options)
+    )
 
-    // Convert given type to GraphQLList if it is an array
-    //   Also, mark returned type as non-null if needed
-    type = toRequiredTypeIfNeeded(toListTypeIfNeeded(type), required)
+    const {name, description, required} = options
 
-    this._fields[name] = {
-      type, defaultValue, description
-    }
+    const deprecationReason = options.deprecationReason || options.deprecate
+
+    const defaultValue = options.defaultValue || options.default
+
+    const type = toRequiredIfNeeded(toListIfNeeded(options.type), required)
+
+    this._fields[name] = {type, description, defaultValue, deprecationReason}
 
     return this
   }
