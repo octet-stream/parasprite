@@ -18,7 +18,7 @@ Describe your GraphQL schema using chainable interface
 
 You can install parasprite from NPM:
 
-```sh
+```
 npm install --save parasprite graphql@>=0.10.x
 ```
 
@@ -76,10 +76,10 @@ This class helps you describe GraphQLObjectType.
 
 #### Instance methods
 
-##### `field(name, type[, description, deprecationReason, required]) -> {Type}`
+##### `field(options) -> {Type}`
 
   - **{object}** options – A field declaration options with the following properties:
-    + **{string | object}** name
+    + **{string}** name
     + **{string | any[]}** type
     + **{string}** [description = undefined]
     + **{string}** [deprecationReason = undefined]
@@ -92,14 +92,29 @@ Define one field on `GraphQLObjectType`.
 
 Returns current instance of Type class.
 
-##### `resolve(name, type[, description, deprecationReason, required], handler) -> {Resolve}`
+##### `resolve(options) -> {Resolve}`
 
-  - **{string | object}** name
-  - **{string | any[]}** type
-  - **{string}** [description = undefined]
-  - **{string}** [deprecationReason = undefined]
-  - **{boolean}** [required = false] – If set to `true`, the field type will be marked as non-null.
-  - **{Function}** handler – a function that will be used as resover for this field
+Add a new **resolve** field with the handler.
+
+  - **{object}** options – A field declaration options with the following properties:
+    + **{string}** name
+    + **{string | any[]}** type
+    + **{string}** [description = undefined]
+    + **{string}** [deprecationReason = undefined]
+    + **{boolean}** [required = false] – If set to `true`, the field type will be marked as non-null.
+    + **{Function}** handler – a function that will be used as resover for this field
+
+##### `subscribe(options) -> {Resolve}`
+
+Add a new **subscribe** field with the handler.
+
+  - **{object}** options – A field declaration options with the following properties:
+    + **{string}** name
+    + **{string | any[]}** type
+    + **{string}** [description = undefined]
+    + **{string}** [deprecationReason = undefined]
+    + **{boolean}** [required = false] – If set to `true`, the field type will be marked as non-null.
+    + **{Function}** handler – a function that will be used as subscriber for this field
 
 Define resolver on current `GraphQLObjectType`
 

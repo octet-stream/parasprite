@@ -18,7 +18,7 @@ const schema = Schema()
       name: "phrase",
       type: TString,
       required: true,
-      resolve: () => "Let's go, pal."
+      handler: () => "Let's go, pal."
     })
     .end()
   .end()

@@ -77,6 +77,37 @@ class Type extends Base {
   // }
 
   /**
+   * @private
+   */
+  __setHandler = (kind, options) => {
+    const name = options.name
+
+    invariant(!name, "Field name is required, but not given.")
+
+    invariant(
+      !isString(name), TypeError,
+      "Field name should be a string. Received %s", getType(name)
+    )
+
+    // Create a new field first
+    this.field(options)
+
+    const setResolver = resolver => {
+      const field = {
+        ...this._fields[name], ...resolver
+      }
+
+      this._fields[name] = field
+
+      return this
+    }
+
+    const resolver = new Resolver(setResolver)
+
+    return resolver[kind](options.handler)
+  }
+
+  /**
    * Add a field to Type
    *
    * @param {string} name
@@ -117,42 +148,9 @@ class Type extends Base {
 
     const type = toRequiredIfNeeded(toListIfNeeded(options.type), required)
 
-    // TODO: Merge resolvers with the field
     this._fields[name] = {type, description, deprecationReason}
 
     return this
-  }
-
-  __setHandler = (kind, ...args) => {
-    const [config] = args
-
-    let name
-    let handler
-    if (isPlainObject(config)) {
-      name = config.name
-      handler = config[kind]
-
-      delete config[kind]
-    } else {
-      name = config
-      handler = args.pop()
-    }
-
-    this.field(...args)
-
-    const setResolver = resolver => {
-      const field = {
-        ...this._fields[name], ...resolver
-      }
-
-      this._fields[name] = field
-
-      return this
-    }
-
-    const resolver = new Resolver(setResolver)
-
-    return resolver[kind](handler)
   }
 
   /**

@@ -57,7 +57,7 @@ test("Should return an instance of GraphQLSchema with valid fields", t => {
       .resolve({
         name: "greeter",
         type: GraphQLString,
-        resolve() {}
+        handler() {}
       })
         .arg("name", GraphQLString)
       .end()
@@ -66,7 +66,7 @@ test("Should return an instance of GraphQLSchema with valid fields", t => {
       .resolve({
         name: "uploadImage",
         type: GraphQLString,
-        resolve() {}
+        handler() {}
       })
         .arg("image", TInFile)
       .end()
@@ -75,7 +75,7 @@ test("Should return an instance of GraphQLSchema with valid fields", t => {
       .resolve({
         name: "someMethod",
         type: GraphQLString,
-        resolve() {}
+        handler() {}
       })
         .arg("someArg", GraphQLString)
       .end()
@@ -119,7 +119,7 @@ test("Should also make schema with a predifined query", t => {
     .resolve({
       name: "greeter",
       type: GraphQLString,
-      resolve() {}
+      handler() {}
     })
       .arg("name", GraphQLString)
     .end()
