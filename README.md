@@ -8,6 +8,10 @@ Describe your GraphQL schema using chainable interface
 [![dependencies Status](https://david-dm.org/octet-stream/parasprite/status.svg)](https://david-dm.org/octet-stream/parasprite)
 [![devDependencies Status](https://david-dm.org/octet-stream/parasprite/dev-status.svg)](https://david-dm.org/octet-stream/parasprite?type=dev)
 
+**IMPORTANT!** Starting from v1.0.0-beta.1 the parasprite API contain breaking changes
+in types declarations and incompatible with the 0.6.x version.
+See [API](#api) section for more information.
+
 ## Requirements
 
 * Node.js >= 6
