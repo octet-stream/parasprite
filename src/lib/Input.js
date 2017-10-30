@@ -34,6 +34,8 @@ class Input extends Base {
 
   /**
    * @param {object} options
+   *
+   * @return {Input}
    */
   field = options => {
     invariant(

@@ -38,16 +38,16 @@ Parasprite has classes that help you describe GraphQL schema with chains.
 
 Main class that defines GraphQL schema.
 
-Available methods:
+#### Instance methods
 
-#### `query(name[, description]) -> {Type}`
+##### `query(name[, description]) -> {Type}`
 
   - **{string}** name – Name for root Query type
   - **{string}** [description = undefined] – Description for root Query type
 
 Define Query with given name and description.
 
-#### `mutation(name[, description]) -> {Type}`
+##### `mutation(name[, description]) -> {Type}`
 
   - **{string}** name – Name for root Mutation type
   - **{string}** [description = undefined] – Description for root Mutation type
@@ -61,7 +61,7 @@ Define Mutation with given name and description.
 
 Define Subscription with given name and description.
 
-#### `end() -> {GraphQLSchema}`
+##### `end() -> {GraphQLSchema}`
 
 Make GraphQLSchema.
 
@@ -74,9 +74,9 @@ Make GraphQLSchema.
 
 This class helps you describe GraphQLObjectType.
 
-Available methods:
+#### Instance methods
 
-#### `field(name, type[, description, deprecationReason, required]) -> {Type}`
+##### `field(name, type[, description, deprecationReason, required]) -> {Type}`
 
   - **{string | object}** name
   - **{string | any[]}** type
@@ -91,7 +91,7 @@ Define one field on `GraphQLObjectType`.
 
 Returns current instance of Type class.
 
-#### `resolve(name, type[, description, deprecationReason, required], handler) -> {Resolve}`
+##### `resolve(name, type[, description, deprecationReason, required], handler) -> {Resolve}`
 
   - **{string | object}** name
   - **{string | any[]}** type
@@ -102,7 +102,7 @@ Returns current instance of Type class.
 
 Define resolver on current `GraphQLObjectType`
 
-#### `end() -> {GraphQLObjectType}`
+##### `end() -> {GraphQLObjectType}`
 
 Make a `GraphQLObjectType`.
 
@@ -111,7 +111,9 @@ Make a `GraphQLObjectType`.
   - **{string}** name – Name for object type
   - **{string}** description – Description for object type
 
-#### `field(options) -> {Input}`
+#### Instance methods
+
+##### `field(options) -> {Input}`
 
   - **{object}** options – A field declaration options with the following properties:
     + **{string}** name
@@ -128,19 +130,19 @@ See [Type](https://github.com/octet-stream/parasprite#constructor-typename-descr
 
 ## Utils
 
-### `parasprite.checkTypedList(list, predicate) -> {boolean}`
+##### `parasprite.checkTypedList(list, predicate) -> {boolean}`
 
 Check if given list contains only a valid type.
 
-### `parasprite.isInterfaceType(value) -> {boolean}`
+##### `parasprite.isInterfaceType(value) -> {boolean}`
 
 Check if given type is an GraphQLList.
 
-### `parasprite.toListType(value) -> {GraphQLList}`
+##### `parasprite.toListType(value) -> {GraphQLList}`
 
 Create GraphQLList from given array or value
 
-### `parasprite.toRequired(value) -> {GraphQLNonNull}`
+##### `parasprite.toRequired(value) -> {GraphQLNonNull}`
 
 Mark given value as non-null.
 
