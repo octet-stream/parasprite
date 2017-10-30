@@ -1,4 +1,6 @@
-import {GraphQLInputObjectType} from "graphql"
+import {isString} from "util"
+
+import {GraphQLInputObjectType, isType} from "graphql"
 
 import invariant from "@octetstream/invariant"
 import isPlainObject from "lodash.isplainobject"
@@ -10,6 +12,8 @@ import toListIfNeeded from "helper/util/toListTypeIfNeeded"
 import toRequiredIfNeeded from "helper/util/toRequiredTypeIfNeeded"
 
 import Base from "lib/Base"
+
+const isArray = Array.isArray
 
 @proxy({apply})
 class Input extends Base {
@@ -38,12 +42,29 @@ class Input extends Base {
    * @return {Input}
    */
   field = options => {
+    // TODO: Dont forget to add a checking of required fields
+    //   such as "name" and "type"
     invariant(
       !isPlainObject(options), TypeError,
       "Expected an object of the field options. Received %s", getType(options)
     )
 
     const {name, description, required} = options
+
+    invariant(
+      !isString(name), TypeError,
+      "Field name should be a string. Received %s", getType(name)
+    )
+
+    invariant(!name, "Field name is required, but not given.")
+
+    invariant(
+      (
+        !isType(options.type) ||
+        (isArray(options.type) && !isType(options.type[0]))
+      ), TypeError,
+      "Given options.type property should be one of supported GraphQL types."
+    )
 
     const deprecationReason = options.deprecationReason || options.deprecate
 

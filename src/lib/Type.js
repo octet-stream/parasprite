@@ -1,12 +1,15 @@
 import {isString} from "util"
 
-import {GraphQLObjectType} from "graphql"
+import {GraphQLObjectType, isType} from "graphql"
+
 import isPlainObject from "lodash.isplainobject"
+import invariant from "@octetstream/invariant"
 
 import proxy from "helper/decorator/proxy"
 import apply from "helper/proxy/selfInvokingClass"
-import toListTypeIfNeeded from "helper/util/toListTypeIfNeeded"
-import toRequiredTypeIfNeeded from "helper/util/toRequiredTypeIfNeeded"
+import getType from "helper/util/getType"
+import toListIfNeeded from "helper/util/toListTypeIfNeeded"
+import toRequiredIfNeeded from "helper/util/toRequiredTypeIfNeeded"
 import isGraphQLInterfaceType from "helper/util/isGraphQLInterfaceType"
 import checkTypedList from "helper/util/checkTypedList"
 import isFunction from "helper/util/isFunction"
@@ -68,33 +71,6 @@ class Type extends Base {
     if (isTypeOf) this.__isTypeOf = isTypeOf
   }
 
-  /**
-   * Set a field from given configuration object
-   *
-   * @private
-   */
-  __setFieldFromConfig = field => {
-    const name = field.name
-
-    if (!name) {
-      throw new TypeError("Field config should have \"name\" property.")
-    }
-
-    field.type = toListTypeIfNeeded(field.type)
-
-    delete field.name
-
-    if (field.required) {
-      field.type = toRequiredTypeIfNeeded(field.type, field.required)
-
-      delete field.required
-    }
-
-    this._fields[name] = {
-      ...field
-    }
-  }
-
   // TODO: Implement types extension
   // __extend = parent => {
   //   const fields = parent.getFileds()
@@ -114,28 +90,35 @@ class Type extends Base {
    *
    * @access public
    */
-  field = (name, type, description, deprecationReason, required) => {
-    if (isPlainObject(name)) {
-      this.__setFieldFromConfig(name)
+  field = options => {
+    invariant(
+      !isPlainObject(options), TypeError,
+      "Expected an object of the field options. Received %s", getType(options)
+    )
 
-      return this
-    }
+    const {name, description, required} = options
 
-    if (typeof description === "boolean") {
-      [required, description, deprecationReason] = [
-        description, undefined, undefined
-      ]
-    } else if (typeof deprecationReason === "boolean") {
-      [required, deprecationReason] = [deprecationReason, undefined]
-    }
+    invariant(!name, "Field name is required, but not given.")
 
-    // Convert given type to GraphQLList if it is an array
-    //   Also, mark returned type as non-null if needed
-    type = toRequiredTypeIfNeeded(toListTypeIfNeeded(type), required)
+    invariant(
+      !isString(name), TypeError,
+      "Field name should be a string. Received %s", getType(name)
+    )
 
-    this._fields[name] = {
-      type, description, deprecationReason
-    }
+    invariant(
+      (
+        !isType(options.type) ||
+        (isArray(options.type) && !isType(options.type[0]))
+      ), TypeError,
+      "Given options.type property should be one of supported GraphQL types."
+    )
+
+    const deprecationReason = options.deprecationReason || options.deprecate
+
+    const type = toRequiredIfNeeded(toListIfNeeded(options.type), required)
+
+    // TODO: Merge resolvers with the field
+    this._fields[name] = {type, description, deprecationReason}
 
     return this
   }

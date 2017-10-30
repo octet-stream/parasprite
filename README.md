@@ -78,11 +78,12 @@ This class helps you describe GraphQLObjectType.
 
 ##### `field(name, type[, description, deprecationReason, required]) -> {Type}`
 
-  - **{string | object}** name
-  - **{string | any[]}** type
-  - **{string}** [description = undefined]
-  - **{string}** [deprecationReason = undefined]
-  - **{boolean}** [required = false] – If set to `true`, the field type will be marked as non-null.
+  - **{object}** options – A field declaration options with the following properties:
+    + **{string | object}** name
+    + **{string | any[]}** type
+    + **{string}** [description = undefined]
+    + **{string}** [deprecationReason = undefined]
+    + **{boolean}** [required = false] – If set to `true`, the field type will be marked as non-null.
 
 Note that you've passed an **object** as the fist argument,
 keys should be named as the parameters from above.
