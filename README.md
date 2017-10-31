@@ -10,6 +10,8 @@ Describe your GraphQL schema using chainable interface
 
 **IMPORTANT!** Starting from v1.0.0-beta.1 the parasprite API contain breaking changes
 in types declarations and incompatible with the 0.6.x version.
+**From 1.x version you should pass a field declaration options in a single object.**
+
 See [API](#api) section for more information.
 
 ## Requirements
