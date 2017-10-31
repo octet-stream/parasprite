@@ -136,17 +136,16 @@ class Type extends Base {
       "Field name should be a string. Received %s", getType(name)
     )
 
+    let type = options.type
+
     invariant(
-      (
-        !isType(options.type) ||
-        (isArray(options.type) && !isType(options.type[0]))
-      ), TypeError,
+      !isType(isArray(type) ? type[0] : type), TypeError,
       "Given options.type property should be one of supported GraphQL types."
     )
 
     const deprecationReason = options.deprecationReason || options.deprecate
 
-    const type = toRequiredIfNeeded(toListIfNeeded(options.type), required)
+    type = toRequiredIfNeeded(toListIfNeeded(options.type), required)
 
     this._fields[name] = {type, description, deprecationReason}
 

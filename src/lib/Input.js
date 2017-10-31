@@ -58,11 +58,10 @@ class Input extends Base {
 
     invariant(!name, "Field name is required, but not given.")
 
+    let type = options.type
+
     invariant(
-      (
-        !isType(options.type) ||
-        (isArray(options.type) && !isType(options.type[0]))
-      ), TypeError,
+      !isType(isArray(type) ? type[0] : type), TypeError,
       "Given options.type property should be one of supported GraphQL types."
     )
 
@@ -70,7 +69,7 @@ class Input extends Base {
 
     const defaultValue = options.defaultValue || options.default
 
-    const type = toRequiredIfNeeded(toListIfNeeded(options.type), required)
+    type = toRequiredIfNeeded(toListIfNeeded(options.type), required)
 
     this._fields[name] = {type, description, defaultValue, deprecationReason}
 

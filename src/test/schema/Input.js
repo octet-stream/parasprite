@@ -71,7 +71,7 @@ test("Should mark type as non-null when \"required\" parameter is true", t => {
       .field({
         name: "someField",
         description: "Some description",
-        type: GraphQLString,
+        type: [GraphQLString, false],
         required: true
       })
     .end()

@@ -44,9 +44,9 @@
   dependencies:
     arrify "^1.0.1"
 
-"@octetstream/eslint-config@2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@octetstream/eslint-config/-/eslint-config-2.0.2.tgz#9f7368808a37731406c2783cd69a0aa11f40c885"
+"@octetstream/eslint-config@2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@octetstream/eslint-config/-/eslint-config-2.1.0.tgz#052663c5d384488ee2b80b7662e49c24a3c51860"
   dependencies:
     babel-eslint "^7.2.3"
     eslint-config-airbnb-base "12.0.0"
@@ -58,9 +58,9 @@
   dependencies:
     sprintf-js "1.1.1"
 
-"@octetstream/promisify@1.3.1":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@octetstream/promisify/-/promisify-1.3.1.tgz#879b879ef52ed8485b156a071d55c561d14ed2f2"
+"@octetstream/promisify@1.3.2":
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/@octetstream/promisify/-/promisify-1.3.2.tgz#84be4b85030bd15ecb7bb1488b79adac5e387b22"
 
 abbrev@1:
   version "1.1.0"
@@ -1666,9 +1666,9 @@ eslint-scope@^3.7.1:
     esrecurse "^4.1.0"
     estraverse "^4.1.1"
 
-eslint@4.9.0:
-  version "4.9.0"
-  resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.9.0.tgz#76879d274068261b191fe0f2f56c74c2f4208e8b"
+eslint@4.10.0:
+  version "4.10.0"
+  resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.10.0.tgz#f25d0d7955c81968c2309aa5c9a229e045176bb7"
   dependencies:
     ajv "^5.2.0"
     babel-code-frame "^6.22.0"
