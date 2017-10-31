@@ -14,7 +14,12 @@ const mockIntrospectHelperDeps = (deps = {}) => pq(
 
 const schema = Schema()
   .query("Query")
-    .resolve("phrase", TString, true, () => "Let's go, pal.")
+    .resolve({
+      name: "phrase",
+      type: TString,
+      required: true,
+      handler: () => "Let's go, pal."
+    })
     .end()
   .end()
 .end()

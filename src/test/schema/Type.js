@@ -6,6 +6,7 @@ import {
   GraphQLString,
   GraphQLNonNull
 } from "graphql"
+
 import isFunction from "helper/util/isFunction"
 
 import Base from "lib/Base"
@@ -13,9 +14,7 @@ import Interface from "lib/Interface"
 import Type from "lib/Type"
 
 test("Should be a class that extends Base", t => {
-  t.plan(2)
-
-  t.true(isFunction(Type))
+  t.plan(1)
 
   const TSomeType = Type("TSomeType")
 
@@ -33,7 +32,7 @@ test(
   }
 )
 
-test("Should also create Type with name and isTypeOf function", t => {
+test("Should create Type with name and isTypeOf function", t => {
   t.plan(2)
 
   const TFoo = Type("TFoo", () => {}).end()
@@ -64,8 +63,12 @@ test("Should create a field with given params", t => {
   }
 
   const TSomeType = Type("TMyObjectType")
-      .field("someField", GraphQLString, "Some description", false)
-    .end()
+    .field({
+      name: "someField",
+      type: GraphQLString,
+      description: "Some description"
+    })
+  .end()
 
   const fields = TSomeType.getFields()
 
@@ -76,43 +79,16 @@ test("Should mark type as non-null when \"required\" parameter is true", t => {
   t.plan(1)
 
   const TSomeType = Type("TSomeType", "Some type description")
-      .field("someField", GraphQLString, true)
-    .end()
+    .field({
+      name: "someField",
+      type: GraphQLString,
+      required: true
+    })
+  .end()
 
   const {someField} = TSomeType.getFields()
 
   t.true(someField.type instanceof GraphQLNonNull)
-})
-
-test("Should also create a field from given object", t => {
-  t.plan(3)
-
-  const expectedFileds = {
-    name: {
-      name: "name",
-      description: "Represends a character name",
-      type: new GraphQLNonNull(GraphQLString),
-      isDeprecated: false,
-      args: []
-    }
-  }
-
-  const TCharacter = Type("TCharacter")
-    .field({
-      name: "name",
-      description: "Represends a character name",
-      type: GraphQLString,
-      required: true
-    })
-    .end()
-
-  t.true(TCharacter instanceof GraphQLObjectType)
-
-  const actualFields = TCharacter.getFields()
-
-  t.deepEqual(expectedFileds, actualFields)
-
-  t.true(actualFields.name.type instanceof GraphQLNonNull)
 })
 
 test("Should create resolver from config", t => {
@@ -124,7 +100,7 @@ test("Should create resolver from config", t => {
     .resolve({
       name: "greet",
       type: GraphQLString,
-      resolve: greeter
+      handler: greeter
     })
       .arg("name", GraphQLString)
     .end()
@@ -138,6 +114,8 @@ test("Should create resolver from config", t => {
       type: GraphQLString,
       resolve: greeter,
       isDeprecated: false,
+      deprecationReason: undefined,
+      description: undefined,
       args: [{
         astNode: undefined,
         name: "name",
@@ -164,7 +142,10 @@ test("Should create a type with a given interface", t => {
   }
 
   const IAnimal = Interface("IAnimal")
-    .field("name", GraphQLString)
+    .field({
+      name: "name",
+      type: GraphQLString
+    })
   .end()
 
   t.true(IAnimal instanceof GraphQLInterfaceType)
@@ -172,8 +153,14 @@ test("Should create a type with a given interface", t => {
   const isTypeOf = val => val instanceof Cat
 
   const TCat = Type("TCat", "Represends a Cat type", IAnimal, isTypeOf)
-    .field("name", GraphQLString)
-    .field("meows", GraphQLString)
+    .field({
+      name: "name",
+      type: GraphQLString
+    })
+    .field({
+      name: "meows",
+      type: GraphQLString
+    })
   .end()
 
   t.true(TCat instanceof GraphQLObjectType)
@@ -196,7 +183,7 @@ test(
       type: GraphQLString
     })
 
-    t.throws(trap, "Field config should have \"name\" property.")
+    t.throws(trap, "Field name is required, but not given.")
   }
 )
 

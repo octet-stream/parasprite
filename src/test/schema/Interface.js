@@ -27,7 +27,11 @@ test("Should create an interface with a given params", t => {
   const ICharacter = Interface(
     "ICharacter", "Represends a typical character interface"
   )
-    .field("name", GraphQLString, "Represends a character name")
+    .field({
+      name: "name",
+      description: "Represends a character name",
+      type: GraphQLString
+    })
   .end()
 
   t.true(ICharacter instanceof GraphQLInterfaceType)

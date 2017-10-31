@@ -47,11 +47,16 @@ test("Should create a field with given params", t => {
       type: GraphQLString,
       description: "Some description",
       defaultValue: undefined,
+      deprecationReason: undefined
     }
   }
 
   const TSomeInputType = Input("TSomeInputType")
-      .field("someField", GraphQLString, "Some description")
+      .field({
+        name: "someField",
+        description: "Some description",
+        type: GraphQLString
+      })
     .end()
 
   const fields = TSomeInputType.getFields()
@@ -63,7 +68,12 @@ test("Should mark type as non-null when \"required\" parameter is true", t => {
   t.plan(1)
 
   const TSomeInputType = Input("TSomeInputType", "Some type description")
-      .field("someField", GraphQLString, true)
+      .field({
+        name: "someField",
+        description: "Some description",
+        type: GraphQLString,
+        required: true
+      })
     .end()
 
   const {someField} = TSomeInputType.getFields()

@@ -30,25 +30,53 @@ test("Should return an instance of GraphQLSchema with valid fields", t => {
   t.plan(7)
 
   const TInFile = Input("TInFile")
-    .field("originalName", GraphQLString, true)
-    .field("path", GraphQLString, true)
-    .field("mime", GraphQLString, true)
-    .field("enc", GraphQLString, true)
+    .field({
+      name: "originalName",
+      type: GraphQLString,
+      required: true
+    })
+    .field({
+      name: "path",
+      type: GraphQLString,
+      required: true
+    })
+    .field({
+      name: "mime",
+      type: GraphQLString,
+      required: true
+    })
+    .field({
+      name: "enc",
+      type: GraphQLString,
+      required: true
+    })
     .end()
 
   const schema = Schema()
     .query("SomeQuery")
-      .resolve("greeter", GraphQLString, () => {})
+      .resolve({
+        name: "greeter",
+        type: GraphQLString,
+        handler() {}
+      })
         .arg("name", GraphQLString)
       .end()
     .end()
     .mutation("SomeMutation")
-      .resolve("uploadImage", GraphQLString, () => {})
+      .resolve({
+        name: "uploadImage",
+        type: GraphQLString,
+        handler() {}
+      })
         .arg("image", TInFile)
       .end()
     .end()
     .subscription("SomeSubscription")
-      .resolve("someMethod", GraphQLString, () => {})
+      .resolve({
+        name: "someMethod",
+        type: GraphQLString,
+        handler() {}
+      })
         .arg("someArg", GraphQLString)
       .end()
     .end()
@@ -88,7 +116,11 @@ test("Should also make schema with a predifined query", t => {
   t.plan(3)
 
   const Query = Type("Query")
-    .resolve("greeter", GraphQLString, () => {})
+    .resolve({
+      name: "greeter",
+      type: GraphQLString,
+      handler() {}
+    })
       .arg("name", GraphQLString)
     .end()
   .end()
