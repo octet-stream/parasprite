@@ -10,9 +10,9 @@ import apply from "helper/proxy/selfInvokingClass"
 import getType from "helper/util/getType"
 import toListIfNeeded from "helper/util/toListTypeIfNeeded"
 import toRequiredIfNeeded from "helper/util/toRequiredTypeIfNeeded"
-import isGraphQLInterfaceType from "helper/util/isGraphQLInterfaceType"
-import checkTypedList from "helper/util/checkTypedList"
-import isFunction from "helper/util/isFunction"
+// import isGraphQLInterfaceType from "helper/util/isGraphQLInterfaceType"
+// import checkTypedList from "helper/util/checkTypedList"
+// import isFunction from "helper/util/isFunction"
 
 import Base from "lib/Base"
 import Resolver from "lib/Resolver"
@@ -26,49 +26,48 @@ class Type extends Base {
    *
    * @param {string} name
    * @param {string} description
-   * @param {function|function[]} interfaces
+   * @param {object} options
    * @param {function} cb (this is the private param)
    */
-  constructor(name, description, interfaces, isTypeOf, cb) {
-    if (!name) {
-      throw new TypeError("Type cannot be anonymous.")
+  constructor(...args) {
+    let [name, description, options] = args
+
+    if (isPlainObject(name)) {
+      options = {...name}
+    } else if (isPlainObject(description)) {
+      options = {...description, name}
+    } else {
+      options = {...options, name, description}
     }
 
-    if (!isString(name)) {
-      throw new TypeError("Name should be a string.")
+    [name, description] = [options.name, options.description]
+
+    invariant(!name, "Type constructor requires a name.")
+
+    invariant(
+      !isString(name), TypeError,
+      "The name should be a string. Received %s", getType(name)
+    )
+
+    super(name, description, args.slice().pop())
+
+    const isTypeOf = options.isTypeOf
+    let interfaces = options.interfaces
+
+    if (interfaces && !isArray(interfaces)) {
+      interfaces = [interfaces]
     }
-
-    if (isGraphQLInterfaceType(description) || isArray(description)) {
-      [interfaces, isTypeOf, cb, description] = [
-        description, interfaces, isTypeOf, undefined
-      ]
-    }
-
-    if (isFunction(description)) {
-      [isTypeOf, cb] = [description, interfaces]
-    }
-
-    if (interfaces) {
-      if (!isArray(interfaces)) {
-        interfaces = [interfaces]
-      }
-
-      if (!checkTypedList(interfaces, isGraphQLInterfaceType)) {
-        throw new TypeError(
-          "Interface should be an instance of " +
-          "GraphQLInterfaceType or a list of them."
-        )
-      }
-    }
-
-    super(name, description, cb)
 
     // protected members
     this._fields = {}
 
     // private members
-    if (interfaces) this.__interfaces = interfaces
-    if (isTypeOf) this.__isTypeOf = isTypeOf
+    this.__interfaces = interfaces
+    this.__isTypeOf = isTypeOf
+
+    if (options.extends) {
+      this.__extend(options.extends)
+    }
   }
 
   // TODO: Implement types extension
@@ -80,17 +79,10 @@ class Type extends Base {
    * @private
    */
   __setHandler = (kind, options) => {
-    const name = options.name
-
-    invariant(!name, "Field name is required, but not given.")
-
-    invariant(
-      !isString(name), TypeError,
-      "Field name should be a string. Received %s", getType(name)
-    )
-
     // Create a new field first
     this.field(options)
+
+    const name = options.name
 
     const setResolver = resolver => {
       const field = {

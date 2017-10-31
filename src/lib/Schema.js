@@ -22,23 +22,20 @@ class Schema extends Base {
   /**
    * Define root type on schema
    *
-   * @param {string} name – type name
-   * @param {string} description – type description
-   *
    * @return {Type}
    */
-  __setRootType = (rootType, name, description, interfaces, isTypeOf) => {
-    const setField = field => {
+  __setRootType = (rootType, ...options) => {
+    const setRootField = field => {
       this[`__${rootType}`] = field
 
       return this
     }
 
-    if (name instanceof GraphQLObjectType) {
-      return setField(name)
+    if (options[0] instanceof GraphQLObjectType) {
+      return setRootField(options[0])
     }
 
-    return new Type(name, description, interfaces, isTypeOf, setField)
+    return new Type(...options, setRootField)
   }
 
   /**

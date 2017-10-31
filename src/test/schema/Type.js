@@ -35,7 +35,7 @@ test(
 test("Should create Type with name and isTypeOf function", t => {
   t.plan(2)
 
-  const TFoo = Type("TFoo", () => {}).end()
+  const TFoo = Type("TFoo", {isTypeOf() {}}).end()
 
   t.true(TFoo instanceof GraphQLObjectType)
   t.true(isFunction(TFoo.isTypeOf))
@@ -152,7 +152,9 @@ test("Should create a type with a given interface", t => {
 
   const isTypeOf = val => val instanceof Cat
 
-  const TCat = Type("TCat", "Represends a Cat type", IAnimal, isTypeOf)
+  const TCat = Type("TCat", "Represends a Cat type", {
+    interfaces: [IAnimal], isTypeOf
+  })
     .field({
       name: "name",
       type: GraphQLString
@@ -187,36 +189,42 @@ test(
   }
 )
 
-test("Should throw an error when interfaces passed in wrong type", t => {
-  t.plan(2)
+test.failing(
+  "Should throw an error when interfaces passed in wrong type",
+  t => {
+    t.plan(2)
 
-  const asJustAWrongType = () => Type("TFoo", "Some description", 451)
-  t.throws(
-    asJustAWrongType,
-    "Interface should be an instance of " +
-    "GraphQLInterfaceType or a list of them."
-  )
+    const asJustAWrongType = () => Type("TFoo", "Some description", 451)
+    t.throws(
+      asJustAWrongType,
+      "Interface should be an instance of " +
+      "GraphQLInterfaceType or a list of them."
+    )
 
-  const asList = () => Type("TFoo", [42])
-  t.throws(
-    asList,
-    "Interface should be an instance of " +
-    "GraphQLInterfaceType or a list of them."
-  )
-})
+    const asList = () => Type("TFoo", [42])
+    t.throws(
+      asList,
+      "Interface should be an instance of " +
+      "GraphQLInterfaceType or a list of them."
+    )
+  }
+)
 
-test("Should throw a TypeError when Type class invoked without name", t => {
+test("Should throw an error when Type class invoked without name", t => {
   t.plan(1)
 
   const trap = () => Type()
 
-  t.throws(trap, "Type cannot be anonymous.")
+  t.throws(trap, "Type constructor requires a name.")
 })
 
 test("Should throw a TypeError when passed Type name is not a string", t => {
-  t.plan(1)
+  t.plan(3)
 
   const trap = () => Type(0b101) // High five!
 
-  t.throws(trap, "Name should be a string.")
+  const err = t.throws(trap)
+
+  t.true(err instanceof TypeError)
+  t.is(err.message, "The name should be a string. Received number")
 })

@@ -60,17 +60,20 @@ test(
 
     const trap = () => Interface()
 
-    t.throws(trap, "Type cannot be anonymous.")
+    t.throws(trap, "The Interface constructor requires a name.")
   }
 )
 
 test(
   "Should throw a TypeError when given Interface name is not a string",
   t => {
-    t.plan(1)
+    t.plan(3)
 
     const trap = () => Interface({})
 
-    t.throws(trap, "Name should be a string.")
+    const err = t.throws(trap)
+
+    t.true(err instanceof TypeError)
+    t.is(err.message, "The name should be a string. Received object")
   }
 )
