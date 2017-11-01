@@ -113,6 +113,7 @@ test("Should create resolver from config", t => {
       name: "greet",
       type: GraphQLString,
       resolve: greeter,
+      subscribe: undefined,
       isDeprecated: false,
       deprecationReason: undefined,
       description: undefined,
@@ -129,6 +130,47 @@ test("Should create resolver from config", t => {
   const actualFields = THello.getFields()
 
   t.deepEqual(expectedFileds, actualFields)
+})
+
+test("Should be extendable from the other object type", t => {
+  const TUserMinimal = Type("UserMinimal")
+    .field({
+      name: "login",
+      type: GraphQLString,
+      required: true
+    })
+  .end()
+
+  const TUserWithName = Type("UserWithName", {extends: TUserMinimal})
+    .field({
+      name: "name",
+      type: GraphQLString,
+      required: true
+    })
+  .end()
+
+  const expectedFileds = {
+    login: {
+      type: new GraphQLNonNull(GraphQLString),
+      description: undefined,
+      deprecationReason: undefined,
+      isDeprecated: false,
+      name: "login",
+      args: []
+    },
+    name: {
+      type: new GraphQLNonNull(GraphQLString),
+      description: undefined,
+      deprecationReason: undefined,
+      isDeprecated: false,
+      name: "name",
+      args: []
+    }
+  }
+
+  const actualFields = TUserWithName.getFields()
+
+  t.deepEqual(actualFields, expectedFileds)
 })
 
 test("Should create a type with a given interface", t => {
