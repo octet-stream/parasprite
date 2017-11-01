@@ -10,9 +10,10 @@ import apply from "helper/proxy/selfInvokingClass"
 import getType from "helper/util/getType"
 import toListIfNeeded from "helper/util/toListTypeIfNeeded"
 import toRequiredIfNeeded from "helper/util/toRequiredTypeIfNeeded"
+import objectIterator from "helper/iterator/objectIterator"
 // import isGraphQLInterfaceType from "helper/util/isGraphQLInterfaceType"
 // import checkTypedList from "helper/util/checkTypedList"
-// import isFunction from "helper/util/isFunction"
+import isFunction from "helper/util/isFunction"
 
 import Base from "lib/Base"
 import Resolver from "lib/Resolver"
@@ -71,9 +72,24 @@ class Type extends Base {
   }
 
   // TODO: Implement types extension
-  // __extend = parent => {
-  //   const fields = parent.getFileds()
-  // }
+  __extend = parent => {
+    invariant(
+      !(parent instanceof GraphQLObjectType), TypeError,
+      "Parent type should be an instance of GraphQLObjectType."
+    )
+
+    const fields = parent.getFields()
+
+    for (const [, field] of objectIterator(fields)) {
+      if (isFunction(field.subscribe)) {
+        this.subscribe(field)
+      } else if (isFunction(field.resolve)) {
+        this.resolve(field)
+      } else {
+        this.field(field)
+      }
+    }
+  }
 
   /**
    * @private

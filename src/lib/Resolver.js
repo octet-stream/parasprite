@@ -82,6 +82,7 @@ class Resolver extends Base {
   end() {
     return super.end({
       resolve: this.__resolve,
+      subscribe: this.__subscribe,
       args: this.__arguments
     })
   }
