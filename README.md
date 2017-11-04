@@ -86,7 +86,7 @@ This class helps you describe GraphQLObjectType.
 
   - **{object}** options – A field declaration options with the following properties:
     + **{string}** name
-    + **{string | any[]}** type
+    + **{string | [object, boolean]}** type – Any valid GraphQL type, or a tuple with the type and **required** flag
     + **{string}** [description = undefined]
     + **{string}** [deprecationReason = undefined]
     + **{boolean}** [required = false] – If set to `true`, the field type will be marked as non-null.
@@ -104,7 +104,7 @@ Add a new **resolve** field with the handler.
 
   - **{object}** options – A field declaration options with the following properties:
     + **{string}** name
-    + **{string | any[]}** type
+    + **{string | [object, boolean]}** type – Any valid GraphQL type, or a tuple with the type and **required** flag
     + **{string}** [description = undefined]
     + **{string}** [deprecationReason = undefined]
     + **{boolean}** [required = false] – If set to `true`, the field type will be marked as non-null.
@@ -116,7 +116,7 @@ Add a new **subscribe** field with the handler.
 
   - **{object}** options – A field declaration options with the following properties:
     + **{string}** name
-    + **{string | any[]}** type
+    + **{string | [object, boolean]}** type – Any valid GraphQL type, or a tuple with the type and **required** flag
     + **{string}** [description = undefined]
     + **{string}** [deprecationReason = undefined]
     + **{boolean}** [required = false] – If set to `true`, the field type will be marked as non-null.
@@ -139,7 +139,7 @@ Make a `GraphQLObjectType`.
 
   - **{object}** options – A field declaration options with the following properties:
     + **{string}** name
-    + **{string | any[]}** type
+    + **{string | [object, boolean]}** type – Any valid GraphQL type, or a tuple with the type and **required** flag
     + **{string}** [description = undefined]
     + **{boolean}** [required = false] – If set to `true`, the field type will be marked as non-null.
     + **{any}** [defaultValue = undefined] – default value for this field (`undefined` means there is no default value)

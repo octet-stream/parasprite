@@ -10,7 +10,7 @@ const keys = Object.keys
  * @param {object} object
  * @param {boolean} [entries = false]
  *
- * @yield {any | [string, value]} – the object value or entry tuple
+ * @yield {any | [string, any]} – the object value or entry tuple
  *
  * @generator
  *
