@@ -22,17 +22,3 @@ npm-debug.log
 /makeSchema.js
 /toRequired.js
 /isListOf.js
-
-# !src/Enum.js
-# !src/Interface.js
-# !src/Type.js
-# !src/Input.js
-# !src/Schema.js
-# !src/parasprite.js
-# !src/toListType.js
-# !src/introspect.js
-# !src/makeSchema.js
-# !src/toRequired.js
-# !src/isListOf.js
-
-# !src/**/public/**/*.js
