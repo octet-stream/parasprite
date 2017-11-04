@@ -1,22 +1,28 @@
-// Note:
-//   ESLint doesn't support this feature ._.
-//   Even with Babel as parser.
-//   So, let's disable ESLint for the next lines.
-//   But don't do that in any other places! NO WAY! NEVER!
-//     EVEN IF YOU WANT IT SUPER HARD!
+import {readdirSync} from "fs"
+import {extname, join, basename} from "path"
 
-/* eslint-disable */
+const dir = readdirSync(__dirname)
 
-// Helpers
-export isInterfaceType from "helper/util/isGraphQLInterfaceType"
-export checkTypedList from "helper/util/checkTypedList"
-export toListType from "helper/util/toListType"
-export toRequired from "helper/util/toRequired"
+/**
+ * Dynamically export all public files from __dirname
+ * to allow them require using destructuring assignment,
+ *
+ * @example
+ *
+ * // Using CommonJS syntax
+ * const {Type, Input, Interface, makeSchema, Schema} = require("parasprite")
+ *
+ * // Using ES modules syntax
+ * import Schema, {Type, Input, Interface, makeSchema} from "parasprite"
+ */
+for (const filename of dir) {
+  const ext = extname(filename)
 
-// Main Parasprite classes
-export Interface from "lib/Interface"
-export Type from "lib/Type"
-export Input from "lib/Input"
-export default from "lib/Schema"
+  if (ext === ".js" && filename !== basename(__filename)) {
+    const key = basename(filename, ext)
 
-/* eslint-enable */
+    exports[key] = require(join(__dirname, filename)).default
+  }
+}
+
+exports.default = require("./Schema").default

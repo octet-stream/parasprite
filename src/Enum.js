@@ -1,1 +1,1 @@
-export default from "lib/Enum" // eslint-disable-line
+module.exports = require("./lib/type/Enum")

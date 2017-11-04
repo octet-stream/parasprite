@@ -1,1 +1,1 @@
-export default from "lib/Type" // eslint-disable-line
+module.exports = require("./lib/type/Type")

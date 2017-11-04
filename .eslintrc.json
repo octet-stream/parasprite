@@ -12,8 +12,6 @@
       "MemberExpression": "off"
     }],
 
-    "import/no-unresolved": 0,
-
     "ava/no-ignored-test-files": ["error", {
       "files": [
         "src/test/**/*.js"

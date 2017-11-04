@@ -1,18 +1,11 @@
-bin
+*.old
+*.map
+..map
+.DS_Store
+.nyc_output
 coverage
 node_modules
-src
-test
-yarn.lock
-npm-debug.log
 yarn-error.log
-.github
-.nyc_output
-.babelrc
-.editorconfig
-.eslintrc.json
-.DS_Store
-*.map
-.travis.yml
+npm-debug.log
 
-test.js
+src/**/*.js

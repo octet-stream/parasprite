@@ -1,13 +1,13 @@
-import {isFunction} from "util"
 
 import invariant from "@octetstream/invariant"
 
-import proxy from "helper/decorator/proxy"
-import apply from "helper/proxy/selfInvokingClass"
-import toListTypeIfNeeded from "helper/util/toListTypeIfNeeded"
-import toRequiredTypeIfNeeded from "helper/util/toRequiredTypeIfNeeded"
+import proxy from "../util/internal/proxy"
+import isFunction from "../util/internal/isFunction"
+import apply from "../util/internal/selfInvokingClass"
+import toListTypeIfNeeded from "../util/internal/toListTypeIfNeeded"
+import toRequiredTypeIfNeeded from "../util/internal/toRequiredTypeIfNeeded"
 
-import Base from "lib/Base"
+import Base from "./Base"
 
 /**
  * Implements resolver field on GraphQLObjectType
