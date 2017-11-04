@@ -3,6 +3,7 @@ import invariant from "@octetstream/invariant"
 
 import proxy from "../util/internal/proxy"
 import isFunction from "../util/internal/isFunction"
+import omitNullish from "../util/internal/omitNullish"
 import apply from "../util/internal/selfInvokingClass"
 import toListTypeIfNeeded from "../util/internal/toListTypeIfNeeded"
 import toRequiredTypeIfNeeded from "../util/internal/toRequiredTypeIfNeeded"
@@ -20,6 +21,7 @@ class Resolver extends Base {
     super(null, null, cb)
 
     this.__resolve = null
+    this.__subscribe = null
     this.__arguments = {}
   }
 
@@ -80,11 +82,11 @@ class Resolver extends Base {
    * Add resolver object
    */
   end() {
-    return super.end({
+    return super.end(omitNullish({
       resolve: this.__resolve,
       subscribe: this.__subscribe,
       args: this.__arguments
-    })
+    }))
   }
 }
 

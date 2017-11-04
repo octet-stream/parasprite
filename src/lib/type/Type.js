@@ -6,6 +6,7 @@ import typeOf from "../util/internal/typeOf"
 import proxy from "../util/internal/proxy"
 import isString from "../util/internal/isString"
 import isFunction from "../util/internal/isFunction"
+import omitNullish from "../util/internal/omitNullish"
 import apply from "../util/internal/selfInvokingClass"
 import isPlainObject from "../util/internal/isPlainObject"
 import objectIterator from "../util/internal/objectIterator"
@@ -91,35 +92,35 @@ class Type extends Base {
    * @private
    */
   __setHandler = (kind, options) => {
-    // Create a new field first
-    this.field(options)
-
-    const name = options.name
-
     const setResolver = resolver => {
-      const field = {
-        ...this._fields[name], ...resolver
-      }
+      this.field(options) // Set a field before add resolver
 
-      this._fields[name] = field
+      const field = this._fields[options.name]
+
+      this._fields[options.name] = {
+        ...field, ...resolver
+      }
 
       return this
     }
 
-    const resolver = new Resolver(setResolver)
+    let resolver = new Resolver(setResolver)
 
-    return resolver[kind](options.handler)
+    resolver = resolver[kind](options.handler)
+
+    return options && options.noArgs ? resolver.end() : resolver
   }
 
   /**
    * Add a field to Type
    *
-   * @param {string} name
-   * @param {object} type
-   * @param {string} description
-   * @param {string} deprecationReason – the message that will be displayed as
-   *   field deprecation note.
-   * @param boolean required – should field be non-null?
+   * @param {object} options
+   *   + {string} name
+   *   + {object | [object, boolean]} type
+   *   + {string} description
+   *   + {string} deprecate – the message that will be displayed as
+   *     field deprecation note.
+   *   + boolean required – should field be non-null?
    *
    * @return {Type}
    *
@@ -151,7 +152,7 @@ class Type extends Base {
 
     type = toRequiredIfNeeded(toListIfNeeded(options.type), required)
 
-    this._fields[name] = {type, description, deprecationReason}
+    this._fields[name] = omitNullish({type, description, deprecationReason})
 
     return this
   }
@@ -179,13 +180,13 @@ class Type extends Base {
    * @return {object}
    */
   end() {
-    const objectType = new GraphQLObjectType({
+    const objectType = new GraphQLObjectType(omitNullish({
       name: this._name,
       description: this._description,
       fields: this._fields,
       interfaces: this.__interfaces,
       isTypeOf: this.__isTypeOf
-    })
+    }))
 
     return this._callback ? super.end(objectType) : objectType
   }
