@@ -1,1 +1,1 @@
-export default from "lib/Input" // eslint-disable-line
+module.exports = require("./lib/type/Input")

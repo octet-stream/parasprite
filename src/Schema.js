@@ -1,1 +1,1 @@
-export default from "lib/Schema" // eslint-disable-line
+module.exports = require("./lib/type/Schema")

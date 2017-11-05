@@ -1,1 +1,2 @@
-export default from "helper/util/toListType" // eslint-disable-line
+module.exports = require("./lib/util/public/toListType")
+
