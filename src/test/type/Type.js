@@ -164,6 +164,65 @@ test("Should add a resolver from .resolve() method", t => {
   t.deepEqual(fields.contacts.resolve(), contacts)
 })
 
+test("Should extend object type with the resolver field", t => {
+  const TUserContacts = Type("UserContacts")
+    .field({
+      name: "email",
+      type: TString
+    })
+    .field({
+      name: "website",
+      type: TString
+    })
+  .end()
+
+  const contacts = {email: "j.doe@example.com", website: "example.com"}
+
+  const handler = () => ({...contacts})
+
+  const expectedUser = {
+    contacts: {
+      name: "contacts",
+      type: TUserContacts,
+      resolve: handler,
+      args: [],
+      isDeprecated: false,
+    }
+  }
+
+  const expectedUserWithLogin = {
+    login: {
+      name: "login",
+      type: toRequired(TString),
+      args: [],
+      isDeprecated: false,
+    }
+  }
+
+  const TUser = Type("User")
+    .resolve({
+      name: "contacts",
+      type: TUserContacts,
+      noArgs: true,
+      handler
+    })
+  .end()
+
+  const TUserWithLogin = Type("UserWithAge", {extends: TUser})
+    .field({
+      name: "login",
+      type: TString,
+      required: true
+    })
+  .end()
+
+  const fields = TUserWithLogin.getFields()
+
+  t.deepEqual(fields, {
+    ...expectedUser, ...expectedUserWithLogin
+  })
+})
+
 test("Should throw an error when no field name given", t => {
   t.plan(1)
 

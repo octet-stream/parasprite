@@ -1,6 +1,7 @@
 import {GraphQLObjectType, isType} from "graphql"
 
 import invariant from "@octetstream/invariant"
+import omit from "lodash.omitby"
 
 import typeOf from "../util/internal/typeOf"
 import proxy from "../util/internal/proxy"
@@ -69,6 +70,22 @@ class Type extends Base {
     }
   }
 
+  __extendHandler = (kind, options) => {
+    const predicate = (_, name) => name === kind
+
+    const resolver = this.__setHandler(kind, omit({
+      ...options, handler: options[kind]
+    }, predicate))
+
+    const args = options.args
+
+    for (const arg of args) {
+      resolver.arg(arg.name, arg.type, arg.description, args.defaultValue)
+    }
+
+    resolver.end()
+  }
+
   __extend = parent => {
     invariant(
       !(parent instanceof GraphQLObjectType), TypeError,
@@ -79,11 +96,11 @@ class Type extends Base {
 
     for (const field of objectIterator(fields)) {
       if (isFunction(field.subscribe)) {
-        this.subscribe(field)
+        this.__extendHandler("subscribe", field)
       } else if (isFunction(field.resolve)) {
-        this.resolve(field)
+        this.__extendHandler("resolve", field)
       } else {
-        this.field(field)
+        this.field({...field})
       }
     }
   }
