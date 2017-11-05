@@ -221,10 +221,27 @@ test("Should extend object type with the resolver field", t => {
   })
 })
 
+test(
+  "Should throw a TypeError when given field options is not a plain object",
+  t => {
+    t.plan(3)
+
+    // An old syntax is no more supported
+    const trap = () => Type("Noop").field("noop", TString, "Noop field")
+
+    const err = t.throws(trap)
+
+    t.true(err instanceof TypeError)
+    t.is(
+      err.message, "Expected an object of the field options. Received string"
+    )
+  }
+)
+
 test("Should throw an error when no field name given", t => {
   t.plan(1)
 
-  const trap = () => Type("Noop").field({type: TString})
+  const trap = () => Type("Noop").field({})
 
   t.throws(trap, "Field name is required, but not given.")
 })
@@ -272,7 +289,7 @@ test(
 
 test(
   "Should throw a TypeError when given type in a tuple " +
-  "is not one of valid GraphQL typs",
+  "is not one of valid GraphQL types",
   t => {
     t.plan(3)
 

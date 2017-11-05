@@ -5,6 +5,7 @@ import invariant from "@octetstream/invariant"
 import proxy from "../util/internal/proxy"
 import typeOf from "../util/internal/typeOf"
 import isString from "../util/internal/isString"
+import omitNullish from "../util/internal/omitNullish"
 import apply from "../util/internal/selfInvokingClass"
 import isPlainObject from "../util/internal/isPlainObject"
 import toListIfNeeded from "../util/internal/toListTypeIfNeeded"
@@ -48,12 +49,12 @@ class Input extends Base {
 
     const {name, description, required} = options
 
+    invariant(!name, "Field name is required, but not given.")
+
     invariant(
       !isString(name), TypeError,
       "Field name should be a string. Received %s", typeOf(name)
     )
-
-    invariant(!name, "Field name is required, but not given.")
 
     let type = options.type
 
@@ -68,17 +69,19 @@ class Input extends Base {
 
     type = toRequiredIfNeeded(toListIfNeeded(options.type), required)
 
-    this._fields[name] = {type, description, defaultValue, deprecationReason}
+    this._fields[name] = omitNullish({
+      type, description, defaultValue, deprecationReason
+    })
 
     return this
   }
 
   end() {
-    return new GraphQLInputObjectType({
+    return new GraphQLInputObjectType(omitNullish({
       name: this._name,
       description: this._description,
       fields: this._fields
-    })
+    }))
   }
 }
 
