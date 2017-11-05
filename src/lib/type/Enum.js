@@ -4,6 +4,7 @@ import invariant from "@octetstream/invariant"
 import apply from "../util/internal/selfInvokingClass"
 import isString from "../util/internal/isString"
 import proxy from "../util/internal/proxy"
+import typeOf from "../util/internal/typeOf"
 
 import Base from "./Base"
 
@@ -14,7 +15,7 @@ class Enum extends Base {
 
     invariant(
       !isString(name), TypeError,
-      "The name of Enum type should be a string"
+      "The name of Enum type should be a string. Received %s", typeOf(name)
     )
 
     super(name, description)

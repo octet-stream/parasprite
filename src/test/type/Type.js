@@ -176,9 +176,7 @@ test("Should extend object type with the resolver field", t => {
     })
   .end()
 
-  const contacts = {email: "j.doe@example.com", website: "example.com"}
-
-  const handler = () => ({...contacts})
+  const handler = () => ({email: "j.doe@example.com", website: "example.com"})
 
   const expectedUser = {
     contacts: {
