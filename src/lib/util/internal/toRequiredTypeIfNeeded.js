@@ -11,8 +11,8 @@ import {GraphQLNonNull} from "graphql"
  *
  * @api private
  */
-const toRequiredTypeIfNeeded = (type, required) => (
-  required === true ? new GraphQLNonNull(type) : type
+const toRequiredTypeIfNeeded = (type, required = false) => (
+  required ? new GraphQLNonNull(type) : type
 )
 
 export default toRequiredTypeIfNeeded

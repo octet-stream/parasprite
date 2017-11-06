@@ -2,6 +2,7 @@ import {GraphQLSchema, GraphQLObjectType} from "graphql"
 
 import proxy from "../util/internal/proxy"
 import apply from "../util/internal/selfInvokingClass"
+import omitNullish from "../util/internal/omitNullish"
 
 import Base from "./Base"
 import Type from "./Type"
@@ -65,11 +66,11 @@ class Schema extends Base {
    * @return {GraphQLSchema}
    */
   end() {
-    return new GraphQLSchema({
+    return new GraphQLSchema(omitNullish({
       query: this.__query,
       mutation: this.__mutation,
       subscription: this.__subscription
-    })
+    }))
   }
 }
 

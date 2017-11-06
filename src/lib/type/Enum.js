@@ -1,10 +1,11 @@
 import {GraphQLEnumType} from "graphql"
 import invariant from "@octetstream/invariant"
 
+import omitNullish from "../util/internal/omitNullish"
 import apply from "../util/internal/selfInvokingClass"
 import isString from "../util/internal/isString"
-import proxy from "../util/internal/proxy"
 import typeOf from "../util/internal/typeOf"
+import proxy from "../util/internal/proxy"
 
 import Base from "./Base"
 
@@ -32,11 +33,11 @@ class Enum extends Base {
   }
 
   end() {
-    return new GraphQLEnumType({
+    return new GraphQLEnumType(omitNullish({
       name: this._name,
       description: this._description,
       values: this.__values
-    })
+    }))
   }
 }
 

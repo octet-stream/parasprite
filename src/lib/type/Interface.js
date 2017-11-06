@@ -7,6 +7,7 @@ import proxy from "../util/internal/proxy"
 import isString from "../util/internal/isString"
 import isFunction from "../util/internal/isFunction"
 import apply from "../util/internal/selfInvokingClass"
+import omitNullish from "../util/internal/omitNullish"
 import isPlainObject from "../util/internal/isPlainObject"
 import toListIfNeeded from "../util/internal/toListTypeIfNeeded"
 import toRequiredIfNeeded from "../util/internal/toRequiredTypeIfNeeded"
@@ -82,18 +83,18 @@ class Interface {
 
     type = toRequiredIfNeeded(toListIfNeeded(options.type), required)
 
-    this.__fields[name] = {type, description, deprecationReason}
+    this.__fields[name] = omitNullish({type, description, deprecationReason})
 
     return this
   }
 
   end() {
-    return new GraphQLInterfaceType({
+    return new GraphQLInterfaceType(omitNullish({
       name: this.__name,
       description: this.__description,
       fields: this.__fields,
       resolveType: this.__resolveType
-    })
+    }))
   }
 }
 
