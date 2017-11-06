@@ -5,7 +5,7 @@ import {
   GraphQLScalarType as TScalar
 } from "graphql"
 
-import isListOf from "../../../lib/util/public/isListOf"
+import isListOf from "../../../lib/util/internal/isListOf"
 
 test("Should be a function", t => {
   t.plan(1)
