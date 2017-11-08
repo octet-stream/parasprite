@@ -152,10 +152,6 @@ See [Type](https://github.com/octet-stream/parasprite#constructor-typename-descr
 
 ## Utils
 
-##### `parasprite.checkTypedList(list, predicate) -> {boolean}`
-
-Check if given list contains only a valid type.
-
 ##### `parasprite.isInterfaceType(value) -> {boolean}`
 
 Check if given type is an GraphQLList.
