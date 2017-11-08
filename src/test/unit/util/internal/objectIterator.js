@@ -1,6 +1,6 @@
 import test from "ava"
 
-import iterator from "../../../lib/util/internal/objectIterator"
+import iterator from "../../../../lib/util/internal/objectIterator"
 
 test("Should immediately done the iteration when no object given", t => {
   t.plan(1)

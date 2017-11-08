@@ -14,7 +14,7 @@
 
     "ava/no-ignored-test-files": ["error", {
       "files": [
-        "src/test/**/*.js"
+        "src/test/unit/**/*.js"
       ]
     }]
   }

@@ -1,6 +1,6 @@
 import test from "ava"
 
-import Base from "../../lib/type/Base"
+import Base from "../../../lib/type/Base"
 
 test(
   "Should have overwritten \"inspect\", \"toString\" and \"valueOf\" methods",

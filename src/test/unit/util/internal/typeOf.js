@@ -2,7 +2,7 @@ import {isString} from "util"
 
 import test from "ava"
 
-import typeOf from "../../../lib/util/internal/typeOf"
+import typeOf from "../../../../lib/util/internal/typeOf"
 
 test("Should return a string with type name", t => {
   t.plan(2)

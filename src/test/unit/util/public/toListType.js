@@ -2,7 +2,7 @@ import test from "ava"
 
 import {GraphQLString as TString, GraphQLList as TList} from "graphql"
 
-import {toListType} from "../../../parasprite"
+import {toListType} from "../../../../parasprite"
 
 test("Should create typed list from scalar value", t => {
   t.plan(1)

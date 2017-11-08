@@ -6,7 +6,7 @@ import {
   GraphQLInt as TInt
 } from "graphql"
 
-import {Type, toRequired} from "../../parasprite"
+import {Type, toRequired} from "../../../parasprite"
 
 test("Should return a GraphQLObjectType after .end() call", t => {
   t.plan(1)

@@ -1,11 +1,11 @@
-import {join, basename, extname} from "path"
+import {
+  isAbsolute, join, resolve as resolvePath,
+  dirname, basename, extname
+} from "path"
 import {readdirSync, statSync} from "fs"
-
-// import {isType} from "graphql"
 
 import invariant from "@octetstream/invariant"
 import isEmpty from "lodash.isempty"
-import merge from "lodash.merge"
 
 import Schema from "../../type/Schema"
 import Type from "../../type/Type"
@@ -14,20 +14,30 @@ import isString from "../internal/isString"
 import isFunction from "../internal/isFunction"
 import iterator from "../internal/objectIterator"
 import isPlainObject from "../internal/isPlainObject"
+import findParentModule from "../internal/findParentModule"
+
+let parent = process.cwd()
+
+// Make paths relative to __filename of the parent module.
+if (module.parent && isString(module.parent.filename)) {
+  parent = dirname(findParentModule(module.parent))
+
+  delete require.cache[__filename] // eslint-disable-line no-underscore-dangle
+}
 
 const defaults = {
   query: {
     name: "Query",
-    dir: "mutation"
+    dir: "query"
   },
-  mutation: {
-    name: "Mutation",
-    dir: "mutation",
-  },
-  subscription: {
-    name: "Subscription",
-    dir: "subscription"
-  }
+  // mutation: {
+  //   name: "Mutation",
+  //   dir: "mutation",
+  // },
+  // subscription: {
+  //   name: "Subscription",
+  //   dir: "subscription"
+  // }
 }
 
 function setArgs(t, args) {
@@ -43,13 +53,13 @@ function setField(t, name, options) {
 
   const {subscribe, resolve} = options
 
-  if (isFunction(resolve.handler)) {
+  if (resolve && isFunction(resolve.handler)) {
     t = t.resolve({
       ...resolve, name, handler: resolve.handler
     })
   }
 
-  if (isFunction(subscribe.handler)) {
+  if (subscribe && isFunction(subscribe.handler)) {
     t = t.subscribe({
       ...subscribe, name, handler: subscribe.handler
     })
@@ -86,7 +96,7 @@ function readFields(dir) {
     const stat = statSync(join(dir, file))
 
     if (!stat.isDirectory()) {
-      fields[base] = require(dir, file)
+      fields[base] = require(join(dir, file))
     }
   }
 
@@ -106,20 +116,33 @@ function buildSchema(dir, options = {}) {
     "Options should be a plain object. Received %s", typeOf(options)
   )
 
-  options = merge({}, defaults, options)
+  if (!isAbsolute(dir)) {
+    dir = resolvePath(parent, dir)
+  }
+
+  if (isEmpty(options.query)) {
+    options.query = defaults.query
+  }
 
   const schema = new Schema()
 
   const {query, mutation, subscription} = options
 
   // Query a;wais required!
-  const queryFields = readFields(readFields(query.dir))
+  const queryFields = readFields(join(dir, query.dir))
 
-  invariant(isEmpty(queryFields), "Expected a Query fields, but got nothig.")
+  invariant(
+    isEmpty(queryFields),
+    "Expected a Query fields, but got nothig. Path: %s", dir
+  )
 
   schema.query(setFields(query.name, query.description, queryFields))
 
-  for (const [kind, root] of iterator({mutation, subscription})) {
+  for (const [kind, root] of iterator.entries({mutation, subscription})) {
+    if (isEmpty(root)) {
+      continue
+    }
+
     const fields = readFields(join(dir, options.dir))
 
     if (!isEmpty(fields)) {
