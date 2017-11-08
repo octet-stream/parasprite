@@ -125,7 +125,7 @@ function buildSchema(dir, options = {}) {
 
   const {query, mutation, subscription} = options
 
-  // Query a;wais required!
+  // Query always required!
   const queryFields = readFields(join(dir, query.dir))
 
   invariant(
