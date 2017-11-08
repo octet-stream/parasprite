@@ -8,7 +8,9 @@ const root = resolve(__dirname, "../../../")
 // A very specific and ugly hack
 function findParentModule(mod) {
   while (dirname(mod.filename) !== root) {
-    mod = mod.parent
+    mod = {
+      ...mod.parent
+    }
   }
 
   if (mod.parent.filename === resolve(root, main)) {

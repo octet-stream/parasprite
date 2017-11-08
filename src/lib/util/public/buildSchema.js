@@ -95,7 +95,7 @@ function readFields(dir) {
 
     const stat = statSync(join(dir, file))
 
-    if (!stat.isDirectory()) {
+    if (!stat.isDirectory() && ext === ".js") {
       fields[base] = require(join(dir, file))
     }
   }
