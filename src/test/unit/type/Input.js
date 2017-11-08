@@ -5,7 +5,7 @@ import {
   GraphQLString as TString
 } from "graphql"
 
-import {Input, toRequired} from "../../parasprite"
+import {Input, toRequired} from "../../../parasprite"
 
 test("Should just create GraphQLInputObjectType after .end() call", t => {
   t.plan(1)

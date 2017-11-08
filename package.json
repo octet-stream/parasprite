@@ -36,8 +36,12 @@
     "prepush": "yarn report"
   },
   "ava": {
+    "babel": "inherit",
     "files": [
-      "./test/**/*.js"
+      "test/**/*.js",
+      "!test/**/__hook__/**",
+      "!test/**/__helper__/**",
+      "!test/helper/**"
     ]
   },
   "devDependencies": {
@@ -67,7 +71,7 @@
     "@octetstream/invariant": "1.1.0",
     "@octetstream/promisify": "1.3.2",
     "lodash.isempty": "4.4.0",
-    "lodash.omitby": "4.6.0",
-    "lodash.pick": "4.4.0"
+    "lodash.merge": "^4.6.0",
+    "lodash.omitby": "4.6.0"
   }
 }

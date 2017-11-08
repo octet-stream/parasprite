@@ -125,6 +125,14 @@ class Type extends Base {
 
     resolver = resolver[kind](options.handler)
 
+    // Add "subscribe" function to the existing resolver handler if passed
+    if (options.subscribe && kind !== "subscribe") {
+      resolver = resolver.subscribe(
+        omit(options, (_, name) => name === "handler")
+      )
+    }
+
+    // Return Type immediately when options.noArgs is truthy
     return options && options.noArgs ? resolver.end() : resolver
   }
 
