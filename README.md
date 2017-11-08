@@ -248,7 +248,7 @@ schema {
   - [x] ~~Input types~~;
   - [x] ~~Test~~;
   - [x] ~~Interfaces~~ (documentation in progress);
-  - [ ] Extending for Type;
+  - [x] ~~Extending for Type~~;
   - [ ] Documentation (still in progress);
   - [ ] Complex working examples (as external repo)
 
