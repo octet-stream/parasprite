@@ -6,6 +6,7 @@ import {readdirSync, statSync} from "fs"
 
 import invariant from "@octetstream/invariant"
 import isEmpty from "lodash.isempty"
+import merge from "lodash.merge"
 
 import Schema from "../../type/Schema"
 import Type from "../../type/Type"
@@ -28,16 +29,19 @@ if (module.parent && isString(module.parent.filename)) {
 const defaults = {
   query: {
     name: "Query",
-    dir: "query"
+    dir: "query",
+    description: null
   },
-  // mutation: {
-  //   name: "Mutation",
-  //   dir: "mutation",
-  // },
-  // subscription: {
-  //   name: "Subscription",
-  //   dir: "subscription"
-  // }
+  mutation: {
+    name: "Mutation",
+    dir: "mutation",
+    description: null
+  },
+  subscription: {
+    name: "Subscription",
+    dir: "subscription",
+    description: null
+  }
 }
 
 function setArgs(t, args) {
@@ -120,9 +124,7 @@ function buildSchema(dir, options = {}) {
     dir = resolvePath(parent, dir)
   }
 
-  if (isEmpty(options.query)) {
-    options.query = defaults.query
-  }
+  options = merge({}, defaults, options)
 
   const schema = new Schema()
 
@@ -138,15 +140,17 @@ function buildSchema(dir, options = {}) {
 
   schema.query(setFields(query.name, query.description, queryFields))
 
-  for (const [kind, root] of iterator.entries({mutation, subscription})) {
-    if (isEmpty(root)) {
-      continue
-    }
+  for (const [kind, option] of iterator.entries({mutation, subscription})) {
+    try {
+      const fields = readFields(join(dir, option.dir))
 
-    const fields = readFields(join(dir, options.dir))
-
-    if (!isEmpty(fields)) {
-      schema[kind](setFields(...root, fields))
+      if (!isEmpty(fields)) {
+        schema[kind](setFields(...option, fields))
+      }
+    } catch (err) {
+      if (err.code !== "ENOENT") {
+        throw err
+      }
     }
   }
 
