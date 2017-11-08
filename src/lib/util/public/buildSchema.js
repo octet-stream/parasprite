@@ -107,7 +107,7 @@ function buildSchema(dir, options = {}) {
 
   invariant(
     !isString(dir), TypeError,
-    "The root directory path should be a string."
+    "The root directory path should be a string. Received %s", typeOf(dir)
   )
 
   invariant(
@@ -130,7 +130,7 @@ function buildSchema(dir, options = {}) {
 
   invariant(
     isEmpty(queryFields),
-    "Expected a Query fields, but got nothig. Path: %s", dir
+    "Expected a Query fields, but got nothig. Path: %s", join(dir, query.dir)
   )
 
   schema.query(setFields(query.name, query.description, queryFields))
