@@ -71,18 +71,42 @@ Define Subscription with given name and description.
 
 Make GraphQLSchema.
 
-### `constructor Type(name[, description, interfaces, isTypeOf])`
+### `constructor Type`
 
-  - **{string}** name – Name for object type
-  - **{string}** [description = undefined] – Description for object type
-  - **{GrphQLInterfaceType | GrphQLInterfaceType[]}** [interfaces = null]
-  - **{Function}** [isTypeOf = null]
+This class helps you describe GraphQLObjectType. there is 3 different syntaxes:
 
-This class helps you describe GraphQLObjectType.
+#### `Type(options)`
+
+  - **{object}** options
+    + **{string}** name – Name for the type
+    + **{string}** [description = null]
+    + **{GrphQLInterfaceType | GrphQLInterfaceType[]}** [interfaces = null]
+    + **{GraphQLObjectType}** [extends = null]
+    + **{Function}** [isTypeOf = null]
+
+#### `Type(name[, options])`
+
+  - **{string}** name
+  - **{object}** options
+    + **{string}** [description = null]
+    + **{GrphQLInterfaceType | GrphQLInterfaceType[]}** [interfaces = null]
+    + **{GraphQLObjectType}** [extends = null]
+    + **{Function}** [isTypeOf = null]
+
+#### `Type(name[, description, options])`
+
+  - **{string}** name
+  - **{string}** [description = null]
+  - **{object}** options
+    + **{GrphQLInterfaceType | GrphQLInterfaceType[]}** [interfaces = null]
+    + **{GraphQLObjectType}** [extends = null]
+    + **{Function}** [isTypeOf = null]
 
 #### Instance methods
 
 ##### `field(options) -> {Type}`
+
+Define one field on **GraphQLObjectType**. Returns current instance of **Type** class.
 
   - **{object}** options – A field declaration options with the following properties:
     + **{string}** name
@@ -90,13 +114,6 @@ This class helps you describe GraphQLObjectType.
     + **{string}** [description = undefined]
     + **{string}** [deprecationReason = undefined]
     + **{boolean}** [required = false] – If set to `true`, the field type will be marked as non-null.
-
-Note that you've passed an **object** as the fist argument,
-keys should be named as the parameters from above.
-
-Define one field on `GraphQLObjectType`.
-
-Returns current instance of Type class.
 
 ##### `resolve(options) -> {Resolve}`
 
@@ -121,8 +138,6 @@ Add a new **subscribe** field with the handler.
     + **{string}** [deprecationReason = undefined]
     + **{boolean}** [required = false] – If set to `true`, the field type will be marked as non-null.
     + **{Function}** handler – a function that will be used as subscriber for this field
-
-Define resolver on current `GraphQLObjectType`
 
 ##### `end() -> {GraphQLObjectType}`
 
@@ -152,24 +167,34 @@ See [Type](https://github.com/octet-stream/parasprite#constructor-typename-descr
 
 ## Utils
 
-##### `parasprite.isInterfaceType(value) -> {boolean}`
-
-Check if given type is an GraphQLList.
-
-##### `parasprite.toListType(value) -> {GraphQLList}`
+##### `toListType(value) -> {GraphQLList}`
 
 Create GraphQLList from given array or value
 
-##### `parasprite.toRequired(value) -> {GraphQLNonNull}`
+##### `toRequired(value) -> {GraphQLNonNull}`
 
 Mark given value as non-null.
 
+##### `buildSchema(path[, options]) -> {GraphQLSchema}`
+
+Build a GraphQLSchema by reading the definitions from given directory.
+
+  - **{string}** path – An absolute or relative path to the directory with the schema definitions.
+  - **{object}** [options = {}] – Advanced parameters for that utility.
+    + **{object}** query – Options for a Query definitions:
+      - **{string}** [name = "Query"] – The name of Query type
+      - **{string}** [dir = "query"] – The subdirectory name from where definitions would be read.
+    + **{object}** mutation – Options for a Mutation definitions:
+      - **{string}** [name = "Mutation"] – The name of Mutation type
+      - **{string}** [dir = "mutation"] – The subdirectory name from where definitions would be read.
+    + **{object}** subscription – Options for a Subscription definitions:
+      - **{string}** [name = "Subscription"] – The name of Subscription type
+      - **{string}** [dir = "subscription"] – The subdirectory name from where definitions would be read.
+
 ## Usage
 
-**Note: All examples were written with ES modules syntax.**
-
-Basically, all you need is to describe GraphQLSchema
-is a Schema class and GraphQL internal types:
+1. Basically, all you need is to describe GraphQLSchema
+   is a Schema class and GraphQL internal types:
 
 Take a look at simple example with a resolver that just greets a user:
 
@@ -181,7 +206,12 @@ const greeter = (_, {name}) => `Hello, ${name}!`
 
 const schema = Schema()
   .query("Query")
-    .resolve("greeter", TString, true, greeter)
+    .resolve({
+      name: "greeter",
+      type: TString,
+      required: true,
+      handler: greeter
+    })
       .arg("name", TString, true)
     .end()
   .end()
@@ -200,24 +230,37 @@ schema {
 }
 ```
 
-More complex example with `Type` class usage:
+2. More complex example with `Type` class usage:
 
 ```js
 import {GraphQLString as TString} from "graphql" // You also need graphql package
 import Schema, {Type} from "parasprite"
 import Project from "model/Project" // Whatever model you need
 
-const TProject = Type("TProject")
-  .field("name", TString, "Project name")
-  .field("tagline", TString)
+const Project = Type("Project")
+  .field({
+    name: "name",
+    type: TString,
+    description: "Project name"
+  })
+  .field({
+    name: "tagline",
+    type: TString
+  })
+.end()
 
 const schema = Schema()
   .query("Query")
-    .resolve(
-      "project", TProject, "Get the project by his name",
-      Project.getProjectByName
-    )
-      .arg("name", TString)
+    .resolve({
+      name: "project",
+      type: Project,
+      description: "Get the project by his name",
+      handler: Project.findProjectByName
+    })
+      .arg({
+        name: "name",
+        type: TString
+      })
     .end()
   .end()
 .end()
@@ -226,7 +269,7 @@ const schema = Schema()
 Equivalent to:
 
 ```graphql
-type TProject {
+type Project {
   # Project name
   name: String
   tagline: String
@@ -234,11 +277,84 @@ type TProject {
 
 type Query {
   # Get the project by his name
-  project(name: String): TProject
+  project(name: String): Project
 }
 
 schema {
   query: Query
+}
+```
+
+3. You can also pass a GraphQLObject type to the Schema root fields:
+
+```js
+import {GraphQLString as TString} from "graphql"
+
+import Schema from "parasprite/Schema"
+import Type from "parasprite/Type"
+
+const greeter = (_, {name}) => `Hello, ${name}!`
+
+const TQuery = Type("Query")
+  .resolve({
+    name: "greet",
+    type: TString,
+    required: true,
+    handler: greeter
+  })
+    .arg({
+      name: "name",
+      type: TString
+    })
+.end()
+
+const schema = Schema().query(TQuery).end() // That's all!
+```
+
+4. Parasprite allow to extend GraphQLObjectType by using an **extends** option in **Type** constructor:
+
+```js
+import {GraphQLString as TString, GraphQLInt as TInt} from "graphql"
+
+import Type from "parasprite/Type"
+
+const TUser = Type("User")
+  .field({
+    name: "login",
+    type: TString,
+    required: true
+  })
+  .field({
+    name: "age",
+    type: TInt,
+    required: true
+  })
+.end()
+
+const TViewer = Type("Viewer", {extends: TUser})
+  .field({
+    name: "email",
+    type: TString,
+    required: true,
+    description: "Private email address."
+  })
+.end()
+```
+
+On GraphQL language:
+
+```graphql
+type User {
+  login: String!
+  age: Int!
+}
+
+type Viewer {
+  login: String!
+  age: Int!
+
+  # Private email address.
+  email: String!
 }
 ```
 

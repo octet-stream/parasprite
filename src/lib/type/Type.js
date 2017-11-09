@@ -24,7 +24,7 @@ class Type extends Base {
   /**
    * Create custiom GraphQLObjectType using Parasprite chainable API
    *
-   * @param {string} name
+   * @param {ßstring} name
    * @param {string} description
    * @param {object} options
    * @param {function} cb (this is the private param)
