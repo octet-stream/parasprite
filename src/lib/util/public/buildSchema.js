@@ -51,10 +51,6 @@ function setArgs(t, args) {
 }
 
 function setField(t, name, options) {
-  if (isPlainObject(options.field)) {
-    return t.field({...options.field})
-  }
-
   const resolve = options.resolve
 
   invariant(
