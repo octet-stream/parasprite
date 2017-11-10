@@ -25,7 +25,7 @@
     "t": "yarn test",
     "test:watch": "node_modules/.bin/ava --watch",
     "t:w": "yarn test:watch",
-    "cleanup": "node_modules/.bin/rimraf helper lib test .map ..map *.map Input.js Interface.js Schema.js Type.js checkTypedList.js introspect.js isInterfaceType.js parasprite.js toListType.js toRequired.js",
+    "cleanup": "node_modules/.bin/rimraf helper lib test .map ..map *.map Input.js Interface.js Schema.js Type.js Enum.js introspect.js parasprite.js toListType.js toRequired.js buildSchema.js",
     "coverage": "node_modules/.bin/nyc yarn test",
     "lint": "node_modules/.bin/eslint src",
     "report": "yarn make:spec && yarn coverage && node_modules/.bin/nyc report --reporter=html yarn test && yarn cleanup && yarn make",
