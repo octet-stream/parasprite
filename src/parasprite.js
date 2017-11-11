@@ -1,5 +1,7 @@
-import {readdirSync} from "fs"
-import {extname, join, basename} from "path"
+const {readdirSync} = require("fs")
+const {extname, join, basename} = require("path")
+
+const defProp = Object.defineProperty
 
 const dir = readdirSync(__dirname)
 
@@ -26,3 +28,6 @@ for (const filename of dir) {
 }
 
 exports.default = require("./Schema").default
+
+// Mark this module as ES6 thing for Babel
+defProp(exports, "__esModule", {value: true})

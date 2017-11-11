@@ -1,10 +1,10 @@
-
 import invariant from "@octetstream/invariant"
 
 import proxy from "../util/internal/proxy"
 import isFunction from "../util/internal/isFunction"
 import omitNullish from "../util/internal/omitNullish"
 import apply from "../util/internal/selfInvokingClass"
+import isPlainObject from "../util/internal/isPlainObject"
 import toListTypeIfNeeded from "../util/internal/toListTypeIfNeeded"
 import toRequiredTypeIfNeeded from "../util/internal/toRequiredTypeIfNeeded"
 
@@ -65,6 +65,12 @@ class Resolver extends Base {
    * @return {Resolver}
    */
   arg = (name, type, required, defaultValue) => {
+    if (isPlainObject(name)) {
+      [name, type, required, defaultValue] = [
+        name.name, name.type, name.required, name.defaultValue || name.default
+      ]
+    }
+
     type = toRequiredTypeIfNeeded(toListTypeIfNeeded(type), required)
 
     this.__arguments[name] = {
