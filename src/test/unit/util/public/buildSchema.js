@@ -500,6 +500,62 @@ test("Should add a Mutation type", t => {
   t.deepEqual(mutation.getFields(), expected)
 })
 
+test("Should add a subscription field", t => {
+  t.plan(1)
+
+  function readdirSync(path) {
+    if (path.endsWith("/query")) {
+      return [
+        "hello.js"
+      ]
+    }
+
+    if (path.endsWith("/subscription")) {
+      return [
+        "updatedSomethig.js"
+      ]
+    }
+
+    const err = new Error("Fake readdir error.")
+
+    err.code = "ENOENT"
+
+    throw err
+  }
+
+  const build = mock({
+    fs: {
+      readdirSync
+    },
+    "../internal/findParentModule": {
+      default: findParentModule
+    },
+    [resolve(__dirname, "../../../helper/graphql/schema/query/hello.js")]: {
+      "@noCallThru": true,
+      resolve: {
+        type: TString,
+        handler: () => "Hello, world!"
+      }
+    },
+    [resolve(
+      __dirname,
+      "../../../helper/graphql/schema/subscription/updatedSomethig.js"
+    )]: {
+      "@noCallThru": true,
+      resolve: {
+        type: TString,
+        handler: () => "Hello, world!"
+      }
+    }
+  })
+
+  const schema = build("../../../helper/graphql/schema")
+
+  const subscription = schema.getSubscriptionType()
+
+  t.true(subscription instanceof GraphQLObjectType)
+})
+
 test(
   "Should throw an error when the schema root directory path is not given",
   t => {
