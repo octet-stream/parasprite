@@ -80,7 +80,7 @@ class Type extends Base {
     const args = options.args
 
     for (const arg of args) {
-      resolver.arg(arg.name, arg.type, arg.description, args.defaultValue)
+      resolver.arg({...arg})
     }
 
     resolver.end()

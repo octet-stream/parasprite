@@ -221,6 +221,63 @@ test("Should extend object type with the resolver field", t => {
   })
 })
 
+test("Should copy resolver argument from parent type", t => {
+  t.plan(1)
+
+  const greeter = (_, {name}) => `Hello, ${name}!`
+
+  const TSomeParentType = Type("SomeParentType")
+    .resolve({
+      name: "greet",
+      type: TString,
+      required: true,
+      handler: greeter
+    })
+      .arg({
+        name: "name",
+        type: TString,
+        default: "OctetStream"
+      })
+    .end()
+  .end()
+
+  const TSomeChildType = Type("SomeChildType", {extends: TSomeParentType})
+    .field({
+      name: "hello",
+      type: TString,
+      required: true
+    })
+  .end()
+
+  const expected = {
+    greet: {
+      name: "greet",
+      type: toRequired(TString),
+      isDeprecated: false,
+      resolve: greeter,
+      args: [
+        {
+          name: "name",
+          type: TString,
+          description: null,
+          defaultValue: "OctetStream",
+          astNode: undefined
+        }
+      ]
+    },
+    hello: {
+      name: "hello",
+      type: toRequired(TString),
+      isDeprecated: false,
+      args: []
+    }
+  }
+
+  const actual = TSomeChildType.getFields()
+
+  t.deepEqual(actual, expected)
+})
+
 test(
   "Should throw a TypeError when given field options is not a plain object",
   t => {
