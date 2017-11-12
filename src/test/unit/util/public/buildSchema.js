@@ -607,3 +607,43 @@ test("Should throw an error for non-ENOENT code", t => {
 
   t.throws(trap)
 })
+
+test("Should throw a TypeError when root type have no handler", t => {
+  t.plan(3)
+
+  function readdirSync(path) {
+    if (path.endsWith("/query")) {
+      return [
+        "hello.js"
+      ]
+    }
+
+    const err = new Error("Fake readdir error.")
+
+    err.code = "ENOENT"
+
+    throw err
+  }
+
+  const build = mock({
+    fs: {
+      readdirSync
+    },
+    "../internal/findParentModule": {
+      default: findParentModule
+    },
+    [resolve(__dirname, "../../../helper/graphql/schema/query/hello.js")]: {
+      "@noCallThru": true,
+      resolve: {
+        type: TString
+      }
+    }
+  })
+
+  const trap = () => build("../../../helper/graphql/schema")
+
+  const err = t.throws(trap)
+
+  t.true(err instanceof TypeError)
+  t.is(err.message, "Handler and Subscribe function can't be omitted both.")
+})
