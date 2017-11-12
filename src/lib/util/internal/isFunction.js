@@ -1,5 +1,3 @@
-import typeOf from "./typeOf"
-
 /**
  * Check if given value is a function
  *
@@ -7,6 +5,6 @@ import typeOf from "./typeOf"
  *
  * @return {boolean}
  */
-const isFunction = value => typeOf(value) === "function"
+const isFunction = value => typeof value === "function"
 
 export default isFunction
