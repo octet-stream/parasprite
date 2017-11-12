@@ -1,11 +1,19 @@
 *.old
 *.map
 ..map
+.editorconfig
+.baberc
+.babelrc.*
+.eslintrc.*
+.gitignore
 .DS_Store
 .nyc_output
+
 coverage
 node_modules
 yarn-error.log
 npm-debug.log
 
+yarn.lock
 src/**/*.js
+test
