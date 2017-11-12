@@ -4,6 +4,8 @@ import {
 } from "path"
 import {readdirSync} from "fs"
 
+import {isType} from "graphql"
+
 import invariant from "@octetstream/invariant"
 import isEmpty from "lodash.isempty"
 import merge from "lodash.merge"
@@ -55,6 +57,8 @@ function setArgs(t, args) {
       const [type, required] = arg
 
       arg = {type, required}
+    } else if (isType(arg)) {
+      arg = {type: arg}
     }
 
     t.arg({...arg, name})
