@@ -278,6 +278,36 @@ test("Should copy resolver argument from parent type", t => {
   t.deepEqual(actual, expected)
 })
 
+test("Should add a field with subscription handler", t => {
+  t.plan(1)
+
+  const noop = () => {}
+
+  const TSomeType = Type("SomeType")
+    .subscribe({
+      name: "somethingHappened",
+      type: TString,
+      required: true,
+      handler: noop,
+      noArgs: true
+    })
+  .end()
+
+  const expected = {
+    somethingHappened: {
+      name: "somethingHappened",
+      type: toRequired(TString),
+      isDeprecated: false,
+      subscribe: noop,
+      args: []
+    }
+  }
+
+  const actual = TSomeType.getFields()
+
+  t.deepEqual(actual, expected)
+})
+
 test(
   "Should throw a TypeError when given field options is not a plain object",
   t => {
