@@ -1,6 +1,10 @@
+import {isType} from "graphql"
+
 import invariant from "@octetstream/invariant"
 
 import proxy from "../util/internal/proxy"
+import typeOf from "../util/internal/typeOf"
+import isString from "../util/internal/isString"
 import isFunction from "../util/internal/isFunction"
 import omitNullish from "../util/internal/omitNullish"
 import apply from "../util/internal/selfInvokingClass"
@@ -9,6 +13,8 @@ import toListTypeIfNeeded from "../util/internal/toListTypeIfNeeded"
 import toRequiredTypeIfNeeded from "../util/internal/toRequiredTypeIfNeeded"
 
 import Base from "./Base"
+
+const isArray = Array.isArray
 
 /**
  * Implements resolver field on GraphQLObjectType
@@ -71,14 +77,32 @@ class Resolver extends Base {
    *
    * @return {Resolver}
    */
-  arg = config => {
-    const {name, required, description} = config
-
-    const defaultValue = config.default || config.defaultValue
-
-    const type = toRequiredTypeIfNeeded(
-      toListTypeIfNeeded(config.type), required
+  arg = options => {
+    invariant(
+      !isPlainObject(options), TypeError,
+      "Argument configuration should be a plain object. Received %s",
+      typeOf(options)
     )
+
+    const {name, required, description} = options
+
+    invariant(!name, "Field name is required, but not given.")
+
+    invariant(
+      !isString(name), TypeError,
+      "Field name should be a string. Received %s", typeOf(name)
+    )
+
+    let type = options.type
+
+    invariant(
+      !isType(isArray(type) ? type[0] : type), TypeError,
+      "Given options.type property should be one of supported GraphQL types."
+    )
+
+    const defaultValue = options.default || options.defaultValue
+
+    type = toRequiredTypeIfNeeded(toListTypeIfNeeded(type), required)
 
     this.__arguments[name] = omitNullish({type, description, defaultValue})
 
