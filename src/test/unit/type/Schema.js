@@ -167,7 +167,7 @@ test("Should add subscription field to the schema", t => {
 
   const TSubscription = Type("Subscription")
     .subscribe({
-      name: "userRemoved",
+      name: "userAdded",
       type: TID,
       required: true,
       handler: () => {}

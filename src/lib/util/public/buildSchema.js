@@ -51,14 +51,15 @@ function setArgs(t, args) {
 }
 
 function setField(t, name, options) {
-  const resolve = options.resolve
-
-  invariant(
-    !isFunction(resolve.handler) && !isFunction(resolve.subscribe),
-    TypeError, "Handler and Subscribe function can't be omitted both."
-  )
-
-  t = t.resolve({...resolve, name})
+  if (options.resolve && isFunction(options.resolve.handler)) {
+    t = t.resolve({...options.resolve, name})
+  } else if (options.subscribe && isFunction(options.subscribe.handler)) {
+    t = t.subscribe({...options.subscribe, name})
+  } else {
+    invariant(
+      true, TypeError, "Handler and Subscribe function can't be omitted both."
+    )
+  }
 
   if (!isEmpty(options.args)) {
     setArgs(t, options.args, name)

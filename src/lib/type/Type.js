@@ -125,11 +125,9 @@ class Type extends Base {
 
     resolver = resolver[kind](options.handler)
 
-    // Add "subscribe" function to the existing resolver handler if passed
-    if (options.subscribe && kind !== "subscribe") {
-      resolver = resolver.subscribe(
-        omit(options, (_, name) => name === "handler")
-      )
+    // Add "resolve" function to the existing subscription handler if passed
+    if (options.resolve && kind === Resolver.kinds.SUBSCRIBE) {
+      resolver = resolver.resolve(options.resolve)
     }
 
     // Return Type immediately when options.noArgs is truthy
@@ -195,9 +193,9 @@ class Type extends Base {
    *
    * @return {Resolver}
    */
-  resolve = (...args) => this.__setHandler("resolve", ...args)
+  resolve = (...args) => this.__setHandler(Resolver.kinds.RESOLVE, ...args)
 
-  subscribe = (...args) => this.__setHandler("subscribe", ...args)
+  subscribe = (...args) => this.__setHandler(Resolver.kinds.SUBSCRIBE, ...args)
 
   /**
    * Build and return GraphQLObjectType

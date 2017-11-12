@@ -17,6 +17,13 @@ import Base from "./Base"
  */
 @proxy({apply})
 class Resolver extends Base {
+  static get kinds() {
+    return {
+      RESOLVE: "resolve",
+      SUBSCRIBE: "subscribe"
+    }
+  }
+
   constructor(cb) {
     super(null, null, cb)
 
@@ -51,9 +58,9 @@ class Resolver extends Base {
    *
    * @return {Resolver}
    */
-  resolve = handler => this.__setHandler("resolve", handler)
+  resolve = handler => this.__setHandler(Resolver.kinds.RESOLVE, handler)
 
-  subscribe = handler => this.__setHandler("subscribe", handler)
+  subscribe = handler => this.__setHandler(Resolver.kinds.SUBSCRIBE, handler)
 
   /**
    * Define arguments for resolver handler
