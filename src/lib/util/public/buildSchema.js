@@ -2,7 +2,7 @@ import {
   isAbsolute, join, resolve as resolvePath,
   dirname, basename, extname
 } from "path"
-import {readdirSync, statSync} from "fs"
+import {readdirSync} from "fs"
 
 import invariant from "@octetstream/invariant"
 import isEmpty from "lodash.isempty"
@@ -16,6 +16,8 @@ import isFunction from "../internal/isFunction"
 import iterator from "../internal/objectIterator"
 import isPlainObject from "../internal/isPlainObject"
 import findParentModule from "../internal/findParentModule"
+
+const isArray = Array.isArray
 
 let parent = process.cwd()
 
@@ -45,8 +47,17 @@ const defaults = {
 }
 
 function setArgs(t, args) {
-  for (const [name, arg] of iterator.entries(args)) {
-    t.arg(name, arg.type, arg.required, arg.default || arg.defaultValue)
+  for (const entry of iterator.entries(args)) {
+    const name = entry[0]
+    let arg = entry[1]
+
+    if (isArray(arg)) {
+      const [type, required] = arg
+
+      arg = {type, required}
+    }
+
+    t.arg({...arg, name})
   }
 }
 
@@ -71,9 +82,9 @@ function setField(t, name, options) {
 function setFields(name, description, fields) {
   const t = Type(name, description)
 
-  for (const field of iterator.entries(fields)) {
+  for (const [key, field] of iterator.entries(fields)) {
     if (!field.ignore) {
-      setField(t, ...field)
+      setField(t, key, field)
     }
   }
 
@@ -89,9 +100,7 @@ function readFields(dir) {
     const ext = extname(file)
     const base = basename(file, ext)
 
-    const stat = statSync(join(dir, file))
-
-    if (!stat.isDirectory() && ext === ".js") {
+    if (ext === ".js") {
       fields[base] = require(join(dir, file))
     }
   }
@@ -137,7 +146,7 @@ function buildSchema(dir, options = {}) {
       const fields = readFields(join(dir, option.dir))
 
       if (!isEmpty(fields)) {
-        schema[kind](setFields(...option, fields))
+        schema[kind](setFields(option.name, option.description, fields))
       }
     } catch (err) {
       if (err.code !== "ENOENT") {

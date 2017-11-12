@@ -71,22 +71,16 @@ class Resolver extends Base {
    *
    * @return {Resolver}
    */
-  arg = (name, type, required, defaultValue) => {
-    if (isPlainObject(name)) {
-      [name, type, required, defaultValue] = [
-        name.name, name.type, name.required, name.defaultValue || name.default
-      ]
-    }
+  arg = config => {
+    const {name, required, description} = config
 
-    type = toRequiredTypeIfNeeded(toListTypeIfNeeded(type), required)
+    const defaultValue = config.default || config.defaultValue
 
-    this.__arguments[name] = {
-      type
-    }
+    const type = toRequiredTypeIfNeeded(
+      toListTypeIfNeeded(config.type), required
+    )
 
-    if (defaultValue !== undefined) {
-      this.__arguments[name].defaultValue = defaultValue
-    }
+    this.__arguments[name] = omitNullish({type, description, defaultValue})
 
     return this
   }

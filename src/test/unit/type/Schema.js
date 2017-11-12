@@ -170,7 +170,7 @@ test("Should add subscription field to the schema", t => {
       name: "userAdded",
       type: TID,
       required: true,
-      handler: () => {}
+      handler() {}
     })
     .end()
   .end()
