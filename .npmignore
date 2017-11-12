@@ -2,7 +2,7 @@
 *.map
 ..map
 .editorconfig
-.baberc
+.babelrc
 .babelrc.*
 .eslintrc.*
 .gitignore
