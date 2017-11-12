@@ -542,9 +542,9 @@ test("Should add a subscription field", t => {
       "../../../helper/graphql/schema/subscription/updatedSomethig.js"
     )]: {
       "@noCallThru": true,
-      resolve: {
+      subscribe: {
         type: TString,
-        handler: () => "Hello, world!"
+        handler() {}
       }
     }
   })
