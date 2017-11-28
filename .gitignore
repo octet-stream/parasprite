@@ -16,6 +16,7 @@ npm-debug.log
 /Type.js
 /Input.js
 /Schema.js
+/Union.js
 /parasprite.js
 /toListType.js
 /introspect.js

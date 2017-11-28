@@ -1,1 +1,1 @@
-module.exports = require("./lib/util/public/toRequired")
+exports.default = require("./lib/util/public/toRequired").default

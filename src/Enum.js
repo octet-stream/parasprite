@@ -1,1 +1,1 @@
-module.exports = require("./lib/type/Enum")
+exports.default = require("./lib/type/Enum").default

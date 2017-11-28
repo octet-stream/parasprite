@@ -1,1 +1,1 @@
-module.exports = require("./lib/type/Type")
+exports.default = require("./lib/type/Type").default

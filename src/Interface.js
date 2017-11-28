@@ -1,1 +1,1 @@
-module.exports = require("./lib/type/Interface")
+exports.default = require("./lib/type/Interface").default
