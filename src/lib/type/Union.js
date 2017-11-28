@@ -4,6 +4,7 @@ import invariant from "@octetstream/invariant"
 
 import isPlainObject from "../util/internal/isPlainObject"
 import isObjectType from "../util/internal/isObjectType"
+import isFunction from "../util/internal/isFunction"
 import omitNullish from "../util/internal/omitNullish"
 import apply from "../util/internal/selfInvokingClass"
 import isString from "../util/internal/isString"
@@ -63,6 +64,11 @@ class Union extends Base {
   }
 
   match = (predicate, ctx = null) => {
+    invariant(
+      !isFunction(predicate), TypeError,
+      "Predicate should be a function. Received %s", typeOf(predicate)
+    )
+
     this.__predicates.push(ctx ? predicate.bind(ctx) : predicate)
 
     return this
@@ -73,7 +79,8 @@ class Union extends Base {
       name: this._name,
       description: this._description,
       types: this.__types,
-      resolveType: this.__resolveType
+      resolveType: this.__resolveType,
+      astNode: this.__astNode
     }))
   }
 }
