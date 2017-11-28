@@ -10,9 +10,14 @@ import {Schema, Union, Type} from "../../../parasprite"
 
 const DATA_SOURCE = [
   {
-    author: "D. Keyes",
+    author: "Daniel Keyes",
     title: "Flowers for Algernon",
     pages: 311
+  },
+  {
+    director: "Christopher Nolan",
+    title: "Interstellar",
+    runningTime: 169
   }
 ]
 
@@ -81,7 +86,7 @@ test("Should correctly resolve a type", async t => {
 
   const query = `
     query {
-      search(name: "D. Keyes") {
+      search(name: "Daniel Keyes") {
         ... on Book {
           author
         }
@@ -94,7 +99,7 @@ test("Should correctly resolve a type", async t => {
   t.deepEqual(response, {
     data: {
       search: {
-        author: "D. Keyes"
+        author: "Daniel Keyes"
       }
     }
   })

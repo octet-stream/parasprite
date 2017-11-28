@@ -19,11 +19,38 @@ import Resolver from "./Resolver"
 
 const isArray = Array.isArray
 
+/**
+ * Create custiom GraphQLObjectType using Parasprite chainable API
+ *
+ * @example
+ *
+ * import {GraphQLString as TString, GraphQLInt as TInt} from "graphql"
+ *
+ * import Type from "parasprite/Type"
+ *
+ * const TBook = Type("Book", "A minimal imformation of a book.")
+ *   .field({
+ *     name: "author",
+ *     type: TString,
+ *     required: true
+ *   })
+ *   .field({
+ *     name: "title",
+ *     type: TString,
+ *     required: true
+ *   })
+ *   .field({
+ *     name: "pages",
+ *     type: TInt,
+ *     required: true
+ *   })
+ * .end()
+ *
+ * export default TBook
+ */
 @proxy({apply})
 class Type extends Base {
   /**
-   * Create custiom GraphQLObjectType using Parasprite chainable API
-   *
    * @param {ßstring} name
    * @param {string} description
    * @param {object} options

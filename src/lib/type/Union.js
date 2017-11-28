@@ -19,11 +19,53 @@ const isArray = Array.isArray
  * Defines a new Unit type
  *
  * @example
+ * import {GraphQLString as TString, GraphQLInt as TInt} from "graphql"
+ *
+ * import Type from "parasprite/Type"
+ * import Union from "parasprite/Union"
+ *
+ * const TBook = Type("Book", "A minimal imformation of a book.")
+ *   .field({
+ *     name: "author",
+ *     type: TString,
+ *     required: true
+ *   })
+ *   .field({
+ *     name: "title",
+ *     type: TString,
+ *     required: true
+ *   })
+ *   .field({
+ *     name: "pages",
+ *     type: TInt,
+ *     required: true
+ *   })
+ * .end()
+ *
+ * const TMovie = Type("Movie", "A minimal imformation of a movie.")
+ *   .field({
+ *     name: "director",
+ *     type: TString,
+ *     required: true
+ *   })
+ *   .field({
+ *     name: "title",
+ *     type: TString,
+ *     required: true
+ *   })
+ *   .field({
+ *     name: "runningTime",
+ *     type: TInt,
+ *     required: true
+ *   })
+ * .end()
  *
  * const TSearchable = Union("Searchable", [TBook, TMovie])
  *   .match(({author}) => author && TBook)
  *   .match(({director}) => director && TMovie)
  * .end()
+ *
+ * export default TSearchable
  */
 @proxy({apply})
 class Union extends Base {
