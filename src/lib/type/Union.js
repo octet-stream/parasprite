@@ -1,4 +1,4 @@
-import {GraphQLUnionType, GraphQLObjectType} from "graphql"
+import {GraphQLUnionType} from "graphql"
 
 import invariant from "@octetstream/invariant"
 
@@ -57,7 +57,7 @@ class Union extends Base {
     for (const predicate of this.__predicates) {
       const resolvedType = await predicate(source, ctx, info)
 
-      if (resolvedType instanceof GraphQLObjectType || isString(resolvedType)) {
+      if (isObjectType(resolvedType) || isString(resolvedType)) {
         return resolvedType
       }
     }
