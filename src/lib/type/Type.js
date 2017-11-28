@@ -123,7 +123,9 @@ class Type extends Base {
 
     let resolver = new Resolver(setResolver)
 
-    resolver = resolver[kind](options.handler)
+    const ctx = options.thisArg || options.ctx
+
+    resolver = resolver[kind](options.handler, ctx)
 
     // Add "resolve" function to the existing subscription handler if passed
     if (options.resolve && kind === Resolver.kinds.SUBSCRIBE) {

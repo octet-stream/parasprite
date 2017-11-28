@@ -38,7 +38,7 @@ class Resolver extends Base {
     this.__arguments = {}
   }
 
-  __setHandler = (kind, handler) => {
+  __setHandler = (kind, handler, ctx = null) => {
     const ref = `${kind.charAt(0).toUpperCase()}${kind.slice(1)}`
 
     invariant(
@@ -52,7 +52,7 @@ class Resolver extends Base {
       !isFunction(handler), TypeError, "%s handler should be a function.", ref
     )
 
-    this[`__${kind}`] = handler
+    this[`__${kind}`] = ctx ? handler.bind(ctx) : handler
 
     return this
   }
@@ -64,9 +64,9 @@ class Resolver extends Base {
    *
    * @return {Resolver}
    */
-  resolve = handler => this.__setHandler(Resolver.kinds.RESOLVE, handler)
+  resolve = (...args) => this.__setHandler(Resolver.kinds.RESOLVE, ...args)
 
-  subscribe = handler => this.__setHandler(Resolver.kinds.SUBSCRIBE, handler)
+  subscribe = (...args) => this.__setHandler(Resolver.kinds.SUBSCRIBE, ...args)
 
   /**
    * Define arguments for resolver handler
