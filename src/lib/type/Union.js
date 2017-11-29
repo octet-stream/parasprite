@@ -4,9 +4,10 @@ import invariant from "@octetstream/invariant"
 
 import isPlainObject from "../util/internal/isPlainObject"
 import isObjectType from "../util/internal/isObjectType"
-import isFunction from "../util/internal/isFunction"
 import omitNullish from "../util/internal/omitNullish"
 import apply from "../util/internal/selfInvokingClass"
+import isFunction from "../util/internal/isFunction"
+import isListOf from "../util/internal/isListOf"
 import isString from "../util/internal/isString"
 import typeOf from "../util/internal/typeOf"
 import proxy from "../util/internal/proxy"
@@ -89,7 +90,12 @@ class Union extends Base {
 
     invariant(!types, "Types list required.")
 
-    this.__types = isArray(types) ? types : [types]
+    invariant(
+      !isListOf(types, isObjectType), TypeError,
+      "Given list should contain only GraphQLObjectType instances."
+    )
+
+    this.__types = Array.from(types)
     this.__astNode = astNode
 
     this.__predicates = []
