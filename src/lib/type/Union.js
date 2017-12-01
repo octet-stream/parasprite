@@ -20,6 +20,7 @@ const isArray = Array.isArray
  * Defines a new Unit type
  *
  * @example
+ *
  * import {GraphQLString as TString, GraphQLInt as TInt} from "graphql"
  *
  * import Type from "parasprite/Type"
@@ -111,6 +112,14 @@ class Union extends Base {
     }
   }
 
+  /**
+   * Match types using the given predicate
+   *
+   * @param {function} predicate
+   * @param {any} [ctx = null]
+   *
+   * @return {Union}
+   */
   match = (predicate, ctx = null) => {
     invariant(
       !isFunction(predicate), TypeError,

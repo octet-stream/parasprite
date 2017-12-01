@@ -165,6 +165,33 @@ Create a custum GraphQLInterfaceType using Parasprite chainable API
 
 See [Type](https://github.com/octet-stream/parasprite#constructor-typename-description-interfaces-istypeof) section for more info about available methods.
 
+### `constructor Union`
+
+Create a new GraphQLUnionType.
+
+This constructor have to different APIs:
+
+#### `Union(name[, description], types[, astNode])`
+  - **{string}** name – Name of the new Unit type.
+  - **{string}** description – Type description
+  - **{GraphQLObjectType[]}** types – A list of types, that could be resolved by the Union.
+  - **{object}** astNode
+
+#### `Union(options)`
+
+  - **{object}** options:
+    + **{string}** name – Name of the new Unit type.
+    + **{string}** description – Type description
+    + **{GraphQLObjectType[]}** types – A list of types, that could be resolved by the Union.
+    + **{object}** astNode
+
+#### Instance methods
+
+##### `match(predicate[, ctx]) -> {Union}`
+
+Add a predicate function to the internal queue.
+These predicate will be used to match returning values with one of given types.
+
 ## Utils
 
 ##### `toListType(value) -> {GraphQLList}`
@@ -361,10 +388,12 @@ type Viewer {
 ## Roadmap:
 
   - [x] ~~Basic API with queries, mutations and object type~~;
-  - [x] ~~Input types~~;
-  - [x] ~~Test~~;
+  - [x] ~~Object type~~;
+  - [x] ~~Input type~~;
+  - [x] ~~Tests~~;
   - [x] ~~Interfaces~~ (documentation in progress);
   - [x] ~~Extending for Type~~;
+  - [x] ~~Union type~~;
   - [ ] Documentation (still in progress);
   - [ ] Complex working examples (as external repo)
 
