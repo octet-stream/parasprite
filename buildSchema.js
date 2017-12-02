@@ -1,3 +1,3 @@
 "use strict";
 
-module.exports = require("./lib/util/public/buildSchema");
+module.exports = require("./lib/util/public/buildSchema").default;

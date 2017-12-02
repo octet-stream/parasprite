@@ -1,1 +1,1 @@
-exports.default = require("./lib/type/Input").default
+module.exports = require("./lib/type/Input").default

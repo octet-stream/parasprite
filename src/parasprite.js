@@ -1,8 +1,6 @@
 const {readdirSync} = require("fs")
 const {extname, join, basename} = require("path")
 
-const defProp = Object.defineProperty
-
 const dir = readdirSync(__dirname)
 
 /**
@@ -23,11 +21,15 @@ for (const filename of dir) {
   if (ext === ".js" && filename !== basename(__filename)) {
     const key = basename(filename, ext)
 
-    exports[key] = require(join(__dirname, filename)).default
+    exports[key] = require(join(__dirname, filename))
   }
 }
 
-exports.default = require("./Schema").default
+exports.default = require("./Schema")
 
 // Mark this module as ES6 thing for Babel
-defProp(exports, "__esModule", {value: true})
+Object.defineProperty(exports, "__esModule", {
+  value: true,
+  enumerable: false,
+  writable: false
+})
