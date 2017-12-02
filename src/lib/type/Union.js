@@ -63,8 +63,8 @@ const isArray = Array.isArray
  * .end()
  *
  * const TSearchable = Union("Searchable", [TBook, TMovie])
- *   .match(({author}) => author && TBook)
- *   .match(({director}) => director && TMovie)
+ *   .match(({author, pages}) => (author && pages) && TBook)
+ *   .match(({director, runningTime}) => (director && runningTime) && TMovie)
  * .end()
  *
  * export default TSearchable
