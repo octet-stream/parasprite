@@ -9,8 +9,6 @@ import {
 
 import {Schema, Union, Type} from "../../../parasprite"
 
-import U from "../../../Union"
-
 const DATA_SOURCE = [
   {
     author: "Daniel Keyes",
