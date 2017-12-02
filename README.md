@@ -25,13 +25,13 @@ See [API](#api) section for more information.
 You can install parasprite from NPM:
 
 ```
-npm install --save parasprite graphql@>=0.10.x
+npm install --save parasprite graphql@\>=0.11.x
 ```
 
 or YARN:
 
 ```
-yarn add parasprite graphql@>=0.10.x
+yarn add parasprite graphql@\>=0.11.x
 ```
 
 ## API
