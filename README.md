@@ -18,7 +18,7 @@ See [API](#api) section for more information.
 
 * Node.js >= 6
 
-* GraphQL.js >=0.10.x (see [installation section](https://github.com/octet-stream/parasprite#installation))
+* GraphQL.js >=0.11.x (see [installation section](https://github.com/octet-stream/parasprite#installation))
 
 ## Installation
 
