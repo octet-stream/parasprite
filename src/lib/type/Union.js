@@ -102,6 +102,7 @@ class Union extends Base {
     this.__predicates = []
   }
 
+  // TODO: REwrite without using Promise
   __resolveType = async (source, ctx, info) => {
     for (const predicate of this.__predicates) {
       const resolvedType = await predicate(source, ctx, info)

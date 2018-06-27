@@ -1,19 +1,19 @@
-{
-  "plugins": [
+module.exports = {
+  plugins: [
     "ava"
   ],
-  "extends": [
+  extends: [
     "@octetstream",
     "plugin:ava/recommended"
   ],
-  "rules": {
+  rules: {
     "no-void": 0,
-    "indent": ["error", 2, {
-      "MemberExpression": "off"
+    indent: ["error", 2, {
+      MemberExpression: "off"
     }],
 
     "ava/no-ignored-test-files": ["error", {
-      "files": [
+      files: [
         "src/test/unit/**/*.js"
       ]
     }]
