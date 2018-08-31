@@ -22,6 +22,7 @@ class Base {
     return this._callback ? this._callback(data) : this
   }
 
+  // Deprecated method
   inspect() {
     return `Parasprite${this.constructor.name}`
   }
@@ -31,6 +32,10 @@ class Base {
   }
 
   valueOf() {
+    return `Parasprite${this.constructor.name}`
+  }
+
+  get [Symbol.toStringTag]() {
     return `Parasprite${this.constructor.name}`
   }
 }

@@ -25,9 +25,7 @@ class Enum extends Base {
   }
 
   value = (name, value, description, deprecationReason) => {
-    this.__values[name] = {
-      value, description, deprecationReason
-    }
+    this.__values[name] = {value, description, deprecationReason}
 
     return this
   }
