@@ -67,7 +67,7 @@
     "sinon": "7.2.5"
   },
   "peerDependencies": {
-    "graphql": ">=0.11.x || 14.x"
+    "graphql": ">= 0.11.x < 1.x || 14.x"
   },
   "dependencies": {
     "@octetstream/invariant": "1.2.0",
