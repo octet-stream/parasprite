@@ -12,10 +12,17 @@ module.exports = {
     indent: ["error", 2, {
       MemberExpression: "off"
     }],
+    "operator-linebreak": ["error", "after", {
+      overrides: {
+        "+": "ignore",
+        "?": "before",
+        ":": "before"
+      }
+    }],
 
     "ava/no-ignored-test-files": ["error", {
       files: [
-        "src/test/unit/**/*.js"
+        "src/test/unit/**/*.mjs"
       ]
     }]
   }

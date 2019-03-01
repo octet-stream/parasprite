@@ -1,0 +1,5 @@
+{
+  "src/**/*.mjs": "eslint --fix",
+  ".babelrc.js": "eslint --fix",
+  ".eslintrc.js": "eslint --fix"
+}

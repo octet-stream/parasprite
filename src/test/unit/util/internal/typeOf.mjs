@@ -38,7 +38,7 @@ test("Should return lowercased string for all basic types", t => {
 test("Should return as-is name for non-basic types", t => {
   t.plan(3)
 
-  const genFn = typeOf(function* () { yield 0 })
+  const genFn = typeOf(function* noop() { yield 0 })
   const map = typeOf(new Map())
   const set = typeOf(new Set())
 

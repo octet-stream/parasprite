@@ -1,6 +1,6 @@
 import invariant from "@octetstream/invariant"
 
-import isFunction from "../internal/isFunction"
+import isFunction from "./isFunction"
 
 const isArray = Array.isArray
 
