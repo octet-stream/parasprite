@@ -7,7 +7,7 @@ import {
   GraphQLID as TID
 } from "graphql"
 
-import Schema, {Type, Input} from "../../../parasprite"
+import {Schema, Type, Input} from "parasprite"
 
 test("Should create a GraphQLSchema", t => {
   t.plan(1)

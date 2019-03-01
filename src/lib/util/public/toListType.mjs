@@ -1,4 +1,4 @@
-import toListTypeIfNeeded from "../internal/toListTypeIfNeeded"
+import toListTypeIfNeeded from "lib/util/internal/toListTypeIfNeeded"
 
 const isArray = Array.isArray
 

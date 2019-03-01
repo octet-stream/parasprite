@@ -1,13 +1,13 @@
 import test from "ava"
+import sinon from "sinon"
 
-import {spy} from "sinon"
 import {
   graphql, GraphQLUnionType,
   GraphQLString as TString,
   GraphQLInt as TInt
 } from "graphql"
 
-import {Schema, Union, Type} from "../../../parasprite"
+import {Schema, Union, Type} from "parasprite"
 
 const DATA_SOURCE = [
   {
@@ -147,7 +147,7 @@ test("Should call predicate with given context", async t => {
     return director && runningTime ? TMovie : null
   }
 
-  const spyoMatchMovie = spy(matchMovie)
+  const spyoMatchMovie = sinon.spy(matchMovie)
 
   const TSearchable = Union("Searchable", [TBook, TMovie])
     .match(({author, pages}) => (author && pages) && TBook)

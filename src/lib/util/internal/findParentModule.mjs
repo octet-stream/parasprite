@@ -1,17 +1,25 @@
-import {resolve, dirname} from "path"
+import path from "path"
+import fs from "fs"
 
-// eslint-disable-next-line import/no-unresolved
-import {main} from "../../../package.json"
+let dirname
+if (global.module && global.module.id) {
+  dirname = global.module.id
+} else {
+  dirname = path.dirname(import.meta.url.replace(/^file:\/\//, ""))
+}
 
-const root = resolve(__dirname, "../../../")
+const root = path.resolve(dirname, "../../../")
+const {main} = JSON.parse(
+  fs.readFileSync(path.join(root, "package.json"), "utf-8")
+)
 
 // A very specific and ugly hack
 function findParentModule(mod) {
-  while (dirname(mod.filename) !== root) {
+  while (path.dirname(mod.filename) !== root) {
     mod = mod.parent
   }
 
-  if (mod.parent.filename === resolve(root, main)) {
+  if (mod.parent.filename === path.resolve(root, main)) {
     return mod.parent.parent.filename
   }
 

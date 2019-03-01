@@ -1,8 +1,8 @@
 import {GraphQLSchema, GraphQLObjectType} from "graphql"
 
-import proxy from "../util/internal/proxy"
-import apply from "../util/internal/selfInvokingClass"
-import omitNullish from "../util/internal/omitNullish"
+import proxy from "lib/util/internal/proxy"
+import apply from "lib/util/internal/selfInvokingClass"
+import omitNullish from "lib/util/internal/omitNullish"
 
 import Base from "./Base"
 import Type from "./Type"

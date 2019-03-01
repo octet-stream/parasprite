@@ -11,6 +11,9 @@ npm-debug.log
 /lib/**/*.js
 /test/**/*.js
 
+/lib/**/*.mjs
+/test/**/*.mjs
+
 /Enum.js
 /Interface.js
 /Type.js
@@ -24,3 +27,19 @@ npm-debug.log
 /toRequired.js
 /isListOf.js
 /buildSchema.js
+
+test.mjs
+
+/Enum.mjs
+/Interface.mjs
+/Type.mjs
+/Input.mjs
+/Schema.mjs
+/Union.mjs
+/parasprite.mjs
+/toListType.mjs
+/introspect.mjs
+/makeSchema.mjs
+/toRequired.mjs
+/isListOf.mjs
+/buildSchema.mjs

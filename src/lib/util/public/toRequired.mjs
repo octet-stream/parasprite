@@ -1,4 +1,4 @@
-import toRequiredTypeIfNeeded from "../internal/toRequiredTypeIfNeeded"
+import toRequiredTypeIfNeeded from "lib/util/internal/toRequiredTypeIfNeeded"
 
 /**
  * Public version of toRequiredTypeIfNeeded that just mark given type

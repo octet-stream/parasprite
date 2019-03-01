@@ -1,4 +1,4 @@
-import isFunction from "../util/internal/isFunction"
+import isFunction from "lib/util/internal/isFunction"
 
 /**
  * Builtin class, do not use it directly

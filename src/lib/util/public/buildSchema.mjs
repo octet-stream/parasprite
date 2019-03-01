@@ -1,8 +1,5 @@
-import {
-  isAbsolute, join, resolve as resolvePath,
-  dirname, basename, extname
-} from "path"
-import {readdirSync} from "fs"
+import path from "path"
+import fs from "fs"
 
 import {isType} from "graphql"
 
@@ -10,24 +7,29 @@ import invariant from "@octetstream/invariant"
 import isEmpty from "lodash.isempty"
 import merge from "lodash.merge"
 
-import Schema from "../../type/Schema"
-import Type from "../../type/Type"
-import typeOf from "../internal/typeOf"
-import isString from "../internal/isString"
-import isFunction from "../internal/isFunction"
-import iterator from "../internal/objectIterator"
-import isPlainObject from "../internal/isPlainObject"
-import findParentModule from "../internal/findParentModule"
+import Type from "lib/type/Type"
+import Schema from "lib/type/Schema"
+import typeOf from "lib/util/internal/typeOf"
+import isString from "lib/util/internal/isString"
+import isFunction from "lib/util/internal/isFunction"
+import iterator from "lib/util/internal/objectIterator"
+import isPlainObject from "lib/util/internal/isPlainObject"
+import findParentModule from "lib/util/internal/findParentModule"
 
 const isArray = Array.isArray
 
 let parent = process.cwd()
 
 // Make paths relative to __filename of the parent module.
-if (module.parent && isString(module.parent.filename)) {
-  parent = dirname(findParentModule(module.parent))
+if (
+  global.module && global.module.parent && isString(
+    global.module.parent.filename
+  )
+) {
+  parent = path.dirname(findParentModule(global.module.parent))
 
-  delete require.cache[__filename] // eslint-disable-line no-underscore-dangle
+  // eslint-disable-next-line no-underscore-dangle
+  delete require.cache[__filename]
 }
 
 const defaults = {
@@ -96,16 +98,16 @@ function setFields(name, description, fields) {
 }
 
 function readFields(dir) {
-  const files = readdirSync(dir)
+  const files = fs.readdirSync(dir)
 
   const fields = {}
 
   for (const file of files) {
-    const ext = extname(file)
-    const base = basename(file, ext)
+    const ext = path.extname(file)
+    const base = path.basename(file, ext)
 
     if (ext === ".js") {
-      fields[base] = require(join(dir, file))
+      fields[base] = require(path.join(dir, file))
     }
   }
 
@@ -125,8 +127,8 @@ function buildSchema(dir, options = {}) {
     "Options should be a plain object. Received %s", typeOf(options)
   )
 
-  if (!isAbsolute(dir)) {
-    dir = resolvePath(parent, dir)
+  if (!path.isAbsolute(dir)) {
+    dir = path.resolvePath(parent, dir)
   }
 
   options = merge({}, defaults, options)
@@ -136,18 +138,20 @@ function buildSchema(dir, options = {}) {
   const {query, mutation, subscription} = options
 
   // Query always required!
-  const queryFields = readFields(join(dir, query.dir))
+  const queryFields = readFields(path.join(dir, query.dir))
 
   invariant(
     isEmpty(queryFields),
-    "Expected a Query fields, but got nothig. Path: %s", join(dir, query.dir)
+
+    "Expected a Query fields, but got nothig. Path: %s",
+    path.join(dir, query.dir)
   )
 
   schema.query(setFields(query.name, query.description, queryFields))
 
   for (const [kind, option] of iterator.entries({mutation, subscription})) {
     try {
-      const fields = readFields(join(dir, option.dir))
+      const fields = readFields(path.join(dir, option.dir))
 
       if (!isEmpty(fields)) {
         schema[kind](setFields(option.name, option.description, fields))

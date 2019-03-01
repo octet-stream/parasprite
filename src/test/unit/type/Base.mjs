@@ -1,6 +1,6 @@
 import test from "ava"
 
-import Base from "../../../lib/type/Base"
+import Base from "lib/type/Base"
 
 const hasSymbol = object => (
   Object.getOwnPropertySymbols(object).includes(Symbol.toStringTag)

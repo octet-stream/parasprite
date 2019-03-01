@@ -1,11 +1,12 @@
 import {GraphQLEnumType} from "graphql"
+
 import invariant from "@octetstream/invariant"
 
-import omitNullish from "../util/internal/omitNullish"
-import apply from "../util/internal/selfInvokingClass"
-import isString from "../util/internal/isString"
-import typeOf from "../util/internal/typeOf"
-import proxy from "../util/internal/proxy"
+import omitNullish from "lib/util/internal/omitNullish"
+import apply from "lib/util/internal/selfInvokingClass"
+import isString from "lib/util/internal/isString"
+import typeOf from "lib/util/internal/typeOf"
+import proxy from "lib/util/internal/proxy"
 
 import Base from "./Base"
 

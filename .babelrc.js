@@ -1,13 +1,11 @@
-module.exports = {
+const config = {
   plugins: [
     "@babel/proposal-export-default-from",
     "@babel/proposal-export-namespace-from",
     "@babel/transform-async-to-generator",
+    "@babel/syntax-import-meta",
     ["module-resolver", {
       root: ["src"],
-    }],
-    ["@babel/transform-modules-commonjs", {
-      mjsStrictNamespace: false
     }],
     ["@babel/proposal-decorators", {
       legacy: true
@@ -20,3 +18,9 @@ module.exports = {
     }]
   ]
 }
+
+if (!process.env.BABEL_ESM) {
+  config.plugins.push("@babel/transform-modules-commonjs")
+}
+
+module.exports = config

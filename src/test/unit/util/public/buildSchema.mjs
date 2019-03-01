@@ -1,4 +1,4 @@
-import {resolve} from "path"
+import p from "path"
 
 import test from "ava"
 
@@ -9,7 +9,7 @@ import {
   GraphQLString as TString
 } from "graphql"
 
-import {buildSchema, toRequired, Input} from "../../../../parasprite"
+import {buildSchema, toRequired, Input} from "parasprite"
 
 const mock = stubs => (
   pq("../../../../lib/util/public/buildSchema", stubs).default
@@ -41,7 +41,7 @@ test("Should return a GraphQLSchema instance", t => {
     "../internal/findParentModule": {
       default: findParentModule
     },
-    [resolve(__dirname, "../../../helper/graphql/schema/query/hello.js")]: {
+    [p.resolve(__dirname, "../../../helper/graphql/schema/query/hello.js")]: {
       "@noCallThru": true,
       resolve: {
         type: TString,
@@ -159,7 +159,7 @@ test(
       "../internal/findParentModule": {
         default: findParentModule
       },
-      [resolve(__dirname, "../../../helper/graphql/schema/query/hello.js")]: {
+      [p.resolve(__dirname, "../../../helper/graphql/schema/query/hello.js")]: {
         "@noCallThru": true,
         resolve: {
           type: TString,
@@ -216,14 +216,14 @@ test("Should skip definitions which have a truthy \"ignore\" flag", t => {
     "../internal/findParentModule": {
       default: findParentModule
     },
-    [resolve(__dirname, "../../../helper/graphql/schema/query/hello.js")]: {
+    [p.resolve(__dirname, "../../../helper/graphql/schema/query/hello.js")]: {
       "@noCallThru": true,
       resolve: {
         type: TString,
         handler: hello
       }
     },
-    [resolve(__dirname, "../../../helper/graphql/schema/query/greet.js")]: {
+    [p.resolve(__dirname, "../../../helper/graphql/schema/query/greet.js")]: {
       "@noCallThru": true,
       ignore: true, // The field should be ignored because of this flag
       resolve: {
@@ -278,7 +278,7 @@ test("Should reolver arguments from a config", t => {
       default: findParentModule
     },
 
-    [resolve(__dirname, "../../../helper/graphql/schema/query/greet.js")]: {
+    [p.resolve(__dirname, "../../../helper/graphql/schema/query/greet.js")]: {
       "@noCallThru": true,
       resolve: {
         type: TString,
@@ -345,7 +345,7 @@ test(
       "../internal/findParentModule": {
         default: findParentModule
       },
-      [resolve(__dirname, "../../../helper/graphql/schema/query/hello.js")]: {
+      [p.resolve(__dirname, "../../../helper/graphql/schema/query/hello.js")]: {
         "@noCallThru": true,
         resolve: {
           type: TString,
@@ -387,7 +387,7 @@ test(
       "../internal/findParentModule": {
         default: findParentModule
       },
-      [resolve(__dirname, "../../../helper/graphql/schema/query/hello.js")]: {
+      [p.resolve(__dirname, "../../../helper/graphql/schema/query/hello.js")]: {
         "@noCallThru": true,
         resolve: {
           type: TString,
@@ -452,14 +452,14 @@ test("Should add a Mutation type", t => {
     "../internal/findParentModule": {
       default: findParentModule
     },
-    [resolve(__dirname, "../../../helper/graphql/schema/query/hello.js")]: {
+    [p.resolve(__dirname, "../../../helper/graphql/schema/query/hello.js")]: {
       "@noCallThru": true,
       resolve: {
         type: TString,
         handler: () => "Hello, world!"
       }
     },
-    [resolve(
+    [p.resolve(
       __dirname, "../../../helper/graphql/schema/mutation/createUser.js"
     )]: {
       "@noCallThru": true,
@@ -530,14 +530,14 @@ test("Should add a subscription field", t => {
     "../internal/findParentModule": {
       default: findParentModule
     },
-    [resolve(__dirname, "../../../helper/graphql/schema/query/hello.js")]: {
+    [p.resolve(__dirname, "../../../helper/graphql/schema/query/hello.js")]: {
       "@noCallThru": true,
       resolve: {
         type: TString,
         handler: () => "Hello, world!"
       }
     },
-    [resolve(
+    [p.resolve(
       __dirname,
       "../../../helper/graphql/schema/subscription/updatedSomethig.js"
     )]: {
@@ -621,7 +621,7 @@ test("Should throw an error when no query field found", t => {
 
   const trap = () => build("../../../helper/graphql/schema")
 
-  const expectedPath = resolve(
+  const expectedPath = p.resolve(
     __dirname, "../../../helper/graphql/schema/query"
   )
 
@@ -650,7 +650,7 @@ test("Should throw an error for non-ENOENT code", t => {
     "../internal/findParentModule": {
       default: findParentModule
     },
-    [resolve(__dirname, "../../../helper/graphql/schema/query/hello.js")]: {
+    [p.resolve(__dirname, "../../../helper/graphql/schema/query/hello.js")]: {
       "@noCallThru": true,
       resolve: {
         type: TString,
@@ -688,7 +688,7 @@ test("Should throw a TypeError when root type have no handler", t => {
     "../internal/findParentModule": {
       default: findParentModule
     },
-    [resolve(__dirname, "../../../helper/graphql/schema/query/hello.js")]: {
+    [p.resolve(__dirname, "../../../helper/graphql/schema/query/hello.js")]: {
       "@noCallThru": true,
       resolve: {
         type: TString

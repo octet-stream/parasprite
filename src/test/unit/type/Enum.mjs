@@ -2,7 +2,7 @@ import test from "ava"
 
 import {GraphQLEnumType as TEnum} from "graphql"
 
-import {Enum} from "../../../parasprite"
+import Enum from "Enum"
 
 test("Should create a GraphQLEnumType type", t => {
   t.plan(3)

@@ -2,15 +2,15 @@ import {GraphQLInterfaceType, isType} from "graphql"
 
 import invariant from "@octetstream/invariant"
 
-import typeOf from "../util/internal/typeOf"
-import proxy from "../util/internal/proxy"
-import isString from "../util/internal/isString"
-import isFunction from "../util/internal/isFunction"
-import apply from "../util/internal/selfInvokingClass"
-import omitNullish from "../util/internal/omitNullish"
-import isPlainObject from "../util/internal/isPlainObject"
-import toListIfNeeded from "../util/internal/toListTypeIfNeeded"
-import toRequiredIfNeeded from "../util/internal/toRequiredTypeIfNeeded"
+import typeOf from "lib/util/internal/typeOf"
+import proxy from "lib/util/internal/proxy"
+import isString from "lib/util/internal/isString"
+import isFunction from "lib/util/internal/isFunction"
+import apply from "lib/util/internal/selfInvokingClass"
+import omitNullish from "lib/util/internal/omitNullish"
+import isPlainObject from "lib/util/internal/isPlainObject"
+import toListIfNeeded from "lib/util/internal/toListTypeIfNeeded"
+import toRequiredIfNeeded from "lib/util/internal/toRequiredTypeIfNeeded"
 
 const isArray = Array.isArray
 
