@@ -124,7 +124,7 @@ function buildSchema(dir, options = {}) {
   )
 
   if (!path.isAbsolute(dir)) {
-    dir = path.resolvePath(parent, dir)
+    dir = path.resolve(parent, dir)
   }
 
   options = merge({}, defaults, options)
