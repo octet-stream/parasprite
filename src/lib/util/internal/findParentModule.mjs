@@ -1,14 +1,7 @@
 import path from "path"
 import fs from "fs"
 
-let dirname
-if (global.module && global.module.id) {
-  dirname = global.module.id
-} else {
-  dirname = path.dirname(import.meta.url.replace(/^file:\/\//, ""))
-}
-
-const root = path.resolve(dirname, "../../../")
+const root = path.resolve(__dirname, "../../../")
 const {main} = JSON.parse(
   fs.readFileSync(path.join(root, "package.json"), "utf-8")
 )

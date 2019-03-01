@@ -21,12 +21,8 @@ const isArray = Array.isArray
 let parent = process.cwd()
 
 // Make paths relative to __filename of the parent module.
-if (
-  global.module && global.module.parent && isString(
-    global.module.parent.filename
-  )
-) {
-  parent = path.dirname(findParentModule(global.module.parent))
+if (module && module.parent && isString(module.parent.filename)) {
+  parent = path.dirname(findParentModule(module.parent))
 
   // eslint-disable-next-line no-underscore-dangle
   delete require.cache[__filename]
