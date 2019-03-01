@@ -1,5 +1,15 @@
 module.exports = {
   parser: "babel-eslint",
+  settings: {
+    "import/resolver": {
+      "babel-module": {
+        cwd: __dirname,
+        root: [
+          "src"
+        ]
+      }
+    }
+  },
   plugins: [
     "ava"
   ],

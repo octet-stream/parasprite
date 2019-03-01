@@ -1,1 +1,1 @@
-module.exports = require("./lib/type/Union").default
+export {default} from "lib/type/Union"

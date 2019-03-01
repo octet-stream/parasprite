@@ -1,1 +1,1 @@
-module.exports = require("./lib/util/public/buildSchema").default
+export {default} from "lib/util/public/buildSchema"

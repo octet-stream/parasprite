@@ -1,1 +1,1 @@
-module.exports = require("./lib/util/public/toListType").default
+export {default} from "lib/util/public/toListType"

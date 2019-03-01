@@ -1,1 +1,1 @@
-module.exports = require("./lib/type/Schema").default
+export {default} from "lib/type/Schema"

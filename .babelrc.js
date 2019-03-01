@@ -3,6 +3,9 @@ module.exports = {
     "@babel/proposal-export-default-from",
     "@babel/proposal-export-namespace-from",
     "@babel/transform-async-to-generator",
+    ["module-resolver", {
+      root: ["src"],
+    }],
     ["@babel/transform-modules-commonjs", {
       mjsStrictNamespace: false
     }],
