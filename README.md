@@ -14,20 +14,20 @@ See [API](#api) section for more information.
 
 * Node.js >= 6
 
-* GraphQL.js >=0.11.x (see [installation section](https://github.com/octet-stream/parasprite#installation))
+* GraphQL.js >= 0.11.x < 1.x || 14.x (see [installation section](https://github.com/octet-stream/parasprite#installation))
 
 ## Installation
 
 You can install parasprite from NPM:
 
 ```
-npm install --save parasprite graphql@\>=0.11.x
+npm install --save parasprite graphql
 ```
 
 or YARN:
 
 ```
-yarn add parasprite graphql@\>=0.11.x
+yarn add parasprite graphql
 ```
 
 ## API
