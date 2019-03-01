@@ -28,7 +28,7 @@
     "cleanup": "rimraf helper lib test .map ..map *.map Input.js Interface.js Schema.js Type.js Enum.js Union.js introspect.js parasprite.js toListType.js toRequired.js buildSchema.js",
     "coverage": "nyc npm run test",
     "staged": "lint-staged",
-    "eslint": "eslint src/**/*.mjs .eslintrc.js .babelrc.js",
+    "eslint": "eslint src/**/*.mjs",
     "report": "npm run make:spec && npm run coverage && nyc report --reporter=html npm run test && npm run cleanup && npm run make",
     "report:codecov": "nyc report --reporter=lcov npm run test",
     "ci": "npm run make:spec && npm run coverage && npm run report:codecov && codecov"
