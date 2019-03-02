@@ -16,7 +16,7 @@ doc
 
 .lintstagedrc
 .editorconfig
-.juskyrc.json
+.huskyrc.json
 .travis.yml
 .babelrc.js
 .eslintrc.js
