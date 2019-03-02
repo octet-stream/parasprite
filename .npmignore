@@ -1,10 +1,6 @@
 *.old
 *.map
 ..map
-.editorconfig
-.babelrc
-.babelrc.*
-.eslintrc.*
 .gitignore
 .DS_Store
 .nyc_output
@@ -14,9 +10,16 @@ node_modules
 yarn-error.log
 npm-debug.log
 
-yarn.lock
 src
 test
 doc
+
+.lintstagedrc
+.editorconfig
+.juskyrc.json
+.travis.yml
+.babelrc.js
+.eslintrc.js
+yarn.lock
 
 test.mjs
