@@ -128,13 +128,13 @@ function buildSchema(params = {}) {
     const path = p.resolve(root, field.path)
     const definitions = readDefinitions(path)
 
-    if (isEmpty(definitions) && kind === "query") {
+    if (!isEmpty(definitions)) {
+      schema[kind](setDefinitions(field.name, field.description, definitions))
+    } else if (kind === "query") {
       invariant(
         true, "Expected a Query definitions, but got nothig. Path: %", path
       )
     }
-
-    schema[kind](setDefinitions(field.name, field.description, definitions))
   }
 
   return schema.end()
