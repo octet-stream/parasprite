@@ -9,7 +9,7 @@ import {
   GraphQLString as TString
 } from "graphql"
 
-// import {toRequired, Input} from "parasprite"
+import {Input, toRequired} from "parasprite"
 
 const root = p.resolve(process.cwd(), "test/fixture/schema")
 
@@ -17,13 +17,15 @@ const defaultFakeReaddirSync = path => (
   path.endsWith("/query") ? ["noop.js"] : []
 )
 
+const noopHandler = () => null
+
 const noopResolverStub = {
   "@noCallThru": true,
 
   resolve: {
     type: TString,
 
-    handler: () => null
+    handler: noopHandler
   }
 }
 
@@ -62,7 +64,7 @@ test("Resolves schema from given root path", t => {
   t.is(actual, p.join(root, "query"))
 })
 
-test("Ignores mutation definitions when there are none of them", t => {
+test("Ignores Mutation definitions when there are none of them", t => {
   const build = createBuilderMock({
     fs: {
       readdirSync: defaultFakeReaddirSync
@@ -77,7 +79,7 @@ test("Ignores mutation definitions when there are none of them", t => {
   t.deepEqual(actual, undefined)
 })
 
-test("Ignores subscription definitions when there are none of them", t => {
+test("Ignores Subscription definitions when there are none of them", t => {
   const build = createBuilderMock({
     fs: {
       readdirSync: defaultFakeReaddirSync
@@ -90,4 +92,185 @@ test("Ignores subscription definitions when there are none of them", t => {
   const actual = schema.getSubscriptionType()
 
   t.deepEqual(actual, undefined)
+})
+
+test("Ignores unknown file extensions", t => {
+  const build = createBuilderMock({
+    fs: {
+      readdirSync: path => (
+        path.endsWith("/query") ? ["noop.js", "unknown.file"] : []
+      )
+    },
+
+    [p.join(root, "query/noop.js")]: noopResolverStub,
+
+    [p.join(root, "query/unknown.file")]: noopResolverStub
+  })
+
+  const actual = build({root}).getQueryType().getFields()
+
+  t.deepEqual(actual, {
+    noop: {
+      name: "noop",
+      type: TString,
+      isDeprecated: false,
+      args: [],
+
+      resolve: noopHandler
+    }
+  })
+})
+
+test("Ignores definitions with \"ignore\" flag", t => {
+  const build = createBuilderMock({
+    fs: {
+      readdirSync: path => (
+        path.endsWith("/query") ? ["noop.js", "user.js"] : []
+      )
+    },
+
+    [p.join(root, "query/noop.js")]: {
+      "@noCallThru": true,
+
+      ignore: true, // the definition with such flag will be ignored
+      resolve: {
+        type: TString,
+
+        handler: () => {}
+      }
+    },
+
+    [p.join(root, "query/user.js")]: noopResolverStub
+  })
+
+  const actual = build({root}).getQueryType().getFields()
+
+  t.deepEqual(actual, {
+    user: {
+      name: "user",
+      type: TString,
+      isDeprecated: false,
+      args: [],
+
+      resolve: noopHandler
+    }
+  })
+})
+
+test("Correctly creates resolver with arguments", t => {
+  const build = createBuilderMock({
+    fs: {
+      readdirSync: defaultFakeReaddirSync
+    },
+
+    [p.join(root, "query/noop.js")]: {
+      "@noCallThru": true,
+
+      args: {
+        name: TString
+      },
+
+      resolve: {
+        type: TString,
+        handler: noopHandler
+      }
+    }
+  })
+
+  const actual = build({root}).getQueryType().getFields()
+
+  t.deepEqual(actual, {
+    noop: {
+      name: "noop",
+      type: TString,
+      isDeprecated: false,
+      args: [{
+        name: "name",
+        description: null,
+        type: TString,
+        defaultValue: undefined,
+        astNode: undefined
+      }],
+
+      resolve: noopHandler
+    }
+  })
+})
+
+test("Allows to mark argument type as required usting array syntax", t => {
+  const build = createBuilderMock({
+    fs: {
+      readdirSync: defaultFakeReaddirSync
+    },
+
+    [p.join(root, "query/noop.js")]: {
+      "@noCallThru": true,
+
+      args: {
+        name: [TString, true]
+      },
+
+      resolve: {
+        type: TString,
+        handler: noopHandler
+      }
+    }
+  })
+
+  const actual = build({root}).getQueryType().getFields()
+
+  t.deepEqual(actual, {
+    noop: {
+      name: "noop",
+      type: TString,
+      isDeprecated: false,
+      args: [{
+        name: "name",
+        description: null,
+        type: toRequired(TString),
+        defaultValue: undefined,
+        astNode: undefined
+      }],
+
+      resolve: noopHandler
+    }
+  })
+})
+
+test("Throws a TypeError when there are no handlers", t => {
+  const build = createBuilderMock({
+    fs: {
+      readdirSync: defaultFakeReaddirSync
+    },
+
+    [p.join(root, "query/noop.js")]: {
+      "@noCallThru": true,
+
+      resolve: {
+        type: TString
+      }
+    }
+  })
+
+  const trap = () => build({root})
+
+  const err = t.throws(trap)
+
+  t.true(err instanceof TypeError)
+  t.is(err.message, "Handler and Subscribe function can't be omitted both.")
+})
+
+test("Throws an error when no Query definitions found", t => {
+  const build = createBuilderMock({
+    fs: {
+      readdirSync: () => []
+    }
+  })
+
+  const err = t.throws(build)
+
+  t.is(
+    err.message,
+    `Expected a Query definitions, but got nothig. Path: ${process.cwd()}/query`
+  )
 })
