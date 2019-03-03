@@ -1,4 +1,4 @@
-import path from "path"
+import p from "path"
 import fs from "fs"
 
 import {isType} from "graphql"
@@ -14,34 +14,26 @@ import isString from "lib/util/internal/isString"
 import isFunction from "lib/util/internal/isFunction"
 import iterator from "lib/util/internal/objectIterator"
 import isPlainObject from "lib/util/internal/isPlainObject"
-import findParentModule from "lib/util/internal/findParentModule"
 
 const isArray = Array.isArray
 
-let parent = process.cwd()
-
-// Make paths relative to __filename of the parent module.
-if (module && module.parent && isString(module.parent.filename)) {
-  parent = path.dirname(findParentModule(module.parent))
-
-  // eslint-disable-next-line no-underscore-dangle
-  delete require.cache[__filename]
-}
+const EXTENSIONS = [".js", ".mjs"]
 
 const defaults = {
+  root: process.cwd(),
   query: {
     name: "Query",
-    dir: "query",
+    path: "query",
     description: null
   },
   mutation: {
     name: "Mutation",
-    dir: "mutation",
+    path: "mutation",
     description: null
   },
   subscription: {
     name: "Subscription",
-    dir: "subscription",
+    path: "subscription",
     description: null
   }
 }
@@ -63,7 +55,7 @@ function setArgs(t, args) {
   }
 }
 
-function setField(t, name, options) {
+function setDefinition(t, name, options) {
   if (options.resolve && isFunction(options.resolve.handler)) {
     t = t.resolve({...options.resolve, name})
   } else if (options.subscribe && isFunction(options.subscribe.handler)) {
@@ -81,82 +73,68 @@ function setField(t, name, options) {
   return t.end()
 }
 
-function setFields(name, description, fields) {
+function setDefinitions(name, description, fields) {
   const t = Type(name, description)
 
   for (const [key, field] of iterator.entries(fields)) {
     if (!field.ignore) {
-      setField(t, key, field)
+      setDefinition(t, key, field)
     }
   }
 
   return t.end()
 }
 
-function readFields(dir) {
-  const files = fs.readdirSync(dir)
+function readDefinitions(path) {
+  const files = fs.readdirSync(path)
 
   const fields = {}
 
   for (const file of files) {
-    const ext = path.extname(file)
-    const base = path.basename(file, ext)
+    const ext = p.extname(file)
+    const base = p.basename(file, ext)
 
-    if (ext === ".js") {
-      fields[base] = require(path.join(dir, file))
+    if (EXTENSIONS.includes(ext)) {
+      fields[base] = require(p.join(path, file))
     }
   }
 
   return fields
 }
 
-function buildSchema(dir, options = {}) {
-  invariant(!dir, "Required a path to the schema root directory.")
-
+/**
+ * Build a new GraphQL schema using definitions from given path(s).
+ *
+ * @return {parasprite.Schema}
+ */
+function buildSchema(params = {}) {
   invariant(
-    !isString(dir), TypeError,
-    "The root directory path should be a string. Received %s", typeOf(dir)
+    !isPlainObject(params), TypeError,
+
+    "Expected parameters as an object. Received ", typeOf(params)
   )
 
+  const {root, ...fields} = merge({}, defaults, params)
+
   invariant(
-    options && !isPlainObject(options), TypeError,
-    "Options should be a plain object. Received %s", typeOf(options)
+    !isString(root), TypeError,
+
+    "Root path must be a string. Received", typeOf(root)
   )
-
-  if (!path.isAbsolute(dir)) {
-    dir = path.resolve(parent, dir)
-  }
-
-  options = merge({}, defaults, options)
 
   const schema = new Schema()
 
-  const {query, mutation, subscription} = options
+  for (const [kind, field] of iterator.entries(fields)) {
+    const path = p.resolve(root, field.path)
+    const definitions = readDefinitions(path)
 
-  // Query always required!
-  const queryFields = readFields(path.join(dir, query.dir))
-
-  invariant(
-    isEmpty(queryFields),
-
-    "Expected a Query fields, but got nothig. Path: %s",
-    path.join(dir, query.dir)
-  )
-
-  schema.query(setFields(query.name, query.description, queryFields))
-
-  for (const [kind, option] of iterator.entries({mutation, subscription})) {
-    try {
-      const fields = readFields(path.join(dir, option.dir))
-
-      if (!isEmpty(fields)) {
-        schema[kind](setFields(option.name, option.description, fields))
-      }
-    } catch (err) {
-      if (err.code !== "ENOENT") {
-        throw err
-      }
+    if (isEmpty(definitions) && kind === "query") {
+      invariant(
+        true, "Expected a Query definitions, but got nothig. Path: %", path
+      )
     }
+
+    schema[kind](setDefinitions(field.name, field.description, definitions))
   }
 
   return schema.end()
