@@ -22,7 +22,7 @@
     "make:spec": "babel src -s -d .",
     "prepare": "npm run cleanup && npm run make && npm run make:esm",
     "test": "ava",
-    "test:cleanup": "npm run cleanup && npm run make:spec && ava && npm run cleanup && npm run make",
+    "test:cleanup": "npm run cleanup && npm run make:spec && ava && npm run cleanup && npm run prepare",
     "m": "npm run make",
     "w": "npm run watch",
     "p": "npm run prepare",
@@ -33,7 +33,7 @@
     "coverage": "nyc npm run test",
     "staged": "lint-staged",
     "eslint": "eslint src/**/*.mjs",
-    "report": "npm run make:spec && npm run coverage && nyc report --reporter=html npm run test && npm run cleanup && npm run make",
+    "report": "npm run make:spec && npm run coverage && nyc report --reporter=html npm run test && npm run cleanup && npm run prepare",
     "report:codecov": "nyc report --reporter=lcov npm run test",
     "ci": "npm run make:spec && npm run coverage && npm run report:codecov && codecov"
   },
