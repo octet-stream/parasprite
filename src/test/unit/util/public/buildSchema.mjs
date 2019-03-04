@@ -4,7 +4,9 @@ import test from "ava"
 import sinon from "sinon"
 import pq from "proxyquire"
 
-import {GraphQLSchema, GraphQLString as TString} from "graphql"
+import {
+  GraphQLSchema, GraphQLString as TString, GraphQLObjectType
+} from "graphql"
 
 import {toRequired} from "parasprite"
 
@@ -273,6 +275,50 @@ test("Allows to set each argument as object", t => {
       }],
 
       resolve: noopHandler
+    }
+  })
+})
+
+test("Correctly creates subscription definitions", t => {
+  const build = createBuilderMock({
+    fs: {
+      readdirSync(path) {
+        if (path.endsWith("/query")) {
+          return ["noop.js"]
+        }
+
+        if (path.endsWith("/subscription")) {
+          return ["subscribeNoop.js"]
+        }
+
+        return []
+      }
+    },
+
+    [p.join(root, "query/noop.js")]: noopResolverStub,
+
+    [p.join(root, "subscription/subscribeNoop.js")]: {
+      "@noCallThru": true,
+
+      subscribe: {
+        type: TString,
+        handler: noopHandler
+      }
+    }
+  })
+
+  const subscription = build({root}).getSubscriptionType()
+
+  t.true(subscription instanceof GraphQLObjectType)
+  t.is(subscription.name, "Subscription")
+
+  t.deepEqual(subscription.getFields(), {
+    subscribeNoop: {
+      name: "subscribeNoop",
+      args: [],
+      type: TString,
+      isDeprecated: false,
+      subscribe: noopHandler
     }
   })
 })
