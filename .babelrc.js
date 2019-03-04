@@ -3,8 +3,6 @@ const config = {
     "@babel/proposal-export-default-from",
     "@babel/proposal-export-namespace-from",
     "@babel/transform-async-to-generator",
-    "@babel/syntax-import-meta",
-    "@babel/transform-modules-commonjs",
     ["module-resolver", {
       root: ["src"],
     }],
@@ -18,6 +16,10 @@ const config = {
       useBuiltIns: true
     }]
   ]
+}
+
+if (!("BABEL_ESM" in process.env)) {
+  config.plugins.push("@babel/transform-modules-commonjs")
 }
 
 module.exports = config
