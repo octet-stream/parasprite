@@ -16,6 +16,11 @@ import Base from "./Base"
 
 const isArray = Array.isArray
 
+const kinds = {
+  RESOLVE: "resolve",
+  SUBSCRIBE: "subscribe"
+}
+
 /**
  * Implements resolver field on GraphQLObjectType
  *
@@ -64,9 +69,9 @@ class Resolver extends Base {
    *
    * @return {Resolver}
    */
-  resolve = (...args) => this.__setHandler(Resolver.kinds.RESOLVE, ...args)
+  resolve = (...args) => this.__setHandler(kinds.RESOLVE, ...args)
 
-  subscribe = (...args) => this.__setHandler(Resolver.kinds.SUBSCRIBE, ...args)
+  subscribe = (...args) => this.__setHandler(kinds.SUBSCRIBE, ...args)
 
   /**
    * Define arguments for resolver handler
@@ -121,4 +126,5 @@ class Resolver extends Base {
   }
 }
 
+export {kinds, Resolver}
 export default Resolver

@@ -15,7 +15,8 @@ import toListIfNeeded from "lib/util/internal/toListTypeIfNeeded"
 import toRequiredIfNeeded from "lib/util/internal/toRequiredTypeIfNeeded"
 
 import Base from "./Base"
-import Resolver from "./Resolver"
+
+import {Resolver, kinds} from "./Resolver"
 
 const isArray = Array.isArray
 
@@ -155,7 +156,7 @@ class Type extends Base {
     resolver = resolver[kind](options.handler, ctx)
 
     // Add "resolve" function to the existing subscription handler if passed
-    if (options.resolve && kind === Resolver.kinds.SUBSCRIBE) {
+    if (options.resolve && kind === kinds.SUBSCRIBE) {
       resolver = resolver.resolve(options.resolve)
     }
 
@@ -222,9 +223,9 @@ class Type extends Base {
    *
    * @return {Resolver}
    */
-  resolve = (...args) => this.__setHandler(Resolver.kinds.RESOLVE, ...args)
+  resolve = (...args) => this.__setHandler(kinds.RESOLVE, ...args)
 
-  subscribe = (...args) => this.__setHandler(Resolver.kinds.SUBSCRIBE, ...args)
+  subscribe = (...args) => this.__setHandler(kinds.SUBSCRIBE, ...args)
 
   /**
    * Build and return GraphQLObjectType
