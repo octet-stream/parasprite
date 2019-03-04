@@ -124,9 +124,9 @@ class Type extends Base {
 
     for (const field of objectIterator(fields)) {
       if (isFunction(field.subscribe)) {
-        this.__extendHandler("subscribe", field)
+        this.__extendHandler(kinds.SUBSCRIBE, field)
       } else if (isFunction(field.resolve)) {
-        this.__extendHandler("resolve", field)
+        this.__extendHandler(kinds.RESOLVE, field)
       } else {
         this.field({...field})
       }
