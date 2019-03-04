@@ -4,12 +4,9 @@ import test from "ava"
 import sinon from "sinon"
 import pq from "proxyquire"
 
-import {
-  GraphQLSchema, /* GraphQLObjectType, */
-  GraphQLString as TString
-} from "graphql"
+import {GraphQLSchema, GraphQLString as TString} from "graphql"
 
-import {Input, toRequired} from "parasprite"
+import {toRequired} from "parasprite"
 
 const root = p.resolve(process.cwd(), "test/fixture/schema")
 
@@ -208,6 +205,49 @@ test("Allows to mark argument type as required usting array syntax", t => {
 
       args: {
         name: [TString, true]
+      },
+
+      resolve: {
+        type: TString,
+        handler: noopHandler
+      }
+    }
+  })
+
+  const actual = build({root}).getQueryType().getFields()
+
+  t.deepEqual(actual, {
+    noop: {
+      name: "noop",
+      type: TString,
+      isDeprecated: false,
+      args: [{
+        name: "name",
+        description: null,
+        type: toRequired(TString),
+        defaultValue: undefined,
+        astNode: undefined
+      }],
+
+      resolve: noopHandler
+    }
+  })
+})
+
+test("Allows to set each argument as object", t => {
+  const build = createBuilderMock({
+    fs: {
+      readdirSync: defaultFakeReaddirSync
+    },
+
+    [p.join(root, "query/noop.js")]: {
+      "@noCallThru": true,
+
+      args: {
+        name: {
+          type: TString,
+          required: true
+        }
       },
 
       resolve: {
