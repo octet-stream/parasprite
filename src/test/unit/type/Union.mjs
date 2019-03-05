@@ -64,9 +64,7 @@ const handler = (_, {name}) => (
   ))
 )
 
-test("Should return a GraphQLUnionType", t => {
-  t.plan(1)
-
+test("Returns a GraphQLUnionType after .end() call", t => {
   const TSearchable = Union("Searchable", [TBook])
     .match(({author}) => author && TBook)
   .end()
@@ -74,24 +72,19 @@ test("Should return a GraphQLUnionType", t => {
   t.true(TSearchable instanceof GraphQLUnionType)
 })
 
-test(
-  "Should correctly create a GraphQLUnionType when constructor takes an object",
-  t => {
-    t.plan(1)
+test("Takes union type parameters from given object", t => {
+  const TSearchable = Union({
+    name: "Searchable",
+    description: "Represents a union searchable type.",
+    types: [TBook]
+  })
+    .match(({author}) => author && TBook)
+  .end()
 
-    const TSearchable = Union({
-      name: "Searchable",
-      description: "Represents a union searchable type.",
-      types: [TBook]
-    })
-      .match(({author}) => author && TBook)
-    .end()
+  t.true(TSearchable instanceof GraphQLUnionType)
+})
 
-    t.true(TSearchable instanceof GraphQLUnionType)
-  }
-)
-
-test("Should correctly resolve a type", async t => {
+test("Resolves matched type", async t => {
   const TSearchable = Union("Searchable", [TBook, TMovie])
     .match(({director, runningTime}) => (director && runningTime) && TMovie)
     .match(({author, pages}) => (author && pages) && TBook)
@@ -138,9 +131,7 @@ test("Should correctly resolve a type", async t => {
   })
 })
 
-test("Should call predicate with given context", async t => {
-  t.plan(3)
-
+test("Executes predicate with given context", async t => {
   const ctx = new Map()
 
   function matchMovie({director, runningTime}) {
@@ -200,31 +191,22 @@ test("Should call predicate with given context", async t => {
   })
 })
 
-test("Should throw an error when name not given", t => {
-  t.plan(1)
-
+test("Throws an error when the name was not given", t => {
   const trap = () => Union()
 
   t.throws(trap, "Union type constructor requires a name.")
 })
 
-test(
-  "Should should throw an error when the name property omitted on given object",
-  t => {
-    t.plan(1)
+test("Throws an error when the name property omitted on given object", t => {
+  const trap = () => Union({
+    description: "Some description",
+    types: [TBook, TMovie]
+  })
 
-    const trap = () => Union({
-      description: "Some description",
-      types: [TBook, TMovie]
-    })
+  t.throws(trap, "Union type constructor requires a name.")
+})
 
-    t.throws(trap, "Union type constructor requires a name.")
-  }
-)
-
-test("Should throw a TypeError when given name is not a string", t => {
-  t.plan(3)
-
+test("Throws a TypeError when given name is not a string", t => {
   const trap = () => Union(451)
 
   const err = t.throws(trap)
@@ -233,7 +215,7 @@ test("Should throw a TypeError when given name is not a string", t => {
   t.is(err.message, "The name should be a string. Received number")
 })
 
-test("Should throw an error when the name property is not a string", t => {
+test("Throws an error when the name property is not a string", t => {
   const trap = () => Union({
     name: 451
   })
@@ -244,56 +226,40 @@ test("Should throw an error when the name property is not a string", t => {
   t.is(err.message, "The name should be a string. Received number")
 })
 
-test("Should throw an error when no types list given", t => {
-  t.plan(1)
-
+test("Throws an error when no types list given", t => {
   const trap = () => Union("Searchable")
 
   t.throws(trap, "Types list required.")
 })
 
-test(
-  "Should throw a TypeError when given types list contain a wrong type",
-  t => {
-    t.plan(3)
+test("Throws a TypeError when given types list contain a wrong type", t => {
+  const trap = () => Union("Searchable", [TBook, Map, TMovie])
 
-    const trap = () => Union("Searchable", [TBook, Map, TMovie])
+  const err = t.throws(trap)
 
-    const err = t.throws(trap)
+  t.true(err instanceof TypeError)
+  t.is(
+    err.message, "Given list should contain only GraphQLObjectType instances."
+  )
+})
 
-    t.true(err instanceof TypeError)
-    t.is(
-      err.message, "Given list should contain only GraphQLObjectType instances."
-    )
-  }
-)
+test("Throws an error when the types property omitted on given object", t => {
+  const trap = () => Union({
+    name: "Searchable"
+  })
 
-test(
-  "Should throw an error when the types property omitted on given object",
-  t => {
-    t.plan(1)
+  t.throws(trap, "Types list required.")
+})
 
-    const trap = () => Union({
-      name: "Searchable"
-    })
+test(".match() throws a TypeError when predicate is not a function", t => {
+  t.plan(3)
 
-    t.throws(trap, "Types list required.")
-  }
-)
+  const trap = () => (
+    Union("Searchable", [TBook]).match("totally not a function").end()
+  )
 
-test(
-  "Method .match() throws a TypeError " +
-  "when given predicate is not a function",
-  t => {
-    t.plan(3)
+  const err = t.throws(trap)
 
-    const trap = () => (
-      Union("Searchable", [TBook]).match("totally not a function").end()
-    )
-
-    const err = t.throws(trap)
-
-    t.true(err instanceof TypeError)
-    t.is(err.message, "Type matcher must be a function. Received string")
-  }
-)
+  t.true(err instanceof TypeError)
+  t.is(err.message, "Type matcher must be a function. Received string")
+})

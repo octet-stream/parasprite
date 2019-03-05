@@ -83,6 +83,7 @@ class Union extends Base {
 
     invariant(
       !isString(name), TypeError,
+
       "The name should be a string. Received %s", typeOf(name)
     )
 
@@ -92,13 +93,13 @@ class Union extends Base {
 
     invariant(
       !isListOf(types, isObjectType), TypeError,
+
       "Given list should contain only GraphQLObjectType instances."
     )
 
     this.__types = Array.from(types)
     this.__astNode = astNode
 
-    this.__predicates = []
     this.__matcher = new TypesMatcher()
   }
 
