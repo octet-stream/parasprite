@@ -27,6 +27,7 @@ npm-debug.log
 /toRequired.js
 /isListOf.js
 /buildSchema.js
+/matchTypes.js
 
 test.mjs
 
@@ -43,3 +44,4 @@ test.mjs
 /toRequired.mjs
 /isListOf.mjs
 /buildSchema.mjs
+/matchTypes.mjs

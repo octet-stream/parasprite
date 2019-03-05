@@ -1,9 +1,8 @@
-import {GraphQLUnionType} from "graphql"
+import {GraphQLUnionType, isObjectType} from "graphql"
 
 import invariant from "@octetstream/invariant"
 
 import isPlainObject from "lib/util/internal/isPlainObject"
-import isObjectType from "lib/util/internal/isObjectType"
 import omitNullish from "lib/util/internal/omitNullish"
 import apply from "lib/util/internal/selfInvokingClass"
 import isListOf from "lib/util/internal/isListOf"
