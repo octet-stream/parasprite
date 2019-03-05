@@ -5,6 +5,6 @@ import TypesMatcher from "lib/util/internal/TypesMatcher"
  *
  * @api public
  */
-const matchTypes = matchers => new TypesMatcher(matchers)
+const matchTypes = (matchers = undefined) => new TypesMatcher(matchers)
 
 export default matchTypes

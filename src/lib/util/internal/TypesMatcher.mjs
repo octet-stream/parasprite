@@ -9,29 +9,42 @@ import typeOf from "lib/util/internal/typeOf"
 const isArray = Array.isArray
 
 class TypesMatcher {
-  constructor(matchers = null) {
-    this.__matchers = []
+  constructor(matchers = undefined) {
+    this.__predicates = []
 
     if (isArray(matchers)) {
       this.use(matchers)
     }
   }
 
-  use = (matcher, ctx = null) => {
+  /**
+   * Add another predicate to use as matcher
+   *
+   * @param (Function) predicate
+   *
+   * @return {TypesMatcher}
+   */
+  use = (predicate, ctx = null) => {
     invariant(
-      !isFunction(matcher), TypeError,
+      !isFunction(predicate), TypeError,
 
-      "Type matcher must be a function. Received %s", typeOf(matcher)
+      "Type matcher must be a function. Received %s", typeOf(predicate)
     )
 
-    this.__matchers.push(ctx ? matcher.bind(ctx) : matcher)
+    this.__predicates.push(ctx ? predicate.bind(ctx) : predicate)
 
     return this
   }
 
+  /**
+   * Executes types matching.
+   * Used as the as the resolveType function at Union and Interface.
+   *
+   * @return {GraphQLObjectType | null}
+   */
   exec = async (source, ctx, info) => {
-    for (const matcher of this.__matchers) {
-      const resolvedType = await matcher(source, ctx, info)
+    for (const predicate of this.__predicates) {
+      const resolvedType = await predicate(source, ctx, info)
 
       if (isObjectType(resolvedType) || isString(resolvedType)) {
         return resolvedType
