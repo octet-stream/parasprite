@@ -282,7 +282,7 @@ test(
 )
 
 test(
-  "Method .match() should throw a TypeError " +
+  "Method .match() throws a TypeError " +
   "when given predicate is not a function",
   t => {
     t.plan(3)
@@ -294,6 +294,6 @@ test(
     const err = t.throws(trap)
 
     t.true(err instanceof TypeError)
-    t.is(err.message, "Predicate should be a function. Received string")
+    t.is(err.message, "Type matcher must be a function. Received string")
   }
 )

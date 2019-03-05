@@ -12,4 +12,5 @@ export {default as Interface} from "Interface"
 // utils
 export {default as toListType} from "toListType"
 export {default as toRequired} from "toRequired"
+export {default as matchTypes} from "matchTypes"
 export {default as buildSchema} from "buildSchema"

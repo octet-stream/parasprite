@@ -6,13 +6,13 @@ import isPlainObject from "lib/util/internal/isPlainObject"
 import isObjectType from "lib/util/internal/isObjectType"
 import omitNullish from "lib/util/internal/omitNullish"
 import apply from "lib/util/internal/selfInvokingClass"
-import isFunction from "lib/util/internal/isFunction"
 import isListOf from "lib/util/internal/isListOf"
 import isString from "lib/util/internal/isString"
 import typeOf from "lib/util/internal/typeOf"
 import proxy from "lib/util/internal/proxy"
 
-import Base from "./Base"
+import Base from "lib/type/Base"
+import TypesMatcher from "lib/util/internal/TypesMatcher"
 
 const isArray = Array.isArray
 
@@ -100,16 +100,7 @@ class Union extends Base {
     this.__astNode = astNode
 
     this.__predicates = []
-  }
-
-  __resolveType = async (source, ctx, info) => {
-    for (const predicate of this.__predicates) {
-      const resolvedType = await predicate(source, ctx, info)
-
-      if (isObjectType(resolvedType) || isString(resolvedType)) {
-        return resolvedType
-      }
-    }
+    this.__matcher = new TypesMatcher()
   }
 
   /**
@@ -121,12 +112,7 @@ class Union extends Base {
    * @return {Union}
    */
   match = (predicate, ctx = null) => {
-    invariant(
-      !isFunction(predicate), TypeError,
-      "Predicate should be a function. Received %s", typeOf(predicate)
-    )
-
-    this.__predicates.push(ctx ? predicate.bind(ctx) : predicate)
+    this.__matcher.use(predicate, ctx)
 
     return this
   }
@@ -136,7 +122,7 @@ class Union extends Base {
       name: this._name,
       description: this._description,
       types: this.__types,
-      resolveType: this.__resolveType,
+      resolveType: this.__matcher.exec,
       astNode: this.__astNode
     }))
   }
