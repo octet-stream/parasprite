@@ -32,7 +32,7 @@ Type class can create a new type with fields of another. `Use params.extends` fo
 ```js
 import {GraphQLString as TString, GraphQLInt as TInt} from "graphql"
 
-// This package also exposes separated entry points for each peace of public API
+// This package also exposes separated entry points for each piece of public API
 import Type from "parasprite/Type"
 
 const TUserMinimal = Type({name: "UserMinimal"})
