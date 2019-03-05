@@ -27,7 +27,7 @@ type User {
 }
 ```
 
-Type class can create a new type with fields of another. `Use params.extends` for that:
+Type class can create a new type with fields of another. Use `params.extends` for that:
 
 ```js
 import {GraphQLString as TString, GraphQLInt as TInt} from "graphql"
