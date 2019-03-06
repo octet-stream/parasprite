@@ -5,7 +5,6 @@ import invariant from "@octetstream/invariant"
 import typeOf from "lib/util/internal/typeOf"
 import proxy from "lib/util/internal/proxy"
 import isString from "lib/util/internal/isString"
-import isFunction from "lib/util/internal/isFunction"
 import apply from "lib/util/internal/selfInvokingClass"
 import omitNullish from "lib/util/internal/omitNullish"
 import isPlainObject from "lib/util/internal/isPlainObject"
@@ -14,11 +13,12 @@ import toListIfNeeded from "lib/util/internal/toListTypeIfNeeded"
 import toRequiredIfNeeded from "lib/util/internal/toRequiredTypeIfNeeded"
 
 import TypesMatcher from "lib/util/internal/TypesMatcher"
+import Base from "lib/type/Base"
 
 const isArray = Array.isArray
 
 @proxy({apply})
-class Interface {
+class Interface extends Base {
   /**
    * Create custim GraphQLInterfaceType using Parasprite chainable API
    *
@@ -27,7 +27,11 @@ class Interface {
    * @param {function} resolveType
    */
   constructor(name, description, resolveType) {
-    if (isFunction(description)) {
+    if (isPlainObject(name)) {
+      [name, description, resolveType] = [
+        name.name, name.description, name.resolveType
+      ]
+    } else if (!isString(description)) {
       [resolveType, description] = [description, undefined]
     }
 
@@ -38,8 +42,8 @@ class Interface {
       "The name should be a string. Received %s", typeOf(name)
     )
 
-    this.__name = name
-    this.__description = description
+    super(name, description)
+
     this.__fields = {}
 
     // Private
@@ -100,8 +104,8 @@ class Interface {
 
   end() {
     return new GraphQLInterfaceType(omitNullish({
-      name: this.__name,
-      description: this.__description,
+      name: this._name,
+      description: this._description,
       fields: this.__fields,
       resolveType: this.__matcher.exec
     }))
