@@ -12,12 +12,14 @@ class Schema extends Base {
   /**
    * Describe GraphQL schema using chainable interface
    */
-  constructor() {
+  constructor({types = []} = {}) {
     super()
 
     this.__query = null
     this.__mutation = null
     this.__subscription = null
+
+    this.__types = types
   }
 
   /**
@@ -69,7 +71,8 @@ class Schema extends Base {
     return new GraphQLSchema(omitNullish({
       query: this.__query,
       mutation: this.__mutation,
-      subscription: this.__subscription
+      subscription: this.__subscription,
+      types: this.__types.length > 0 ? this.__types : null
     }))
   }
 }

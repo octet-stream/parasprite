@@ -1,8 +1,24 @@
 import test from "ava"
+import sinon from "sinon"
 
-import {GraphQLInterfaceType, GraphQLString as TString} from "graphql"
+import {graphql, GraphQLInterfaceType, GraphQLString as TString} from "graphql"
 
-import {Interface, toListType, toRequired} from "parasprite"
+import {
+  Schema, Interface, Type,
+  toListType, toRequired, matchTypes
+} from "parasprite"
+
+import TypesMatcher from "lib/util/internal/TypesMatcher"
+
+const DATA_SOURCE = [
+  {
+    name: "Anon",
+    age: NaN,
+    city: "Unknown"
+  }
+]
+
+const handler = (_, {name}) => DATA_SOURCE.find(user => user.name === name)
 
 test("Returns GraphQLInterfaceType after .end() call", t => {
   const interf = Interface("Interface", () => {}).end()
@@ -60,6 +76,69 @@ test(".field() allows to set types from array", t => {
       type: toListType(toRequired(TString)),
       isDeprecated: false,
       args: []
+    }
+  })
+})
+
+test("Allows to set resolveType function as TypesMatcher instance", async t => {
+  // eslint-disable-next-line no-use-before-define
+  const matcher = new TypesMatcher([() => TUser])
+
+  sinon.spy(matcher, "exec")
+
+  const IInterf = Interface("Interface", matcher)
+    .field({
+      name: "name",
+      type: TString,
+      required: true
+    })
+  .end()
+
+  const TUser = Type({name: "User", interfaces: [IInterf]})
+    .field({
+      name: "name",
+      type: TString,
+      required: true
+    })
+  .end()
+
+  const schema = Schema({types: [TUser]})
+    .query("Query")
+      .resolve({
+        name: "user",
+        type: IInterf,
+        required: true,
+        handler
+      })
+        .arg({
+          name: "name",
+          type: TString,
+          required: true
+        })
+      .end()
+    .end()
+  .end()
+
+  const query = `
+    query {
+      user(name: "Anon") {
+        name
+      }
+    }
+  `
+
+  const [expected] = DATA_SOURCE
+
+  const response = await graphql(schema, query)
+
+  t.true(matcher.exec.called)
+
+  const [user] = matcher.exec.firstCall.args
+
+  t.deepEqual(user, expected)
+  t.deepEqual(response, {
+    data: {
+      user: {name: expected.name}
     }
   })
 })
