@@ -9,8 +9,11 @@ import isFunction from "lib/util/internal/isFunction"
 import apply from "lib/util/internal/selfInvokingClass"
 import omitNullish from "lib/util/internal/omitNullish"
 import isPlainObject from "lib/util/internal/isPlainObject"
+import isTypesMatcher from "lib/util/internal/isTypesMatcher"
 import toListIfNeeded from "lib/util/internal/toListTypeIfNeeded"
 import toRequiredIfNeeded from "lib/util/internal/toRequiredTypeIfNeeded"
+
+import TypesMatcher from "lib/util/internal/TypesMatcher"
 
 const isArray = Array.isArray
 
@@ -40,7 +43,14 @@ class Interface {
     this.__fields = {}
 
     // Private
-    this.__resolveType = resolveType
+    // this.__resolveType = resolveType
+    if (isTypesMatcher(resolveType)) {
+      this.__matcher = resolveType
+    } else {
+      this.__matcher = new TypesMatcher(
+        isArray(resolveType) ? Array.from(resolveType) : [resolveType]
+      )
+    }
   }
 
   /**
@@ -93,7 +103,7 @@ class Interface {
       name: this.__name,
       description: this.__description,
       fields: this.__fields,
-      resolveType: this.__resolveType
+      resolveType: this.__matcher.exec
     }))
   }
 }

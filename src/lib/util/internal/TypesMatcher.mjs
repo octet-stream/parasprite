@@ -3,35 +3,34 @@ import invariant from "@octetstream/invariant"
 import {isObjectType} from "graphql"
 
 import isFunction from "lib/util/internal/isFunction"
-import isString from "lib/util/internal/isString"
 import typeOf from "lib/util/internal/typeOf"
 
 const isArray = Array.isArray
 
 class TypesMatcher {
   constructor(matchers = undefined) {
-    this.__predicates = []
+    this.__matchers = []
 
     if (isArray(matchers)) {
-      this.use(matchers)
+      matchers.forEach(matcher => this.use(matcher))
     }
   }
 
   /**
-   * Add another predicate to use as matcher
+   * Add another matcher to use as matcher
    *
-   * @param (Function) predicate
+   * @param (Function) matcher
    *
    * @return {TypesMatcher}
    */
-  use = (predicate, ctx = null) => {
+  use(matcher, ctx = null) {
     invariant(
-      !isFunction(predicate), TypeError,
+      !isFunction(matcher), TypeError,
 
-      "Type matcher must be a function. Received %s", typeOf(predicate)
+      "Type matcher must be a function. Received %s", typeOf(matcher)
     )
 
-    this.__predicates.push(ctx ? predicate.bind(ctx) : predicate)
+    this.__matchers.push(ctx ? matcher.bind(ctx) : matcher)
 
     return this
   }
@@ -43,10 +42,10 @@ class TypesMatcher {
    * @return {GraphQLObjectType | null}
    */
   exec = async (source, ctx, info) => {
-    for (const predicate of this.__predicates) {
-      const resolvedType = await predicate(source, ctx, info)
+    for (const matcher of this.__matchers) {
+      const resolvedType = await matcher(source, ctx, info)
 
-      if (isObjectType(resolvedType) || isString(resolvedType)) {
+      if (isObjectType(resolvedType)) {
         return resolvedType
       }
     }
