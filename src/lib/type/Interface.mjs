@@ -46,8 +46,6 @@ class Interface extends Base {
 
     this.__fields = {}
 
-    // Private
-    // this.__resolveType = resolveType
     if (isTypesMatcher(resolveType)) {
       this.__matcher = resolveType
     } else {

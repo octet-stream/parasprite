@@ -3,10 +3,7 @@ import sinon from "sinon"
 
 import {graphql, GraphQLInterfaceType, GraphQLString as TString} from "graphql"
 
-import {
-  Schema, Interface, Type,
-  toListType, toRequired, matchTypes
-} from "parasprite"
+import {Schema, Interface, Type, toListType, toRequired} from "parasprite"
 
 import TypesMatcher from "lib/util/internal/TypesMatcher"
 
