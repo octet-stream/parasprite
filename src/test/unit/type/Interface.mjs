@@ -1,5 +1,6 @@
 import test from "ava"
 import sinon from "sinon"
+import pq from "proxyquire"
 
 import {graphql, GraphQLInterfaceType, GraphQLString as TString} from "graphql"
 
@@ -140,4 +141,154 @@ test("Allows to set resolveType function as TypesMatcher instance", async t => {
   })
 
   matcher.exec.restore()
+})
+
+test("Allows to set resolveType as a function", async t => {
+  // eslint-disable-next-line no-use-before-define
+  const noop = sinon.spy(() => Promise.resolve(TUser))
+
+  const FakeMatcher = sinon.spy(TypesMatcher)
+
+  const MockedInterface = pq("../../../lib/type/Interface", {
+    "../util/internal/TypesMatcher": {
+      default: FakeMatcher
+    }
+  }).default
+
+  const IInterf = MockedInterface("Interface", noop)
+    .field({
+      name: "name",
+      type: TString,
+      required: true
+    })
+  .end()
+
+  const TUser = Type({name: "User", interfaces: [IInterf]})
+    .field({
+      name: "name",
+      type: TString,
+      required: true
+    })
+  .end()
+
+  const schema = Schema({types: [TUser]})
+    .query("Query")
+      .resolve({
+        name: "user",
+        type: IInterf,
+        required: true,
+        handler
+      })
+        .arg({
+          name: "name",
+          type: TString,
+          required: true
+        })
+      .end()
+    .end()
+  .end()
+
+  const query = `
+    query {
+      user(name: "Anon") {
+        name
+      }
+    }
+  `
+
+  t.true(FakeMatcher.called)
+
+  const [actual] = FakeMatcher.firstCall.args
+
+  t.deepEqual(actual, [noop])
+
+  const [expectedUser] = DATA_SOURCE
+
+  const response = await graphql(schema, query)
+
+  t.true(noop.called)
+
+  const [user] = noop.firstCall.args
+
+  t.deepEqual(user, expectedUser)
+  t.deepEqual(response, {
+    data: {
+      user: {name: expectedUser.name}
+    }
+  })
+})
+
+test("Allows to set resolveType as an array", async t => {
+  // eslint-disable-next-line no-use-before-define
+  const noop = sinon.spy(() => Promise.resolve(TUser))
+
+  const FakeMatcher = sinon.spy(TypesMatcher)
+
+  const MockedInterface = pq("../../../lib/type/Interface", {
+    "../util/internal/TypesMatcher": {
+      default: FakeMatcher
+    }
+  }).default
+
+  const IInterf = MockedInterface("Interface", [noop])
+    .field({
+      name: "name",
+      type: TString,
+      required: true
+    })
+  .end()
+
+  const TUser = Type({name: "User", interfaces: [IInterf]})
+    .field({
+      name: "name",
+      type: TString,
+      required: true
+    })
+  .end()
+
+  const schema = Schema({types: [TUser]})
+    .query("Query")
+      .resolve({
+        name: "user",
+        type: IInterf,
+        required: true,
+        handler
+      })
+        .arg({
+          name: "name",
+          type: TString,
+          required: true
+        })
+      .end()
+    .end()
+  .end()
+
+  const query = `
+    query {
+      user(name: "Anon") {
+        name
+      }
+    }
+  `
+
+  t.true(FakeMatcher.called)
+
+  const [actual] = FakeMatcher.firstCall.args
+
+  t.deepEqual(actual, [noop])
+
+  const [expectedUser] = DATA_SOURCE
+
+  const response = await graphql(schema, query)
+
+  t.true(noop.called)
+
+  const [user] = noop.firstCall.args
+
+  t.deepEqual(user, expectedUser)
+  t.deepEqual(response, {
+    data: {
+      user: {name: expectedUser.name}
+    }
+  })
 })
