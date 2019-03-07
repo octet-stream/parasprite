@@ -138,4 +138,6 @@ test("Allows to set resolveType function as TypesMatcher instance", async t => {
       user: {name: expected.name}
     }
   })
+
+  matcher.exec.restore()
 })
