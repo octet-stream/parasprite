@@ -28,13 +28,6 @@ const kinds = {
  */
 @proxy({apply})
 class Resolver extends Base {
-  static get kinds() {
-    return {
-      RESOLVE: "resolve",
-      SUBSCRIBE: "subscribe"
-    }
-  }
-
   constructor(cb) {
     super(null, null, cb)
 
