@@ -19,7 +19,7 @@ const TUser = Type("User", "Represents public information about user")
 .end()
 ```
 
-Equivalent of the following code in GraphQL SDL:
+Equivalent of the above code in GraphQL SDL:
 
 ```gql
 type User {
