@@ -105,7 +105,7 @@ Define Subscription with given name and description.
 - **{object}** params – initial parameters of a type
 - **{string}** params.name – type name
 
-#### `ыгиыскшиу(type) -> {Schema}`
+#### `subscribe(type) -> {Schema}`
 
 - **{GraphQLObjectType}** type – GraphQLObjectType to use as Subscribe field
 
