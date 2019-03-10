@@ -40,3 +40,30 @@ schema {
 ## API
 
 ### `constructor([options]) -> {Schema}`
+
+### Instance methods
+
+#### `query(name[, description]) -> {Type}`
+
+- **{string}** name – Name for root Query type
+- **{string}** [description = undefined] – Description for root Query type
+
+Define Query with given name and description.
+
+#### `mutation(name[, description]) -> {Type}`
+
+- **{string}** name – Name for root Mutation type
+- **{string}** [description = undefined] – Description for root Mutation type
+
+Define Mutation with given name and description.
+
+#### `subscription(name[, description]) -> {Type}`
+
+- **{string}** name – Name for root Subscription type
+- **{string}** [description = undefined] – Description for root Subscription type
+
+Define Subscription with given name and description.
+
+#### `end() -> {GraphQLSchema}`
+
+Make GraphQLSchema.

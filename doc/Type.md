@@ -102,36 +102,36 @@ This small feature allows you to reuse declared types as the part of the others.
 
 Appends a field on **GraphQLObjectType**. Returns current instance of **Type** class.
 
-  - **{object}** options – A field declaration options with the following properties:
-    + **{string}** name
-    + **{string | [object, boolean]}** type – Any valid GraphQL type, or a tuple with the type and **required** flag
-    + **{string}** [description = undefined]
-    + **{string}** [deprecationReason = undefined]
-    + **{boolean}** [required = false] – If set to `true`, the field type will be marked as non-null.
+- **{object}** options – A field declaration options with the following properties:
+  + **{string}** name
+  + **{string | [object, boolean]}** type – Any valid GraphQL type, or a tuple with the type and **required** flag
+  + **{string}** [description = undefined]
+  + **{string}** [deprecationReason = undefined]
+  + **{boolean}** [required = false] – If set to `true`, the field type will be marked as non-null.
 
 #### `resolve(options) -> {Resolve}`
 
 Appends a new **resolve** field with the handler.
 
-  - **{object}** options – A field declaration options with the following properties:
-    + **{string}** name
-    + **{string | [object, boolean]}** type – Any valid GraphQL type, or a tuple with the type and **required** flag
-    + **{string}** [description = undefined]
-    + **{string}** [deprecationReason = undefined]
-    + **{boolean}** [required = false] – If set to `true`, the field type will be marked as non-null.
-    + **{Function}** handler – a function that will be used as resover for this field
+- **{object}** options – A field declaration options with the following properties:
+  + **{string}** name
+  + **{string | [object, boolean]}** type – Any valid GraphQL type, or a tuple with the type and **required** flag
+  + **{string}** [description = undefined]
+  + **{string}** [deprecationReason = undefined]
+  + **{boolean}** [required = false] – If set to `true`, the field type will be marked as non-null.
+  + **{Function}** handler – a function that will be used as resover for this field
 
 #### `subscribe(options) -> {Resolve}`
 
 Appends a new **subscribe** field with the handler.
 
-  - **{object}** options – A field declaration options with the following properties:
-    + **{string}** name
-    + **{string | [object, boolean]}** type – Any valid GraphQL type, or a tuple with the type and **required** flag
-    + **{string}** [description = undefined]
-    + **{string}** [deprecationReason = undefined]
-    + **{boolean}** [required = false] – If set to `true`, the field type will be marked as non-null.
-    + **{Function}** handler – a function that will be used as subscriber for this field
+- **{object}** options – A field declaration options with the following properties:
+  + **{string}** name
+  + **{string | [object, boolean]}** type – Any valid GraphQL type, or a tuple with the type and **required** flag
+  + **{string}** [description = undefined]
+  + **{string}** [deprecationReason = undefined]
+  + **{boolean}** [required = false] – If set to `true`, the field type will be marked as non-null.
+  + **{Function}** handler – a function that will be used as subscriber for this field
 
 #### `end() -> {GraphQLObjectType}`
 
