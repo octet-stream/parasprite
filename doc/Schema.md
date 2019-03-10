@@ -45,24 +45,24 @@ schema {
 
 #### `query(name[, description]) -> {Type}`
 
+Define Query with given name and description.
+
 - **{string}** name – Name for root Query type
 - **{string}** [description = undefined] – Description for root Query type
 
-Define Query with given name and description.
-
 #### `mutation(name[, description]) -> {Type}`
+
+Define Mutation with given name and description.
 
 - **{string}** name – Name for root Mutation type
 - **{string}** [description = undefined] – Description for root Mutation type
 
-Define Mutation with given name and description.
-
 #### `subscription(name[, description]) -> {Type}`
+
+Define Subscription with given name and description.
 
 - **{string}** name – Name for root Subscription type
 - **{string}** [description = undefined] – Description for root Subscription type
-
-Define Subscription with given name and description.
 
 #### `end() -> {GraphQLSchema}`
 

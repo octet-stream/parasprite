@@ -7,6 +7,11 @@ import omitNullish from "lib/util/internal/omitNullish"
 import Base from "./Base"
 import Type from "./Type"
 
+const isArray = Array.isArray
+
+/**
+ * @api public
+ */
 @proxy({apply})
 class Schema extends Base {
   /**
@@ -15,21 +20,27 @@ class Schema extends Base {
   constructor({types = []} = {}) {
     super()
 
-    this.__query = null
-    this.__mutation = null
-    this.__subscription = null
+    /**
+     * @private
+     */
+    this.__fields = {}
 
-    this.__types = types
+    /**
+     * @private
+     */
+    this.__types = isArray(types) ? Array.from(types) : [types]
   }
 
   /**
    * Define root type on schema
    *
    * @return {Type}
+   *
+   * @private
    */
   __setRootType = (rootType, ...options) => {
     const setRootField = field => {
-      this[`__${rootType}`] = field
+      this.__fields[rootType] = field
 
       return this
     }
@@ -45,6 +56,8 @@ class Schema extends Base {
    * Define query document
    *
    * @see Schema#__setRootType
+   *
+   * @public
    */
   query = (...args) => this.__setRootType("query", ...args)
 
@@ -52,6 +65,8 @@ class Schema extends Base {
    * Define mutation document
    *
    * @see Schema#__setRootType
+   *
+   * @public
    */
   mutation = (...args) => this.__setRootType("mutation", ...args)
 
@@ -59,6 +74,8 @@ class Schema extends Base {
    * Define subscription on document
    *
    * @see Schema#__setRootType
+   *
+   * @public
    */
   subscription = (...args) => this.__setRootType("subscription", ...args)
 
@@ -66,12 +83,13 @@ class Schema extends Base {
    * Make your GraphQL schema
    *
    * @return {GraphQLSchema}
+   *
+   * @public
    */
   end() {
     return new GraphQLSchema(omitNullish({
-      query: this.__query,
-      mutation: this.__mutation,
-      subscription: this.__subscription,
+      ...this.__fields,
+
       types: this.__types.length > 0 ? this.__types : null
     }))
   }
