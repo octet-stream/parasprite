@@ -4,13 +4,58 @@ import {GraphQLEnumType as TEnum} from "graphql"
 
 import Enum from "Enum"
 
-test("Should create a GraphQLEnumType type", t => {
+test("Returns GraphQLEnumType instance with given fields", t => {
   t.plan(3)
 
   const TColors = Enum("Colors")
-    .value("red", "#f00")
-    .value("green", "#0f0")
-    .value("blue", "#0ff")
+    .field("red", "#f00")
+    .field("green", "#0f0")
+    .field("blue", "#0ff")
+  .end()
+
+  t.true(TColors instanceof TEnum)
+
+  t.is(TColors.name, "Colors")
+
+  const expectedValue = [
+    {
+      name: "red",
+      description: undefined,
+      isDeprecated: false,
+      deprecationReason: undefined,
+      astNode: undefined,
+      value: "#f00"
+    },
+    {
+      name: "green",
+      description: undefined,
+      isDeprecated: false,
+      deprecationReason: undefined,
+      astNode: undefined,
+      value: "#0f0"
+    },
+    {
+      name: "blue",
+      description: undefined,
+      isDeprecated: false,
+      deprecationReason: undefined,
+      astNode: undefined,
+      value: "#0ff"
+    }
+  ]
+
+  const actualValues = TColors.getValues()
+
+  t.deepEqual(actualValues, expectedValue)
+})
+
+test(".field() takes arguments from given object", t => {
+  t.plan(3)
+
+  const TColors = Enum("Colors")
+    .field({name: "red", value: "#f00"})
+    .field({name: "green", value: "#0f0"})
+    .field({name: "blue", value: "#0ff"})
   .end()
 
   t.true(TColors instanceof TEnum)
