@@ -1,6 +1,6 @@
 # class Enum
 
-Defines GraphQLUniomType.
+Defines GraphQLEnumType.
 
 ## Usage
 
