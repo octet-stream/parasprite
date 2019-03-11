@@ -9,7 +9,7 @@ import merge from "lodash.merge"
 
 import Type from "lib/type/Type"
 import Schema from "lib/type/Schema"
-import typeOf from "lib/util/internal/typeOf"
+import getType from "lib/util/internal/getType"
 import isString from "lib/util/internal/isString"
 import isFunction from "lib/util/internal/isFunction"
 import iterator from "lib/util/internal/objectIterator"
@@ -111,7 +111,7 @@ function buildSchema(params = {}) {
   invariant(
     !isPlainObject(params), TypeError,
 
-    "Expected parameters as an object. Received ", typeOf(params)
+    "Expected parameters as an object. Received ", getType(params)
   )
 
   const {root, ...fields} = merge({}, defaults, params)
@@ -119,7 +119,7 @@ function buildSchema(params = {}) {
   invariant(
     !isString(root), TypeError,
 
-    "Root path must be a string. Received", typeOf(root)
+    "Root path must be a string. Received", getType(root)
   )
 
   const schema = new Schema()

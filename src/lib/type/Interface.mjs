@@ -2,7 +2,7 @@ import {GraphQLInterfaceType, isType} from "graphql"
 
 import invariant from "@octetstream/invariant"
 
-import typeOf from "lib/util/internal/typeOf"
+import getType from "lib/util/internal/getType"
 import proxy from "lib/util/internal/proxy"
 import isString from "lib/util/internal/isString"
 import apply from "lib/util/internal/selfInvokingClass"
@@ -39,7 +39,7 @@ class Interface extends Base {
 
     invariant(
       !isString(name), TypeError,
-      "The name should be a string. Received %s", typeOf(name)
+      "The name should be a string. Received %s", getType(name)
     )
 
     super(name, description)
@@ -72,7 +72,7 @@ class Interface extends Base {
   field = options => {
     invariant(
       !isPlainObject(options), TypeError,
-      "Expected an object of the field options. Received %s", typeOf(options)
+      "Expected an object of the field options. Received %s", getType(options)
     )
 
     const {name, description, required} = options
@@ -81,7 +81,7 @@ class Interface extends Base {
 
     invariant(
       !isString(name), TypeError,
-      "Field name should be a string. Received %s", typeOf(name)
+      "Field name should be a string. Received %s", getType(name)
     )
 
     let type = options.type

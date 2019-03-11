@@ -18,7 +18,7 @@ const basicTypes = [
  *
  * @api private
  */
-function typeOf(value) {
+function getType(value) {
   const type = Object.prototype.toString.call(value).slice(8, -1)
 
   if (basicTypes.includes(type.toLowerCase())) {
@@ -28,4 +28,4 @@ function typeOf(value) {
   return type
 }
 
-export default typeOf
+export default getType

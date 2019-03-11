@@ -7,7 +7,7 @@ import omitNullish from "lib/util/internal/omitNullish"
 import apply from "lib/util/internal/selfInvokingClass"
 import isListOf from "lib/util/internal/isListOf"
 import isString from "lib/util/internal/isString"
-import typeOf from "lib/util/internal/typeOf"
+import getType from "lib/util/internal/getType"
 import proxy from "lib/util/internal/proxy"
 
 import Base from "lib/type/Base"
@@ -84,7 +84,7 @@ class Union extends Base {
     invariant(
       !isString(name), TypeError,
 
-      "The name should be a string. Received %s", typeOf(name)
+      "The name should be a string. Received %s", getType(name)
     )
 
     super(name, description)

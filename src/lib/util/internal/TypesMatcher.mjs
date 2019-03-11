@@ -3,7 +3,7 @@ import invariant from "@octetstream/invariant"
 import {isObjectType} from "graphql"
 
 import isFunction from "lib/util/internal/isFunction"
-import typeOf from "lib/util/internal/typeOf"
+import getType from "lib/util/internal/getType"
 
 const isArray = Array.isArray
 
@@ -27,7 +27,7 @@ class TypesMatcher {
     invariant(
       !isFunction(matcher), TypeError,
 
-      "Type matcher must be a function. Received %s", typeOf(matcher)
+      "Type matcher must be a function. Received %s", getType(matcher)
     )
 
     this.__matchers.push(ctx ? matcher.bind(ctx) : matcher)

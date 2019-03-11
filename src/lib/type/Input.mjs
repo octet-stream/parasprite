@@ -3,7 +3,7 @@ import {GraphQLInputObjectType, isType} from "graphql"
 import invariant from "@octetstream/invariant"
 
 import proxy from "lib/util/internal/proxy"
-import typeOf from "lib/util/internal/typeOf"
+import getType from "lib/util/internal/getType"
 import isString from "lib/util/internal/isString"
 import omitNullish from "lib/util/internal/omitNullish"
 import apply from "lib/util/internal/selfInvokingClass"
@@ -44,7 +44,7 @@ class Input extends Base {
   field = options => {
     invariant(
       !isPlainObject(options), TypeError,
-      "Expected an object of the field options. Received %s", typeOf(options)
+      "Expected an object of the field options. Received %s", getType(options)
     )
 
     const {name, description, required} = options
@@ -53,7 +53,7 @@ class Input extends Base {
 
     invariant(
       !isString(name), TypeError,
-      "Field name should be a string. Received %s", typeOf(name)
+      "Field name should be a string. Received %s", getType(name)
     )
 
     let type = options.type

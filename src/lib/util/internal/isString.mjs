@@ -1,5 +1,3 @@
-import typeOf from "./typeOf"
-
-const isString = value => typeOf(value) === "string"
+const isString = value => typeof value === "string"
 
 export default isString

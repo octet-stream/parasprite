@@ -3,7 +3,7 @@ import {isType} from "graphql"
 import invariant from "@octetstream/invariant"
 
 import proxy from "lib/util/internal/proxy"
-import typeOf from "lib/util/internal/typeOf"
+import getType from "lib/util/internal/getType"
 import isString from "lib/util/internal/isString"
 import isFunction from "lib/util/internal/isFunction"
 import omitNullish from "lib/util/internal/omitNullish"
@@ -79,7 +79,7 @@ class Resolver extends Base {
     invariant(
       !isPlainObject(options), TypeError,
       "Argument configuration should be a plain object. Received %s",
-      typeOf(options)
+      getType(options)
     )
 
     const {name, required, description} = options
@@ -88,7 +88,7 @@ class Resolver extends Base {
 
     invariant(
       !isString(name), TypeError,
-      "Field name should be a string. Received %s", typeOf(name)
+      "Field name should be a string. Received %s", getType(name)
     )
 
     let type = options.type

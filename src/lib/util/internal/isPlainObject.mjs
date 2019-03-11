@@ -1,23 +1,23 @@
-import typeOf from "./typeOf"
+import getType from "lib/util/internal/getType"
 
 const getPrototype = Object.getPrototypeOf
 const objectCtorString = Object.toString()
 
-// Based ob lodash/isPlainObject
+/**
+ * @private
+ */
 function isPlainObject(val) {
-  if (typeOf(val) !== "object") {
+  if (getType(val) !== "object") {
     return false
   }
 
-  const pp = getPrototype(val)
+  const proto = getPrototype(val)
 
-  if (pp === null || pp === void 0) {
+  if (proto == null) {
     return true
   }
 
-  const Ctor = pp.constructor && pp.constructor.toString()
-
-  return Ctor === objectCtorString
+  return proto.constructor && proto.constructor.toString() === objectCtorString
 }
 
-export default isPlainObject
+module.exports = isPlainObject

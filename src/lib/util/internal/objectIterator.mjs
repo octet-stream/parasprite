@@ -1,6 +1,6 @@
 import invariant from "@octetstream/invariant"
 
-import isPlainObject from "./isPlainObject"
+import isPlainObject from "lib/util/internal/isPlainObject"
 
 const keys = Object.keys
 

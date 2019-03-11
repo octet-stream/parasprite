@@ -2,10 +2,11 @@ import {GraphQLEnumType} from "graphql"
 
 import invariant from "@octetstream/invariant"
 
+import isPlainObject from "lib/util/internal/isPlainObject"
 import omitNullish from "lib/util/internal/omitNullish"
 import apply from "lib/util/internal/selfInvokingClass"
 import isString from "lib/util/internal/isString"
-import typeOf from "lib/util/internal/typeOf"
+import getType from "lib/util/internal/getType"
 import proxy from "lib/util/internal/proxy"
 
 import Base from "./Base"
@@ -17,7 +18,7 @@ class Enum extends Base {
 
     invariant(
       !isString(name), TypeError,
-      "The name of Enum type should be a string. Received %s", typeOf(name)
+      "The name of Enum type should be a string. Received %s", getType(name)
     )
 
     super(name, description)
@@ -26,6 +27,12 @@ class Enum extends Base {
   }
 
   value = (name, value, description, deprecationReason) => {
+    if (isPlainObject(name)) {
+      [name, value, description, deprecationReason] = [
+        name.name, name.value, name.description, name.deprecationReason
+      ]
+    }
+
     this.__values[name] = {value, description, deprecationReason}
 
     return this

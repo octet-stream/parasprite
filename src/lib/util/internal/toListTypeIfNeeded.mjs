@@ -1,6 +1,6 @@
 import {GraphQLList} from "graphql"
 
-import toRequired from "./toRequiredTypeIfNeeded"
+import toRequired from "lib/util/internal/toRequiredTypeIfNeeded"
 
 const isArray = Array.isArray
 
