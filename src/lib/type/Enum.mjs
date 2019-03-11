@@ -26,7 +26,7 @@ class Enum extends Base {
     this.__values = {}
   }
 
-  value = (name, value, description, deprecationReason) => {
+  field = (name, value, description, deprecationReason) => {
     if (isPlainObject(name)) {
       [name, value, description, deprecationReason] = [
         name.name, name.value, name.description, name.deprecationReason
@@ -37,6 +37,8 @@ class Enum extends Base {
 
     return this
   }
+
+  value = (...args) => this.field(...args)
 
   end() {
     return new GraphQLEnumType(omitNullish({
