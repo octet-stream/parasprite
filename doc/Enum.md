@@ -20,3 +20,17 @@ const TDays = Enum("Days")
   .value("SUNDAY", "sunday")
 .end()
 ```
+
+## API
+
+### `constructor(name[, description]) -> {Enum}`
+
+- **{string}** name – name of `enum` type
+- **{string}** description – `enum` type description
+
+### Instance methods
+
+#### `end() -> {GraphQLEnumType}`
+
+Creates a `GraphQLEnumType` using previously added values from Enum.
+
