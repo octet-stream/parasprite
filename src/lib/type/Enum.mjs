@@ -5,6 +5,7 @@ import invariant from "@octetstream/invariant"
 import isPlainObject from "lib/util/internal/isPlainObject"
 import omitNullish from "lib/util/internal/omitNullish"
 import apply from "lib/util/internal/selfInvokingClass"
+import deprecate from "lib/util/internal/deprecate"
 import isString from "lib/util/internal/isString"
 import getType from "lib/util/internal/getType"
 import proxy from "lib/util/internal/proxy"
@@ -38,6 +39,7 @@ class Enum extends Base {
     return this
   }
 
+  @deprecate("Enum#value() is deprecated. Use Enum#field() instead.")
   value = (...args) => this.field(...args)
 
   end() {
