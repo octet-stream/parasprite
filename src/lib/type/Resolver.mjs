@@ -31,8 +31,7 @@ class Resolver extends Base {
   constructor(cb) {
     super(null, null, cb)
 
-    this.__resolve = null
-    this.__subscribe = null
+    this.__handlers = {}
     this.__arguments = {}
   }
 
@@ -40,7 +39,7 @@ class Resolver extends Base {
     const ref = `${kind.charAt(0).toUpperCase()}${kind.slice(1)}`
 
     invariant(
-      isFunction(this[`__${kind}`]),
+      isFunction(this.__handlers[kind]),
       "%s handler already exists. " +
       "Add this resolver to current object type " +
       "before describe the new one.", ref
@@ -50,7 +49,7 @@ class Resolver extends Base {
       !isFunction(handler), TypeError, "%s handler should be a function.", ref
     )
 
-    this[`__${kind}`] = ctx ? handler.bind(ctx) : handler
+    this.__handlers[kind] = ctx ? handler.bind(ctx) : handler
 
     return this
   }
@@ -112,8 +111,8 @@ class Resolver extends Base {
    */
   end() {
     return super.end(omitNullish({
-      resolve: this.__resolve,
-      subscribe: this.__subscribe,
+      ...this.__handlers,
+
       args: this.__arguments
     }))
   }
