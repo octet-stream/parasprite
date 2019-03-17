@@ -6,7 +6,7 @@
   "author": "Nick K.",
   "license": "MIT",
   "engines": {
-    "node": ">= 6.12.3 < 7 || 8.9.4 < 9 || >= 10"
+    "node": ">= 6.12.3 < 7 || >= 8.9.4 < 9 || >= 10"
   },
   "repository": "octet-stream/parasprite",
   "keywords": [
@@ -72,7 +72,7 @@
     "sinon": "7.2.7"
   },
   "peerDependencies": {
-    "graphql": ">= 0.11.x < 1.x || 14.x"
+    "graphql": "0.11.x || 0.12.x || 0.13.x || 14.x"
   },
   "dependencies": {
     "@octetstream/invariant": "1.2.0",
