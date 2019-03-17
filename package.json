@@ -19,10 +19,10 @@
     "make": "babel src -d .",
     "watch": "babel src -w -d .",
     "make:esm": "BABEL_ESM=1 babel src -d . --keep-file-extension",
-    "make:spec": "babel src -s -d .",
+    "make:test": "babel src -s -d .",
     "prepare": "npm run cleanup && npm run make && npm run make:esm",
     "test": "ava",
-    "test:cleanup": "npm run cleanup && npm run make:spec && ava && npm run cleanup && npm run prepare",
+    "test:cleanup": "npm run cleanup && npm run make:test && ava && npm run cleanup && npm run prepare",
     "m": "npm run make",
     "w": "npm run watch",
     "p": "npm run prepare",
@@ -33,9 +33,9 @@
     "coverage": "nyc npm run test",
     "staged": "lint-staged",
     "eslint": "eslint src/**/*.mjs",
-    "report": "npm run make:spec && npm run coverage && nyc report --reporter=html npm run test && npm run cleanup && npm run prepare",
+    "report": "npm run make:test && npm run coverage && nyc report --reporter=html npm run test && npm run cleanup && npm run prepare",
     "report:codecov": "nyc report --reporter=lcov npm run test",
-    "ci": "npm run make:spec && npm run coverage && npm run report:codecov && codecov"
+    "ci": "npm run make:test && npm run coverage && npm run report:codecov && codecov"
   },
   "ava": {
     "files": [

@@ -13,7 +13,6 @@ See [API](#api) section for more information.
 ## Requirements
 
 * Node.js >= 6.12.3 < 7 || >= 8.9.4 < 9 || >= 10
-
 * GraphQL.js 0.11.x || 0.12.x || 0.13.x || 14.x (see [installation section](https://github.com/octet-stream/parasprite#installation))
 
 ## Installation
