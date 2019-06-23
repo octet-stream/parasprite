@@ -6,7 +6,7 @@
   "author": "Nick K.",
   "license": "MIT",
   "engines": {
-    "node": ">= 6.12.3 < 7 || >= 8.9.4 < 9 || >= 10"
+    "node": ">= 8 < 9 || >= 10"
   },
   "repository": "octet-stream/parasprite",
   "keywords": [
