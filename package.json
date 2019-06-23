@@ -30,11 +30,11 @@
     "test:watch": "ava --watch",
     "t:w": "npm run test:watch",
     "cleanup": "rimraf helper lib test .map ..map *.map Input.js Interface.js Schema.js Type.js Enum.js Union.js parasprite.js toListType.js toRequired.js buildSchema.js Input.mjs Interface.mjs Schema.mjs Type.mjs Enum.mjs Union.mjs parasprite.mjs toListType.mjs toRequired.mjs buildSchema.mjs",
-    "coverage": "npm run cleanup && npm run prepare && nyc npm test",
     "staged": "lint-staged",
     "eslint": "eslint src/**/*.mjs",
-    "report": "npm run cleanup && npm run prepare && nyc npm test && nyc report -r=html",
-    "ci": "npm run prepare && nyc npm test && nyc report -r=lcov && codecov"
+    "coverage": "npm run cleanup && npm run make:test && nyc npm run test",
+    "report": "npm run cleanup && npm run make:test && nyc npm run test && nyc report -r=html",
+    "ci": "npm run make:test && nyc npm run test && nyc report -r=lcov && codecov"
   },
   "ava": {
     "files": [
