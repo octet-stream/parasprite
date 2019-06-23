@@ -1,7 +1,5 @@
 const config = {
   plugins: [
-    "@babel/proposal-export-default-from",
-    "@babel/proposal-export-namespace-from",
     "@babel/transform-async-to-generator",
     ["module-resolver", {
       root: ["src"],
@@ -18,8 +16,15 @@ const config = {
   ]
 }
 
-if (!("BABEL_ESM" in process.env)) {
-  config.plugins.push("@babel/transform-modules-commonjs")
+if (!process.env.BABEL_ESM) {
+  config.plugins.push(
+    "@babel/proposal-export-default-from",
+    "@babel/proposal-export-namespace-from",
+    "@babel/transform-modules-commonjs",
+    ["add-module-exports", {
+      addDefaultProperty: true
+    }]
+  )
 }
 
 module.exports = config

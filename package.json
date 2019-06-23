@@ -38,10 +38,12 @@
   },
   "ava": {
     "files": [
-      "test/**/*.js",
-      "!test/**/__hook__/**",
-      "!test/**/__helper__/**",
-      "!test/helper/**"
+      "test/**/*.js"
+    ],
+    "helpers": [
+      "test/**/__hook__/**",
+      "test/**/__helper__/**",
+      "test/helper/**"
     ]
   },
   "devDependencies": {
@@ -57,6 +59,7 @@
     "@octetstream/eslint-config": "3.0.0",
     "ava": "2.1.0",
     "babel-eslint": "10.0.2",
+    "babel-plugin-add-module-exports": "^1.0.2",
     "babel-plugin-module-resolver": "3.2.0",
     "codecov": "3.5.0",
     "eslint": "5.16.0",

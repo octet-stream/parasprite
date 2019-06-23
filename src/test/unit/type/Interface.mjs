@@ -150,9 +150,7 @@ test("Allows to set resolveType as a function", async t => {
   const FakeMatcher = sinon.spy(TypesMatcher)
 
   const MockedInterface = pq("../../../lib/type/Interface", {
-    "../util/internal/TypesMatcher": {
-      default: FakeMatcher
-    }
+    "../util/internal/TypesMatcher": FakeMatcher
   }).default
 
   const IInterf = MockedInterface("Interface", noop)
@@ -225,9 +223,7 @@ test("Allows to set resolveType as an array", async t => {
   const FakeMatcher = sinon.spy(TypesMatcher)
 
   const MockedInterface = pq("../../../lib/type/Interface", {
-    "../util/internal/TypesMatcher": {
-      default: FakeMatcher
-    }
+    "../util/internal/TypesMatcher": FakeMatcher
   }).default
 
   const IInterf = MockedInterface("Interface", [noop])

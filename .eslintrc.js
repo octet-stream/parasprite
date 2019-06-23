@@ -30,10 +30,6 @@ module.exports = {
       }
     }],
 
-    "ava/no-ignored-test-files": ["error", {
-      files: [
-        "src/test/unit/**/*.mjs"
-      ]
-    }]
+    "ava/no-ignored-test-files": 0,
   }
 }
