@@ -78,6 +78,7 @@ export default TSearchable
 #### `match(matcher) -> {Union}`
 
 Adds a function that will be used to match possible types.
+Given function a can return a Promise.
 
 - **{function}** matcher – function to use as a type matcher.
   If GraphQLObjectType is returned, it will be used as the result of Union typed field.
