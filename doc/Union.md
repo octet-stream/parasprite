@@ -66,11 +66,11 @@ export default TSearchable
 - **{string}** name – union type name
 - **{Array<GraphQLObjectType>}** types – a list of types that union type can resolve
 
-#### `constructor(params) -> {Union}`
+#### `constructor(options) -> {Union}`
 
-- **{object}** params – initial parameters of union type
-- **{string}** params.name – union type name
-- **{string}** [params.description = undefined] – union type description
+- **{object}** options – initial parameters of union type
+- **{string}** options.name – union type name
+- **{string}** [options.description = undefined] – union type description
 - **{Array<GraphQLObjectType>}** types – a list of types that union type can resolve
 
 ### Instance methods

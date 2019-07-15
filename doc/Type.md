@@ -27,7 +27,8 @@ type User {
 }
 ```
 
-Type class can create a new type with fields of another. Use `params.extends` for that:
+Type class can create a new type with fields from another GraphQLObjectType.
+Just use `params.extends` for that:
 
 ```js
 import {GraphQLString as TString, GraphQLInt as TInt} from "graphql"
@@ -75,26 +76,26 @@ This small feature allows you to reuse declared types as the part of the others.
 
 ## API
 
-#### `constructor(name[, description, params]) -> {Type}`
+#### `constructor(name[, description, options]) -> {Type}`
 
 - **{string}** name – type name
 - **{string}** description – type description
-- **{object}** params – advenced parameters of a type
-- **{GraphQLObjectType}** params.extends – a GraphQLObjectType which fields and resolver will be used as initial fields
+- **{object}** options – advenced parameters of a type
+- **{GraphQLObjectType}** options.extends – a GraphQLObjectType which fields and resolver will be used as initial fields
 
-#### `constructor(name[, params]) -> {Type}`
+#### `constructor(name[, options]) -> {Type}`
 
 - **{string}** name – type name
-- **{object}** params – advenced parameters of a type
-- **{string}** params.description – type description
-- **{GraphQLObjectType}** params.extends – a GraphQLObjectType which fields and resolver will be used as initial fields
+- **{object}** options – advenced parameters of a type
+- **{string}** options.description – type description
+- **{GraphQLObjectType}** options.extends – a GraphQLObjectType which fields and resolver will be used as initial fields
 
-#### `constructor(params) -> {Type}`
+#### `constructor(options) -> {Type}`
 
-- **{object}** params – initial parameters of a type
-- **{string}** params.name – type name
-- **{string}** params.description – type description
-- **{GraphQLObjectType}** params.extends – a GraphQLObjectType which fields and resolver will be used as initial fields
+- **{object}** options – initial parameters of a type
+- **{string}** options.name – type name
+- **{string}** options.description – type description
+- **{GraphQLObjectType}** options.extends – a GraphQLObjectType which fields and resolver will be used as initial fields
 
 ### Instance methods
 
