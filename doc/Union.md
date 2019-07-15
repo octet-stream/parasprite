@@ -5,6 +5,7 @@ Defines a new GraphQLUnionType
 ## Usage
 
 ```js
+import {GraphQLString as TString, GraphQLInt as TInt} from "graphql"
 import {Union, Type} from "parasprite"
 
 const TBook = Type("Book", "Minimal imformation of a book.")
