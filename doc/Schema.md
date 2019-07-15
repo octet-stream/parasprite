@@ -39,7 +39,7 @@ schema {
 
 ## API
 
-### `constructor([options]) -> {Schema}`
+#### `constructor([options]) -> {Schema}`
 
 - **{object}** options – options to use in GraphQLSchema constructor
 - **{GraphQLObjectType | GraphQLObjectType[]}** options.types – a set of GraphQLObjectType

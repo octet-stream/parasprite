@@ -70,13 +70,11 @@ const isArray = Array.isArray
  */
 @proxy({apply})
 class Union extends Base {
-  constructor(name, description, types, astNode) {
+  constructor(name, description, types) {
     if (isPlainObject(name)) {
-      [name, description, types] = [
-        name.name, name.description, name.types, name.astNode
-      ]
-    } else if (isArray(description) || isObjectType(description)) {
-      [astNode, types, description] = [types, description, undefined]
+      [name, description, types] = [name.name, name.description, name.types]
+    } else if (isArray(description)) {
+      [types, description] = [description, undefined]
     }
 
     invariant(!name, "Union type constructor requires a name.")
@@ -98,7 +96,6 @@ class Union extends Base {
     )
 
     this.__types = Array.from(types)
-    this.__astNode = astNode
 
     this.__matcher = new TypesMatcher()
   }
@@ -122,8 +119,7 @@ class Union extends Base {
       name: this._name,
       description: this._description,
       types: this.__types,
-      resolveType: this.__matcher.exec,
-      astNode: this.__astNode
+      resolveType: this.__matcher.exec
     }))
   }
 }

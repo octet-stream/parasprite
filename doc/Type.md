@@ -75,21 +75,21 @@ This small feature allows you to reuse declared types as the part of the others.
 
 ## API
 
-### `constructor(name[, description, params]) -> {Type}`
+#### `constructor(name[, description, params]) -> {Type}`
 
 - **{string}** name – type name
 - **{string}** description – type description
 - **{object}** params – advenced parameters of a type
 - **{GraphQLObjectType}** params.extends – a GraphQLObjectType which fields and resolver will be used as initial fields
 
-### `constructor(name[, params]) -> {Type}`
+#### `constructor(name[, params]) -> {Type}`
 
 - **{string}** name – type name
 - **{object}** params – advenced parameters of a type
 - **{string}** params.description – type description
 - **{GraphQLObjectType}** params.extends – a GraphQLObjectType which fields and resolver will be used as initial fields
 
-### `constructor(params) -> {Type}`
+#### `constructor(params) -> {Type}`
 
 - **{object}** params – initial parameters of a type
 - **{string}** params.name – type name

@@ -23,7 +23,7 @@ const TDays = Enum("Days")
 
 ## API
 
-### `constructor(name[, description]) -> {Enum}`
+#### `constructor(name[, description]) -> {Enum}`
 
 - **{string}** name – name of `enum` type
 - **{string}** description – `enum` type description
