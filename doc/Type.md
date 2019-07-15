@@ -1,6 +1,6 @@
 # class Type
 
-Helps you to descibe GraphQLObjectType.
+Defines a GraphQLObjectType.
 
 ## Usage
 
